@@ -34,10 +34,38 @@ function createServer(config) {
 	    )
 	    , mod_connect.static(config.server.documentRoot)		
 	    , mod_connect.logger()            
-	).listen(config.server.port);
+	);
+
+	// Next two statements must be in this order. 
+	// Why? (but then, who cares? it fucking works)
+	var io = require('socket.io').listen(server);
+	server.listen(config.server.port);
+
+
+	io.sockets.on('connection', function (socket) {
+	  io.sockets.emit('this', { will: 'be received by everyone' });
+
+	  socket.on('private message', function (from, msg) {
+	    console.log('I received a private message by ', from, ' saying ', msg);
+	  });
+
+	  socket.on('disconnect', function () {
+	    io.sockets.emit('user disconnected');
+	  });
+	});
 
 	console.log('server started on port ' + config.server.port);
+
+	setTimeout(function() {
+
+		io.sockets.emit('ficken!', {grunz : 1});
+	}, 5000);
 }
+
+
+
+
+
 
 process.on('SIGINT', function () {
 	process.exit();

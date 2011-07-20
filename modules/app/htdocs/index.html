@@ -7,6 +7,8 @@
 	<script data-main="main" src="/require-jquery.js"></script>
 	<script src="/jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
 	<link rel="stylesheet" href="/jquery-ui/css/smoothness/jquery-ui-1.8.14.custom.css"/>
+
+	<script src="/js/socket.io/socket.io.js"></script>
 </head>
 <body>
 	<toolbar>
@@ -46,4 +48,23 @@
 	</container>
 
 </body>
+<script>
+	$(document).ready(
+		function () {
+			console.log('hello world');
+			var socket = io.connect('http://localhost', 7331);
+			socket.on('connect', function () {
+				console.log('connected');
+
+				socket.emit('private message', 'steve', 'leck mich in aaaaasch');
+			});
+
+			socket.on('ficken!', function (val) {
+				console.log("################### " + JSON.parse(val));
+			})
+
+
+		}
+	);
+	</script>
 </html>

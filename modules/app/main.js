@@ -2,9 +2,8 @@
 // 	var x = $.tmpl(template, { blob : data } ).appendTo($('app[id=weather]>content'))
 // 	console.debug('yep');
 // });
-// define(function () {
-// 	$(document).ready(function () {
-// 	console.log('yooooooooooooo')
-// })
-	
-// })
+
+define(function () {
+	$(document).ready(function () {
+	console.log('yooooooooooooo')
+})
