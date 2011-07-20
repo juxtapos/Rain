@@ -1,0 +1,8 @@
+*** Web Component Folder Structure
+
+main.js      - commonjs-based module main controller.
+views        - folder that contains views to be consumed and processed by the render engine.
+lib          - folder that contains additional common.js modules used on the server-side. 
+test         - folder that contains unit tests automatically run. 
+htdocs       - folder that contains public resources to be used by a web client. 
+package.json - commonjs package description
