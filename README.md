@@ -47,6 +47,7 @@ In case one of the files in /lib, /modules, /test is changed, server.js is touch
 watches this file, kills the running server and spawns a new one. 
 
 PLEASE NOTE: 
+
 * Currently, you do need a symlink from ./htdocs/instances to the instances folder! 
 * Only expected to work on unixoid machines
 
