@@ -2,16 +2,20 @@
 
 The code has been developed and tested using:
 
-node.js (0.4.9)
-npm (0.2.19)
+* node.js (0.4.9)
+* npm (0.2.19)
 
-Install the following modules using npm install PACKAGE:
+Install the following modules using 
 
-nodeunit (0.5.1)
-node-xml (1.0.0)
-promised-io
-jsdom (0.2.0)
-connect (1.4.3)
+    $ npm install PACKAGENAME
+
+* nodeunit (0.5.1)
+* node-xml (1.0.0)
+* promised-io
+* jsdom (0.2.0)
+* connect (1.4.3)
+* socket.io (0.7.7)
+* socket.io-client (0.7.4)
 
 # Development
 
@@ -19,8 +23,8 @@ connect (1.4.3)
 
 If you want to run continuous and automated tests you need:
 
-ruby (1.8)
-gem (1.3.5)
+* ruby (1.8)
+* gem (1.3.5)
 
 Install the 'watchr' gem using: 
 
@@ -31,6 +35,12 @@ In the project root folder execute:
     $ watchr autotest.watchr
 
 watchr will detect saved files and run all tests (per default in ./test)
+
+## Setting up socket.io
+
+To play with the socket.io package, you need the client-side library. It comes as a npm module, 
+but it is actually not required to run the example as the needed JavaScript files are included in Rain
+as part of the 'app' module.  
 
 # Running
 
