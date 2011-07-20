@@ -36,7 +36,7 @@ watchr will detect saved files and run all tests (per default in ./test)
 
 Simply execute 
 
-   $ node server.js
+    $ node server.js
 
 in the project root folder.
 
