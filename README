@@ -1,4 +1,4 @@
-*** Requirements:
+# Requirements
 
 The code has been developed and tested using:  
 
@@ -13,7 +13,9 @@ promised-io
 jsdom (0.2.0)
 connect (1.4.3)
 
-*** Continuous Testing
+# Development
+
+## Continuous Testing
 
 If you want to run continuous and automated tests you need:
 
@@ -30,9 +32,13 @@ $ watchr autotest.watchr
 
 watchr will detect saved files and run all tests (per default in ./test)
 
-*** Run Server
+# Running
+
+Simple execute 
 
 $ node server.js
+
+in the project root folder.
 
 Another option is the use the run.js script that starts a server instance and re-spawns 
 it automatically on changes. 
@@ -45,6 +51,6 @@ Currently, you do need a symlink from ./htdocs/instances to the instances folder
 
 You're done. Happy development :-)
 
-*** Developing Web Components 
+# Developing Web Components 
 
 Please refer to the 'weather' module for the required folder structure of Web Components.
