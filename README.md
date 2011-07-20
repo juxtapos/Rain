@@ -1,11 +1,11 @@
 # Requirements
 
-The code has been developed and tested using:  
+The code has been developed and tested using:
 
 node.js (0.4.9)
 npm (0.2.19)
 
-Install the following modules using npm install PACKAGE: 
+Install the following modules using npm install PACKAGE:
 
 nodeunit (0.5.1)
 node-xml (1.0.0)
@@ -24,19 +24,19 @@ gem (1.3.5)
 
 Install the 'watchr' gem using: 
 
-$ gem install watchr
+    $ gem install watchr
 
 In the project root folder execute: 
 
-$ watchr autotest.watchr
+    $ watchr autotest.watchr
 
 watchr will detect saved files and run all tests (per default in ./test)
 
 # Running
 
-Simple execute 
+Simply execute 
 
-$ node server.js
+   $ node server.js
 
 in the project root folder.
 
@@ -47,7 +47,8 @@ In case one of the files in /lib, /modules, /test is changed, server.js is touch
 watches this file, kills the running server and spawns a new one. 
 
 PLEASE NOTE: 
-Currently, you do need a symlink from ./htdocs/instances to the instances folder! 
+* Currently, you do need a symlink from ./htdocs/instances to the instances folder! 
+* Only expected to work on unixoid machines
 
 You're done. Happy development :-)
 
