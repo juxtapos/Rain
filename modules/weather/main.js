@@ -1,16 +1,14 @@
-var mod_fs 			= require('fs'),
-	mod_http 		= require('http'),
-	mod_path 		= require('path'),
-	mod_promise 	= require('promised-io');
-
-exports.init = init;
-exports.getWeatherData = getWeatherData;
+var mod_fs 			= require('fs')
+	, mod_http 		= require('http')
+	, mod_path 		= require('path')
+	, mod_promise 	= require('promised-io');
 
 function init() {
 	
 }
 
 function getWeatherData() {
+	console.log('getWeatherData');
 	var defer = mod_promise.defer();
 
 	var o = {
@@ -40,4 +38,5 @@ function getWeatherData() {
 	return defer;
 }
 
-console.log(module);
+exports.init = init;
+exports.getWeatherData = getWeatherData;

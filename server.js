@@ -1,9 +1,9 @@
-	var mod_connect       = require('connect')
-	, mod_sys         = require('sys')
-    , mod_path        = require('path')
-	, mod_resources   = require('./lib/resources.js')
-    , mod_modules     = require('./lib/modules.js')
-    , mod_fs          = require('fs');
+	var mod_connect       		= require('connect')
+	, mod_sys         			= require('sys')
+    , mod_path        			= require('path')
+	, mod_mod_resourceservice   = require('./lib/resourceservice.js')
+    , mod_modules    			= require('./lib/modules.js')
+    , mod_fs          			= require('fs');
 
 var config = {
 	"server" : {
@@ -14,9 +14,14 @@ var config = {
 	}
 };
 
-mod_resources.configure(config);
+mod_fs.readFile('server.config', function (err, data) {
+	mod_resources.configure(JSON.parse(data));	
+	createServer(config);
+});
 
-createServer(config);
+
+
+
 
 function createServer(config) {
 	var server = mod_connect.createServer(
@@ -26,7 +31,7 @@ function createServer(config) {
 			    // [TBD] better view routing
 			    app.get(/^\/modules\/([^\.]*)\/(.*\.html)$/,		mod_modules.handleViewRequest);			   
 				app.get(/^\/modules\/([^\.]*)\/controller\/(.*)$/,  mod_modules.handleControllerRequest);
-				app.get(/^\/resources(.*)$/,               			mod_resources.handleResourceRequest);
+				app.get(/^\/resources(.*)$/,               			mod_resourceservice.handleResourceRequest);
 				//app.get(/instances\/(.*)/,             			  mod_instances.handleInstanceRequest);
 			}
 	    )

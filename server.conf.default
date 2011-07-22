@@ -1,0 +1,8 @@
+{
+	"server" : {
+		"port" : 1337
+		, "serverRoot"   : __dirname
+		, "documentRoot" : mod_path.join(__dirname, 'public')
+		//, "modulePath" : "modules"
+	}
+};

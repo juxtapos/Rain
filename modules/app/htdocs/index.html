@@ -51,17 +51,17 @@
 <script>
 	$(document).ready(
 		function () {
-			console.log('hello world');
-			var socket = io.connect('http://localhost', 7331);
-			socket.on('connect', function () {
-				console.log('connected');
+			
+			// var socket = io.connect('http://localhost', 7331);
+			// socket.on('connect', function () {
+			// 	console.log('connected');
 
-				socket.emit('private message', 'steve', 'leck mich in aaaaasch');
-			});
+			// 	socket.emit('private message', 'steve', 'leck mich in aaaaasch');
+			// });
 
-			socket.on('ficken!', function (val) {
-				console.log("################### " + JSON.parse(val));
-			})
+			// socket.on('ficken!', function (val) {
+			// 	console.log("################### " + JSON.parse(val));
+			// })
 
 
 		}
