@@ -52,16 +52,19 @@ as part of the 'app' module.
 
 # Running
 
-Simply execute 
+You should be ok with the default config file, ./server.conf.default. To start the server, execute 
 
-    $ node server.js
+    $ node server.js CONFIGFILE
 
 in the project root folder.
 
 Another option is the use the run.js script that starts a server instance and re-spawns 
 it automatically on changes. 
-It works in connection with the watchr used for testing, which must be running for run.js to work.
-In case one of the files in /lib, /modules, /test is changed, server.js is touched. run.js 
+
+    $ node run.js CONFIGFILE
+
+It works in connection with the Ruby watchr utility used for testing, which must be running also in order 
+for run.js to work. In case one of the files in /lib, /modules, /test is changed, server.js is touched. run.js 
 watches this file, kills the running server and spawns a new one. 
 
 PLEASE NOTE: 
