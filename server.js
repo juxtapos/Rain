@@ -1,21 +1,17 @@
-	var mod_connect       		= require('connect')
-	, mod_sys         			= require('sys')
-    , mod_path        			= require('path')
-	, mod_mod_resourceservice   = require('./lib/resourceservice.js')
-    , mod_modules    			= require('./lib/modules.js')
-    , mod_fs          			= require('fs');
+	var mod_connect       	= require('connect')
+	, mod_sys         		= require('sys')
+    , mod_path        		= require('path')
+	, mod_resourceservice   = require('./lib/resourceservice.js')
+    , mod_modules    		= require('./lib/modules.js')
+    , mod_fs          		= require('fs')
+    , logger				= require('./lib/logger.js').getLogger('Server')
 
-var config = {
-	"server" : {
-		"port" : 1337
-		, "serverRoot"   : __dirname
-		, "documentRoot" : mod_path.join(__dirname, 'public')
-		//, "modulePath" : "modules"
-	}
-};
-
+// [TBD] Configuration manager
+var config = null;
 mod_fs.readFile('server.config', function (err, data) {
-	mod_resources.configure(JSON.parse(data));	
+	config = JSON.parse(data);
+	logger.info('config loaded');
+	mod_resourceservice.configure(config);	
 	createServer(config);
 });
 
@@ -28,7 +24,6 @@ function createServer(config) {
 	    mod_connect.favicon()
 	    , mod_connect.router(function (app) {
 			    app.get(/^\/modules\/([^\.]*)\/(.*\.js)$/, 			mod_modules.handleScriptRequest);
-			    // [TBD] better view routing
 			    app.get(/^\/modules\/([^\.]*)\/(.*\.html)$/,		mod_modules.handleViewRequest);			   
 				app.get(/^\/modules\/([^\.]*)\/controller\/(.*)$/,  mod_modules.handleControllerRequest);
 				app.get(/^\/resources(.*)$/,               			mod_resourceservice.handleResourceRequest);
@@ -38,37 +33,9 @@ function createServer(config) {
 	    , mod_connect.static(config.server.documentRoot)		
 	    , mod_connect.logger()            
 	);
-
-	// Next two statements must be in this order. 
-	// Why? (but then, who cares? it fucking works)
-	// var io = require('socket.io').listen(server);
 	server.listen(config.server.port);
-
-
-	// io.sockets.on('connection', function (socket) {
-	//   io.sockets.emit('this', { will: 'be received by everyone' });
-
-	//   socket.on('private message', function (from, msg) {
-	//     console.log('I received a private message by ', from, ' saying ', msg);
-	//   });
-
-	//   socket.on('disconnect', function () {
-	//     io.sockets.emit('user disconnected');
-	//   });
-	// });
-
-	// console.log('server started on port ' + config.server.port);
-
-	// setTimeout(function() {
-	// 	io.sockets.emit('ficken!', {grunz : 1});
-	// }, 5000);
 }
 
-
-
-
-
-
-process.on('SIGINT', function () {
-	process.exit();
-});
+// process.on('SIGINT', function () {
+// 	process.exit();
+// });
