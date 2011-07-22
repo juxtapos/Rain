@@ -10,10 +10,16 @@ if (process.argv.length < 3) {
 	logger.error('usage: ...');
 	process.exit();
 }
+
 // [TBD] handle arguments properly
 // [TBD] dynamic config service 
 var config = null;
+logger.info('reading config from ' + process.argv[2]);
 mod_fs.readFile(process.argv[2], function (err, data) {
+	if (err) {
+		logger.error('error reading configuration');
+		process.exit();
+	}
 	config = JSON.parse(data);
 	logger.info('config loaded');
 	mod_resourceservice.configure(config);	
