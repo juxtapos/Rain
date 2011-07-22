@@ -1,9 +1,15 @@
-var mod_fs = require('fs')
-   	, spawn = require('child_process').spawn
-	, serverfile = __dirname + '/server.js'
+var mod_fs 			= require('fs')
+   	, spawn 		= require('child_process').spawn
+	, serverfile 	= __dirname + '/server.js'
 	, currentServer = null
+	, logger 		= require('./lib/logger.js').getLogger()
 
-mod_fs.watchFile(serverfile, { persistent: true, interval: 100 }, function (curr, prev) {
+if (process.argv.length < 3) {
+	logger.error('usage: ...');
+	process.exit();
+}
+
+mod_fs.watchFile(serverfile, { persistent: true, interval: 200 }, function (curr, prev) {
   	// why does a string compare not work? 
   	if (new Date(curr.mtime).getTime() == new Date(prev.mtime).getTime()) { return; }
   	if (currentServer) {
@@ -12,20 +18,23 @@ mod_fs.watchFile(serverfile, { persistent: true, interval: 100 }, function (curr
   	}
   	setTimeout(function () {
   		currentServer = spawnServer();
-	}, 500)
+	}, 300)
 });
 
 spawnServer();
 
 function spawnServer() {
-	var server = currentServer = spawn('node', [serverfile]);
+	var server = currentServer = spawn('node', [serverfile, process.argv[2]]);
 	server.stdout.on('data', function (data) {
-		console.log(data.toString());
+		// [TBD] not so nice, but do so until I can connect streams.
+		var data = data.toString().substring(0, data.length-1);
+		logger.info(data);
 	});
 	server.stderr.on('data', function (data) {
-		console.log(data.toString());
+		var data = data.toString().substring(0, data.length-1);
+		logger.error(data);
 		setTimeout(function () { 
-			console.log('************* run: server error, exiting');
+			logger.error('************* run: server error, exiting');
       if (currentServer) currentServer.kill('SIGINT');
 			process.exit(); 
 		}, 100);
