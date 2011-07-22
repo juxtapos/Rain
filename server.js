@@ -6,9 +6,14 @@
     , mod_fs          		= require('fs')
     , logger				= require('./lib/logger.js').getLogger('Server')
 
-// [TBD] Configuration manager
+if (process.argv.length < 3) {
+	logger.error('usage: ...');
+	process.exit();
+}
+// [TBD] handle arguments properly
+// [TBD] dynamic config service 
 var config = null;
-mod_fs.readFile('server.config', function (err, data) {
+mod_fs.readFile(process.argv[2], function (err, data) {
 	config = JSON.parse(data);
 	logger.info('config loaded');
 	mod_resourceservice.configure(config);	
