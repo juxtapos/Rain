@@ -8,4 +8,22 @@
 	, "caching" : {
 		"resources" : false
 	} 
+
+	, "taglib" : [
+	  	{
+	    	"namespace" : ""
+	    	, "selector" : "app[type=weather]"
+	    	, "module" : "weather"
+	  	}
+	  	,{
+	    	"namespace" : "http://1and1.com/hip/hop"
+	    	, "selector" : "domains"
+	    	, "module" : "domains"
+	  	}
+	  	,{
+	    	"namespace" : ""
+	    	, "selector" : "*[type=scrollabletable]"
+	    	, "module" : "scrollabletable"
+	  	}
+	]
 }
