@@ -13,7 +13,7 @@ The code has been developed and tested using:
 * node.js (0.4.9)
 * npm (0.2.19)
 
-Install the following modules using 
+Install the following modules using (versions in parenthesis show development versions)
 
     $ npm install PACKAGENAME
 
@@ -24,6 +24,7 @@ Install the following modules using
 * connect (1.4.3)
 * socket.io (0.7.7)
 * socket.io-client (0.7.4)
+* webworker (0.8.4)
 
 # Development
 

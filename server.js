@@ -5,6 +5,7 @@
 	, mod_resourcemanager   = require('./lib/resourcemanager.js')
 	, mod_tagmanager		= require('./lib/tagmanager.js')
 	, mod_cache				= require('./lib/Cache.js')
+	, mod_socketio			= require('./lib/socketio.js')	
     , mod_modules    		= require('./lib/modules.js')
     , mod_fs          		= require('fs')
     , cache 				= null
@@ -18,7 +19,7 @@ if (process.argv.length < 3) {
 // [TBD] handle arguments properly
 // [TBD] dynamic config service 
 var config = null;
-logger.info('reading config from ' + process.argv[2]);
+logger.info('reading config from ' + process.argv[2]); 
 mod_fs.readFile(process.argv[2], function (err, data) {
 	if (err) {
 		logger.error('error reading configuration');
@@ -34,10 +35,6 @@ mod_fs.readFile(process.argv[2], function (err, data) {
 	createServer(config);
 });
 
-
-
-
-
 function createServer(config) {
 	var server = mod_connect.createServer(
 	    mod_connect.favicon()
@@ -52,6 +49,9 @@ function createServer(config) {
 	    , mod_connect.static(config.server.documentRoot)		
 	    , mod_connect.logger()            
 	);
+	
+	//var io = require('socket.io').listen(server);
+	//mod_socketio.init(io);
 	server.listen(config.server.port);
 }
 

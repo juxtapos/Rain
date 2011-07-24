@@ -12,8 +12,8 @@ if (process.argv.length < 3) {
 mod_fs.watchFile(serverfile, { persistent: true, interval: 200 }, function (curr, prev) {
   	// why does a string compare not work? 
   	if (new Date(curr.mtime).getTime() == new Date(prev.mtime).getTime()) { return; }
-  	if (currentServer) {
-  		console.log('************* run: server reloading');
+  	if (currentServer) { 
+  		console.log('\033[31mrun: server reloading');
   		currentServer.kill('SIGINT');
   	}
   	setTimeout(function () {
@@ -34,11 +34,11 @@ function spawnServer() {
 		var data = data.toString().substring(0, data.length-1);
 		logger.error(data);
 		setTimeout(function () { 
-			logger.error('************* run: server error, exiting');
+			logger.error('\033[31mrun: server error, exiting');
       if (currentServer) currentServer.kill('SIGINT');
 			process.exit(); 
 		}, 100);
 	});
-	console.log('************* run: server spawned');
+	console.log('\033[31mrun: server spawned');
 	return server;
 }

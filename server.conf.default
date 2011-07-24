@@ -7,7 +7,7 @@
 	}
 	, "caching" : {
 		"resources" : true
-		, "ttl"		: 10
+		, "ttl"		: 1
 	} 
 
 	, "taglib" : [
