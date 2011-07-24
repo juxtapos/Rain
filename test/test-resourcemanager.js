@@ -1,10 +1,11 @@
 var nodeunit	 		= require('nodeunit')
 	, mod_resmanager 	= require('../lib/resourcemanager.js')
 	, mod_promise 		= require('promised-io')
+	, mod_cache			= require('../lib/Cache.js')
 
 module.exports = nodeunit.testCase({
 	setUp : function (callback) {
-		//mod_resmanager.configure({"caching":{"resources":true}});
+		mod_resmanager.configure({"caching":{"resources":true}}, mod_cache);
 		callback();
 	}
 
