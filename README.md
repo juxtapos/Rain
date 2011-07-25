@@ -10,7 +10,7 @@ not too distant time in the future ;-)
 
 The code has been developed and tested using:
 
-* node.js (0.4.9)
+* node.js (0.4.10)
 * npm (0.2.19)
 
 Install the following modules using (versions in parenthesis show development versions)
