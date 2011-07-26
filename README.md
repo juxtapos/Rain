@@ -75,6 +75,8 @@ PLEASE NOTE:
 
 You're done. Happy development :-)
 
+Call the example page using http://localhost:1337/modules/app/index.html first. 
+
 # Developing Web Components 
 
 Please refer to the 'weather' module for the required folder structure of Web Components.
