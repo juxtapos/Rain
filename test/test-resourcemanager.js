@@ -2,6 +2,7 @@ var nodeunit	 		= require('nodeunit')
 	, mod_resmanager 	= require('../lib/resourcemanager.js')
 	, mod_promise 		= require('promised-io')
 	, mod_cache			= require('../lib/Cache.js')
+	, mod_path			= require('path')
 
 module.exports = nodeunit.testCase({
 	setUp : function (callback) {
@@ -10,7 +11,7 @@ module.exports = nodeunit.testCase({
 	}
 
 	, testSimple : function (test) {
-		var r = mod_resmanager.getResource('file:///Users/cag/workspace/rain/server.js');
+		var r = mod_resmanager.getResource('file://' + mod_path.join(__dirname, '..', 'server.js'));
 		r.then(function (data) {
 			test.done();	
 		});

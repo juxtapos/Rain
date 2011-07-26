@@ -2,6 +2,7 @@ var nodeunit	 		= require('nodeunit')
 	, mod_resources 	= require('../lib/resources.js')
 	, promises  		= require('promised-io')
 	, assert			= require('assert')
+	, mod_path			= require('path')
 
 module.exports = nodeunit.testCase({
 	setUp : function (callback) {
@@ -15,7 +16,7 @@ module.exports = nodeunit.testCase({
 		assert.equal(resource1.state, mod_resources.Resource.STATE.INIT);
 		// [TBD] change path
 		assert.throws(function () { resource1.load('/Users/cag/workspace/rain/server.js') });
-		assert.doesNotThrow(function () { resource1.load('file:///Users/cag/workspace/rain/server.js') });
+		assert.doesNotThrow(function () { resource1.load('file://' + mod_path.join(__dirname, '..', 'server.js')) });
 		assert.equal(resource1.state, mod_resources.Resource.STATE.LOADING);
 		resource1.addListener('stateChanged', function (res) {
 			assert.equal(res.state, mod_resources.Resource.STATE.READY);
