@@ -11,7 +11,7 @@ module.exports = nodeunit.testCase({
 	}
 
 	, testSimple : function (test) {
-		var r = mod_resmanager.getResource('file://' + mod_path.join(__dirname, '..', 'server.js'));
+		var r = mod_resmanager.getResource('file://' + mod_path.join(__dirname, '..', 'lib', 'server.js'));
 		r.then(function (data) {
 			test.done();	
 		});
