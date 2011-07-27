@@ -1,6 +1,6 @@
 var mod_fs 			= require('fs')
    	, spawn 		= require('child_process').spawn
-	, serverfile 	= __dirname + '/server.js'
+	, serverfile 	= __dirname + '/lib/server.js'
 	, currentServer = null
 	, logger 		= require('./lib/logger.js').getLogger()
 
