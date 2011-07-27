@@ -1,3 +1,3 @@
 {
-	"city" : "Karlsruhe isch goi"
+	"city" : "Karlschruh"
 }
