@@ -16,4 +16,13 @@ module.exports = nodeunit.testCase({
 			test.done();	
 		});
 	}
+
+	, testMany : function (test) {
+		var r = mod_resmanager.getResources( [ 'file://' + mod_path.join(__dirname , '..', 'lib', 'server.js')
+												,'file://' + mod_path.join(__dirname, '..', 'modules', 'app', 'htdocs', 'index.html')
+
+											]).then(function () {
+												test.done();
+											}); 
+	}
 });
