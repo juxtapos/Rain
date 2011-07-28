@@ -414,7 +414,7 @@ Has appenders for console and HTTP. </p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  unique module id</p></li><li><p><strong>param</strong>: <em>String</em>  view name, may be a partial path</p></li><li><p><strong>return</strong>: <em>String</em> </p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  moduleId unique module id</p></li><li><p><strong>param</strong>: <em>String</em>  viewname view name, may be a partial path</p></li><li><p><strong>return</strong>: <em>String</em> </p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">getViewUrl</span>(<span class="variable">moduleid</span>, <span class="variable">viewname</span>) {
@@ -495,9 +495,19 @@ Has appenders for console and HTTP. </p>
     <span class="keyword">if</span> (!<span class="variable">tagmgr</span>) { <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'tagmanager required'</span>); }
     <span class="this">this</span>.<span class="variable">tagmanager</span> = <span class="variable">tagmgr</span>
     <span class="this">this</span>.<span class="variable">renderResources</span> = [];
-}
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>The main workhorse function. </p>
 
-<span class="class">Renderer</span>.<span class="variable">prototype</span>.<span class="variable">render</span> = <span class="keyword">function</span> (<span class="variable">url</span>, <span class="variable">mode</span>) {
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  View template absolute file:// URL </p></li><li><p><strong>param</strong>: <em>String</em>  Render mode, 'json' or 'html'</p></li><li><p><strong>returns</strong>: <em>Promise</em> </p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Renderer</span>.<span class="variable">prototype</span>.<span class="variable">render</span> = <span class="keyword">function</span> (<span class="variable">url</span>, <span class="variable">mode</span>) {
     <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
     <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">_render</span>(<span class="variable">url</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">renderres</span>) {
        <span class="variable">c</span>(<span class="variable">self</span>.<span class="variable">renderResources</span>.<span class="variable">length</span>);
@@ -505,9 +515,15 @@ Has appenders for console and HTTP. </p>
             , <span class="variable">out</span> = <span class="variable">self</span>[<span class="variable">mode</span>!==<span class="string">'json'</span> ? <span class="string">'outputHtml'</span> : <span class="string">'outputJson'</span>](<span class="variable">renderres</span>, <span class="variable">deps</span>.<span class="variable">css</span>, <span class="variable">deps</span>.<span class="variable">scripts</span>, <span class="variable">deps</span>.<span class="variable">locales</span>);
         <span class="keyword">return</span> <span class="variable">out</span>;
     } );
-}
-
-<span class="class">Renderer</span>.<span class="variable">prototype</span>.<span class="variable">calcDependencies</span> = <span class="keyword">function</span> (<span class="variable">renderres</span>) {        
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p> </p>
+</td>
+<td class="code">
+<pre><code><span class="class">Renderer</span>.<span class="variable">prototype</span>.<span class="variable">calcDependencies</span> = <span class="keyword">function</span> (<span class="variable">renderres</span>) {        
     <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>
         , <span class="variable">css</span> = []
         , <span class="variable">scripts</span> = []
@@ -528,7 +544,7 @@ Has appenders for console and HTTP. </p>
             }));
         });
 
-        <span class="comment">// c('# Resource dependencies')</span>
+        <span class="comment">// c('Resource dependencies')</span>
         <span class="comment">// css.forEach(function (item) {</span>
         <span class="comment">//     c(item);</span>
         <span class="comment">// });</span>
@@ -551,7 +567,11 @@ Has appenders for console and HTTP. </p>
 <tr class="code">
 <td class="docs">
 <p>Transforms a RenderResource into HTML output format. 
- </p>
+Includes client-side dependencies. </p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Resource</em>  resource RenderedViewResource</p></li><li><p><strong>param</strong>: <em>String[]</em>  css URL to CSS dependency</p></li><li><p><strong>param</strong>: <em>String[]</em>  scripts URL to JavaScript dependency</p></li><li><p><strong>param</strong>: <em>String[]</em>  locales URL to locale dependency</p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Renderer</span>.<span class="variable">prototype</span>.<span class="variable">outputHtml</span> = <span class="keyword">function</span> (<span class="variable">resource</span>, <span class="variable">css</span>, <span class="variable">scripts</span>, <span class="variable">locales</span>) {
@@ -599,9 +619,19 @@ Has appenders for console and HTTP. </p>
     <span class="variable">doc</span> = <span class="variable">doc</span>.<span class="variable">substring</span>(<span class="number integer">0</span>, <span class="variable">idx</span>) + <span class="variable">markup</span>.<span class="variable">join</span>(<span class="string">''</span>) + <span class="variable">doc</span>.<span class="variable">substring</span>(<span class="variable">idx</span>, <span class="variable">doc</span>.<span class="variable">length</span>);
 
     <span class="keyword">return</span> <span class="variable">doc</span>;
-}
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Renders a resource as JSON. Currently mixes up partials and JSON output, which should not be the same. </p>
 
-<span class="class">Renderer</span>.<span class="variable">prototype</span>.<span class="variable">outputJson</span> = <span class="keyword">function</span> (<span class="variable">resource</span>, <span class="variable">css</span>, <span class="variable">scripts</span>, <span class="variable">locales</span>) {
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>RenderedViewResource</em>  resource Resource to render</p></li><li><p><strong>param</strong>: <em>String[]</em>  css URL to CSS dependency</p></li><li><p><strong>param</strong>: <em>String[]</em>  scripts URL to JavaScript dependency</p></li><li><p><strong>param</strong>: <em>String[]</em>  locales URL to locale dependency </p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Renderer</span>.<span class="variable">prototype</span>.<span class="variable">outputJson</span> = <span class="keyword">function</span> (<span class="variable">resource</span>, <span class="variable">css</span>, <span class="variable">scripts</span>, <span class="variable">locales</span>) {
     <span class="keyword">var</span> <span class="variable">body</span> = <span class="variable">resource</span>.<span class="variable">data</span>.<span class="variable">toString</span>().<span class="variable">match</span>(<span class="regexp">/(&lt;body[^&gt;]*&gt;)([\s\S]*)(&lt;\/body</span>&<span class="variable">gt</span>;)/<span class="variable">mi</span>)[<span class="number integer">2</span>];
     <span class="keyword">var</span> <span class="variable">obj</span> = { 
       &<span class="variable">quot</span>;<span class="variable">resources</span>&<span class="variable">quot</span>; : {
@@ -788,9 +818,9 @@ Has appenders for console and HTTP. </p>
 <td class="docs">
 <p>add an 'id' attribute to identify the element when inserting its rendered content</p>
 
-<ul><li><strong>param</strong>: <em>attrs</em>
-array, out param</li><li><strong>return</strong>: <em>existing</em>
-or new element id </li></ul>
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>attributes[]</em>  attrs attributes from node-xml sax</p></li><li><p><strong>return</strong>: <em>String</em>  existing or new element id </p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">addId</span>(<span class="variable">attrs</span>) {
@@ -848,15 +878,9 @@ If caching is enabled, the Resource Manager takes care of caching. </p>
     , <span class="variable">mod_sys</span>           = <span class="variable">require</span>(<span class="string">'sys'</span>)
     , <span class="variable">logger</span>            = <span class="variable">require</span>(<span class="string">'./logger.js'</span>).<span class="variable">getLogger</span>(<span class="string">'ResourceManager'</span>)
     , <span class="variable">config</span>            = <span class="keyword">null</span>
-    , <span class="variable">cache</span>             = <span class="keyword">null</span></code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
+    , <span class="variable">cache</span>             = <span class="keyword">null</span>
 
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">configure</span>(<span class="variable">c</span>, <span class="variable">ch</span>) {
+<span class="keyword">function</span> <span class="variable">configure</span>(<span class="variable">c</span>, <span class="variable">ch</span>) {
     <span class="variable">config</span> = <span class="variable">c</span>;
     <span class="variable">cache</span> = <span class="variable">ch</span>;
 }</code></pre>
@@ -864,8 +888,11 @@ If caching is enabled, the Resource Manager takes care of caching. </p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Convenience array style version of getResource 
- </p>
+<p>Convenience array style version of getResource </p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String[]</em>  urls URL to resource</p></li><li><p><strong>return</strong>: <em>Promise</em>  Promise, is resolved once all resources are loaded</p></li><li><p><strong>publi</strong>: <em>c</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">getResources</span>(<span class="variable">urls</span>) {
@@ -886,10 +913,9 @@ If caching is enabled, the Resource Manager takes care of caching. </p>
 <td class="docs">
 <p>Loads a resource from either a file://, http:// or relative path [LATER]</p>
 
-<p>Public API</p>
+<h2></h2>
 
-<ul><li><strong>param</strong>: <em>url</em>
-file:// or http:// URL</li><li><p><strong>return</strong>: <em>promise</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  url file:// or http:// URL</p></li><li><p><strong>return</strong>: <em>Promise</em>  Promise, is resolved when resource is ready</p></li><li><p><strong>publi</strong>: <em>c</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">getResource</span> (<span class="variable">url</span>) {
@@ -898,72 +924,7 @@ file:// or http:// URL</li><li><p><strong>return</strong>: <em>promise</em></p><
         <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">res</span>);
     });
     <span class="keyword">return</span> <span class="variable">defer</span>.<span class="variable">promise</span>;
-}
-
-<span class="keyword">function</span> <span class="variable">loadUrl</span>(<span class="variable">url</span>) {
-    <span class="keyword">var</span> <span class="variable">defer</span> = <span class="variable">mod_promise</span>.<span class="variable">defer</span>()
-        , <span class="variable">type</span> = <span class="keyword">null</span>
-        , <span class="variable">resource</span> = <span class="keyword">null</span>
-
-    <span class="comment">//logger.debug('load url ' +url);</span>
-    <span class="keyword">if</span> (<span class="variable">cache</span>) {
-        <span class="variable">cache</span>.<span class="variable">fromCache</span>(<span class="variable">url</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">resource</span>) {
-        <span class="keyword">if</span> (!<span class="variable">resource</span>) {
-            <span class="variable">resource</span> = <span class="variable">getResourceByUrl</span>(<span class="variable">url</span>)
-                    .<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">resource</span>) {
-                        <span class="variable">cache</span>.<span class="variable">toCache</span>(<span class="variable">url</span>, <span class="variable">resource</span>.<span class="variable">data</span>);
-                        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);
-                    });
-        } <span class="keyword">else</span> {
-            <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);
-        }
-        });        
-    } <span class="keyword">else</span> {
-        <span class="variable">resource</span> = <span class="variable">getResourceByUrl</span>(<span class="variable">url</span>)
-                    .<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">resource</span>) {
-                        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);
-                    });
-    }
-
-    
-    <span class="keyword">return</span> <span class="variable">defer</span>.<span class="variable">promise</span>;
-}
-
-<span class="keyword">function</span> <span class="variable">getResourceByUrl</span>(<span class="variable">url</span>) {
-    <span class="keyword">return</span> <span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'http://'</span>) === <span class="number integer">0</span> 
-                ? <span class="variable">loadFromHttp</span>(<span class="variable">url</span>) : <span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'file://'</span>) === <span class="number integer">0</span> 
-                    ? <span class="variable">loadFromFile</span>(<span class="variable">url</span>) : <span class="variable">loadFromFile</span>(<span class="variable">translatePathToFileUrl</span>(<span class="variable">url</span>));
-}
-
-<span class="comment">// [TBD]</span>
-<span class="keyword">function</span> <span class="variable">translatePathToFileUrl</span>(<span class="variable">url</span>) {
-    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'dont use yet!'</span>);
-}
-
-<span class="keyword">function</span> <span class="variable">loadFromHttp</span>(<span class="variable">url</span>) {
-    <span class="keyword">var</span> <span class="variable">defer</span> = <span class="variable">mod_promise</span>.<span class="variable">defer</span>()
-        , <span class="variable">resource</span> = <span class="keyword">new</span> <span class="variable">mod_resources</span>.<span class="class">HttpResource</span>()
-    <span class="variable">resource</span>.<span class="variable">load</span>(<span class="variable">url</span>);
-    <span class="variable">resource</span>.<span class="variable">addListener</span>(<span class="string">'stateChanged'</span>, <span class="keyword">function</span> () {
-        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);         
-    });  
-        
-    <span class="keyword">return</span> <span class="variable">defer</span>.<span class="variable">promise</span>;
-}
-
-<span class="keyword">function</span> <span class="variable">loadFromFile</span>(<span class="variable">url</span>) {
-    <span class="keyword">var</span> <span class="variable">defer</span> = <span class="variable">mod_promise</span>.<span class="variable">defer</span>()
-        , <span class="variable">resource</span> = <span class="keyword">new</span> <span class="variable">mod_resources</span>.<span class="class">FileResource</span>()
-    <span class="variable">resource</span>.<span class="variable">load</span>(<span class="variable">url</span>);
-    <span class="variable">resource</span>.<span class="variable">addListener</span>(<span class="string">'stateChanged'</span>, <span class="keyword">function</span> () {
-        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);
-    });
-    <span class="keyword">return</span> <span class="variable">defer</span>.<span class="variable">promise</span>;
-}
-
-<span class="variable">exports</span>.<span class="variable">getResources</span> = <span class="variable">getResources</span>;
-<span class="variable">exports</span>.<span class="variable">getResource</span> = <span class="variable">getResource</span>;
-<span class="variable">exports</span>.<span class="variable">configure</span>   = <span class="variable">configure</span>;</code></pre>
+}</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="../lib/resources.js"><a href="#">resources</a></h2></td><td>../lib/resources.js</td></tr><tr class="code">
 <td class="docs">
@@ -1053,13 +1014,19 @@ resource class
     , <span class="class">READY</span>       : <span class="number integer">6</span>
 };
 
-<span class="variable">exports</span>.<span class="class">Resource</span> = <span class="class">Resource</span>;
+<span class="variable">exports</span>.<span class="class">Resource</span> = <span class="class">Resource</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<ul><li><strong>class</strong>: <em>FileResource</em></li></ul>
 
+<h2></h2>
 
-
-
-
-<span class="keyword">function</span> <span class="class">FileResource</span>() {
+<ul><li><p><strong>param</strong>: <em>String</em>  URL of resource</p></li><li><p><strong>param</strong>: <em>String</em>  resource payload </p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="class">FileResource</span>() {
     <span class="class">Resource</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
 }
 <span class="variable">mod_util</span>.<span class="variable">inherits</span>(<span class="class">FileResource</span>, <span class="class">Resource</span>);
@@ -1124,12 +1091,9 @@ resource class
 </td>
 </tr><tr class="filename"><td><h2 id="../lib/resourceservice.js"><a href="#">resourceservice</a></h2></td><td>../lib/resourceservice.js</td></tr><tr class="code">
 <td class="docs">
-<p>Todos 
-<em> add error handling
-</em> connect to redis for caching
-<em> support for HTTP files
-</em> correct distinction between local and remote file by protocol 
- </p>
+<h2>Todos</h2>
+
+<ul><li>add error handling</li><li>connect to redis for caching</li><li>support for HTTP files</li><li>correct distinction between local and remote file by protocol </li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span>  <span class="variable">mod_fs</span>		 	= <span class="variable">require</span>(<span class="string">'fs'</span>)
@@ -1158,7 +1122,9 @@ resource class
 into a single request as usually. The correct mime type is dertimed by the suffix of the first 
 file.  </p>
 
-<p> </p>
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>request</em>  req Request object</p></li><li><p><strong>param</strong>: <em>response</em>  res Response object </p></li><li><p><strong>param</strong>: <em>response</em>  next Next connect middleware routing rule</p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">handleResourceRequest</span> (<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
@@ -1183,15 +1149,8 @@ file.  </p>
 
 	<span class="variable">loadUrls</span>(<span class="variable">absFiles</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">data</span>) {
 		<span class="keyword">var</span> <span class="variable">output</span> = <span class="variable">absFiles</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">item</span>) {
-			<span class="keyword">return</span> <span class="variable">item</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">data</span>[<span class="variable">item</span>] ? '\<span class="variable">n</span>\<span class="variable">n</span>\<span class="variable">n</span></code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>FILE ' + item + '\n\n\n *</p>
-</td>
-<td class="code">
-<pre><code><span class="class">File</span> <span class="variable">not</span> <span class="variable">found</span>'
+			<span class="keyword">return</span> <span class="variable">item</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">data</span>[<span class="variable">item</span>] ? <span class="string">'\n\n\n\/\*\* FILE '</span> 
+				   + <span class="variable">item</span> + <span class="string">'\n\n\n \*\*\/'</span> + <span class="variable">data</span>[<span class="variable">item</span>].<span class="variable">toString</span>() : <span class="string">'File not found'</span>
 		});
 
 		<span class="comment">// [TBD] Redis caching</span>
