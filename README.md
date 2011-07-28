@@ -85,3 +85,8 @@ The renderer can be used directly without a web client. Execute
 # Developing Web Components 
 
 Please refer to the 'weather' module for the required folder structure of Web Components.
+
+# Documentation 
+
+Documentation is very sparse currently. See ./doc/index.html for an API documentation. Use build.sh to create documentation from 
+files in ./lib. 
