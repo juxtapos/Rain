@@ -6,7 +6,7 @@
 		, "modulePath" : "modules"
 	}
 	, "caching" : {
-		"resources" : true
+		"resources" : false
 		, "ttl"		: 1
 	} 
 
