@@ -25,6 +25,7 @@ Install the following modules using (versions in parenthesis show development ve
 * socket.io (0.7.7)
 * socket.io-client (0.7.4)
 * webworker (0.8.4)
+* dox (0.0.5) (required only for creating a JSDoc)
 
 # Development
 

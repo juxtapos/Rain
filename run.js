@@ -7,7 +7,7 @@ var mod_fs 			= require('fs')
 if (process.argv.length < 3) {
 	logger.error('usage: ...');
 	process.exit();
-}
+} 
 
 mod_fs.watchFile('./run.js', { persistent: true, interval: 200 }, function (curr, prev) {
   	// why does a string compare not work? 
