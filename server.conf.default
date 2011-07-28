@@ -17,7 +17,7 @@
 	    	, "module" : "weather"
 	  	}
 	  	,{
-	    	"namespace" : "http://1and1.com/hip/hop"
+	    	"namespace" : "http://juxtapos.de/rain"
 	    	, "selector" : "domains"
 	    	, "module" : "domains"
 	  	}
