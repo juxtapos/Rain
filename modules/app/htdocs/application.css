@@ -13,7 +13,7 @@ container {
 app {
 	display:inline-block;
 	width:400px;
-	height:200px; 
+	min-height:200px; 
 	border-radius: 10px;
 	border:1px solid #cacaca;
 	min-height:100px;
