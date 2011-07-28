@@ -5,6 +5,7 @@ def run_all_tests
   print `clear`
   puts "Tests run #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
   puts `./runtests.sh`
+  puts `touch ./run.js`
 end
 
 run_all_tests

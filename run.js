@@ -9,7 +9,7 @@ if (process.argv.length < 3) {
 	process.exit();
 }
 
-mod_fs.watchFile(serverfile, { persistent: true, interval: 200 }, function (curr, prev) {
+mod_fs.watchFile('./run.js', { persistent: true, interval: 200 }, function (curr, prev) {
   	// why does a string compare not work? 
   	if (new Date(curr.mtime).getTime() == new Date(prev.mtime).getTime()) { return; }
   	if (currentServer) { 
@@ -18,7 +18,7 @@ mod_fs.watchFile(serverfile, { persistent: true, interval: 200 }, function (curr
   	}
   	setTimeout(function () {
   		currentServer = spawnServer();
-	}, 300)
+	}, 100)
 });
 
 spawnServer();
