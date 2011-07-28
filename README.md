@@ -77,6 +77,10 @@ You're done. Happy development :-)
 
 Call the example page using http://localhost:1337/modules/app/index.html first. 
 
+The renderer can be used directly without a web client. Execute 
+
+    $ node lib/test-renderer2.js
+
 # Developing Web Components 
 
 Please refer to the 'weather' module for the required folder structure of Web Components.
