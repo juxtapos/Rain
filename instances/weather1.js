@@ -1,3 +1,4 @@
 {
-	"city" : "Karlschruh YAYaaa"
+	"city" : "Karlsruhe"
+	, "woeid" : 664942
 }
