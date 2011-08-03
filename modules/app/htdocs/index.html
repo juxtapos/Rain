@@ -23,34 +23,19 @@
 	<dock>
 	</dock>
 	<container>
-		<app type="weather" id="weather1" instanceid="weather1">
-			<header></header>
-			<content>
+		<app type="weather" id="weather1" instanceid="weather1"/>
 
-			</content>
-		</app>
-		<app type="email">
-		</app>
-		<app type="weather"  instanceid="weather3">
-		<content></content>
-		</app>
+		<app type="email"></app>
 		
-		<app type="app2">
-		</app>
-		<app type="app1">
-<!--			<domains xmlns="http://juxtapos.de/rain">
-			<content></content>
-			
-			</domains>-->
-		</app>
-		<app type="weather" id="weather2"  instanceid="weather2">
-			<header>Wetter</header>
-			<content>
+		<app type="weather" renderat="before" instanceid="weather3" renderat2="server" index="bebe"/>
+		
+		<app type="app2"></app>
 
-			</content>
-		</app>
-		<app id="app3">
-		</app>
+		<app type="app1"></app>
+		<app type="weather" id="weather2"  instanceid="weather2" viewx="configure"/>
+
+		<app id="app3"></app>
+
 		<br clear="all"/>
 	</container>
 
