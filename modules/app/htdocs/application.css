@@ -23,6 +23,10 @@ app {
 	vertical-align:top;
 	background-color:#fff;
 	overflow:hidden;
+
+	font-family:Tahoma,sans-serif;
+	font-size:12px;
+	padding:10px;
 }
 
 app header {
@@ -40,7 +44,7 @@ app header:before {
 	float:right;
 	width:16px;
 	height:16px;
-	Xbackground-image:url(/icon-config.png);
+	background-image:url(/icon-config.png);
 	content:'';
 }
 

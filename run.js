@@ -5,7 +5,7 @@ var mod_fs 			= require('fs')
 	, logger 		= require('./lib/logger.js').getLogger()
 
 if (process.argv.length < 3) {
-	logger.error('usage: ...');
+	logger.error('usage: run <configfile>');
 	process.exit();
 } 
 

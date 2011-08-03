@@ -2,7 +2,7 @@ define(function ()
 {
 	function initView(elementid, template, instance) {
 		var data = {};
-		console.log('initView ' + instance);
+		console.log('initView scrollabletable' + instance);
 		if (typeof instance !== 'undefined') {	
 			data = JSON.parse(instance);
 		}

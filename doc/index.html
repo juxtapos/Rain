@@ -202,6 +202,42 @@ code .this { color: #19469D; }</style>
 <span class="variable">exports</span>.<span class="variable">toCache</span>     = <span class="variable">toCache</span>;
 <span class="variable">exports</span>.<span class="variable">configure</span>   = <span class="variable">configure</span>;</code></pre>
 </td>
+</tr><tr class="filename"><td><h2 id="../lib/cssnormalizer.js"><a href="#">cssnormalizer</a></h2></td><td>../lib/cssnormalizer.js</td></tr><tr class="code">
+<td class="docs">
+<p>This module normalizes URLs in CSS files provided by modules to absolute paths
+that are valid on an individual module host. </p>
+
+<p> </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">mod_path</span>			= <span class="variable">require</span>(<span class="string">'path'</span>)
+	<span class="variable">mod_assert</span>			= <span class="variable">require</span>(<span class="string">'assert'</span>)
+ 	 , <span class="variable">c</span> 				= <span class="variable">console</span>.<span class="variable">log</span></code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Normalizes a URL in a CSS file. Does not change fully-qualified http:// URLs. </p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  data CSS data</p></li><li><p><strong>param</strong>: <em>String</em>  path root path </p></li><li><p><strong>param</strong>: <em>String</em>  orighost URL of old source host</p></li><li><p><strong>param</strong>: <em>String</em>  newhost URL of new source host</p></li><li><p><strong>return</strong>: <em>String</em>  normalized CSS data</p></li><li><p><strong>publi</strong>: <em>c</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">normalize</span>(<span class="variable">data</span>, <span class="variable">path</span>, <span class="variable">orighost</span>, <span class="variable">newhost</span>) {
+	<span class="keyword">var</span> <span class="variable">data</span> = <span class="variable">data</span>.<span class="variable">replace</span>(<span class="regexp">/url\(['&quot;]?([^'&quot;\)']+)['&quot;]?\)?/mg</span>, <span class="keyword">function</span> () {
+		<span class="keyword">var</span> <span class="variable">p</span>;
+		<span class="keyword">if</span> (<span class="variable">arguments</span>[<span class="number integer">1</span>].<span class="variable">indexOf</span>(<span class="string">'http://'</span>) === <span class="number integer">0</span>) { <span class="keyword">return</span> <span class="variable">arguments</span>[<span class="number integer">1</span>]; }
+		<span class="variable">p</span> = <span class="variable">mod_path</span>.<span class="variable">join</span>(<span class="variable">path</span>, <span class="variable">arguments</span>[<span class="number integer">1</span>]); 
+		<span class="keyword">if</span> (<span class="variable">orighost</span> !== <span class="variable">newhost</span>) { <span class="variable">p</span> = <span class="variable">newhost</span> + <span class="variable">p</span>; }
+		<span class="variable">p</span> = <span class="string">'url(\&quot;'</span> + <span class="variable">p</span> + <span class="string">'\&quot;)'</span>;
+		<span class="keyword">return</span> <span class="variable">p</span>;
+ 	});
+ 	<span class="keyword">return</span> <span class="variable">data</span>;
+}
+
+<span class="variable">exports</span>.<span class="variable">normalize</span> = <span class="variable">normalize</span>;</code></pre>
+</td>
 </tr><tr class="filename"><td><h2 id="../lib/logger.js"><a href="#">logger</a></h2></td><td>../lib/logger.js</td></tr><tr class="code">
 <td class="docs">
 <p>Logger module. 
@@ -292,38 +328,6 @@ Has appenders for console and HTTP. </p>
 
 <span class="variable">exports</span>.<span class="variable">getLogger</span>   = <span class="variable">getLogger</span>;
 <span class="variable">exports</span>.<span class="class">Logger</span>      = <span class="class">Logger</span>;</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="../lib/modulecontainer.js"><a href="#">modulecontainer</a></h2></td><td>../lib/modulecontainer.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module Container, Manager, Factory, whatever. All module related thingz must belong to us. </p>
-
-<h2>Todos</h2>
-
-<ul><li>scan the local module folder for web component descriptors as resources. </li><li>download module descriptors from remote web component hosts as resources. </li><li>provide web component objects.  </li><li><p>crud on module instances. </p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">mod_fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>)
-	, <span class="variable">mod_resourcemanager</span> = <span class="variable">require</span>(<span class="string">'./resourcemanager.js'</span>)
-	, <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>)
-
-
-
-<span class="keyword">function</span> <span class="variable">moduleRootFolder</span>() {
-	<span class="keyword">return</span> <span class="variable">path</span>.<span class="variable">join</span>(<span class="variable">__dirname</span>, <span class="string">'..'</span>, <span class="string">'modules'</span>);
-}
-
-<span class="keyword">function</span> <span class="variable">scanFolder</span>(<span class="variable">folder</span>) {
-	<span class="variable">mod_fs</span>.<span class="variable">readdir</span>(<span class="variable">moduleRootFolder</span>(), <span class="keyword">function</span> (<span class="variable">err</span>, <span class="variable">files</span>) {
-		<span class="keyword">if</span> (<span class="variable">err</span>) <span class="keyword">throw</span> <span class="variable">err</span>;
-
-		<span class="variable">mod_resourcemanager</span>.<span class="variable">getResources</span>([<span class="string">'file://'</span> + <span class="variable">moduleRootFolder</span>() + <span class="string">'/app/htdocs/index.html'</span>]).<span class="variable">then</span>(<span class="keyword">function</span> () {
-			<span class="variable">console</span>.<span class="variable">log</span>(<span class="string">'grunz...'</span>);	
-		}); 
-		
-	});
-}
-
-<span class="variable">scanFolder</span>();</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="../lib/modules.js"><a href="#">modules</a></h2></td><td>../lib/modules.js</td></tr><tr class="code">
 <td class="docs">
@@ -530,7 +534,8 @@ Has appenders for console and HTTP. </p>
         , <span class="variable">locales</span> = []
         , <span class="variable">regex</span> = <span class="keyword">new</span> <span class="class">RegExp</span>(<span class="string">'file://'</span> + <span class="variable">mod_path</span>.<span class="variable">join</span>(<span class="variable">__dirname</span>, <span class="string">'..'</span>));
 
-        <span class="this">this</span>.<span class="variable">renderResources</span>.<span class="variable">reverse</span>().<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">dep</span>) {            
+        <span class="this">this</span>.<span class="variable">renderResources</span>.<span class="variable">reverse</span>().<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">dep</span>) {    
+            <span class="variable">c</span>(<span class="string">'................... '</span> + <span class="variable">dep</span>.<span class="variable">url</span>)
             <span class="variable">path</span> = <span class="variable">dep</span>.<span class="variable">url</span>.<span class="variable">replace</span>(<span class="variable">regex</span>, &<span class="variable">quot</span>;&<span class="variable">quot</span>;)
                           .<span class="variable">replace</span>(<span class="regexp">/htdocs.*$/</span>, <span class="string">''</span>);
             <span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">push</span>.<span class="variable">apply</span>(<span class="variable">css</span>, <span class="variable">dep</span>.<span class="variable">cssdeps</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">item</span>) {
@@ -544,18 +549,9 @@ Has appenders for console and HTTP. </p>
             }));
         });
 
-        <span class="comment">// c('Resource dependencies')</span>
-        <span class="comment">// css.forEach(function (item) {</span>
-        <span class="comment">//     c(item);</span>
-        <span class="comment">// });</span>
-        <span class="comment">// scripts.forEach(function (item) {</span>
-        <span class="comment">//     c(item);</span>
-        <span class="comment">// });</span>
-        <span class="comment">// this.renderResources.reverse().forEach(function (dep) {</span>
-        <span class="comment">//     c(dep.url);</span>
-        <span class="comment">// });</span>
-        
-        <span class="comment">//c(o);</span>
+        <span class="this">this</span>.<span class="variable">renderResources</span>.<span class="variable">reverse</span>().<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">dep</span>) {
+            <span class="variable">c</span>(<span class="variable">dep</span>.<span class="variable">url</span>);
+        });
 
         <span class="keyword">return</span> { <span class="string">'css'</span> : <span class="variable">css</span>, <span class="string">'scripts'</span> : <span class="variable">scripts</span>, <span class="string">'locales'</span> : <span class="variable">locales</span> };
     }
@@ -567,7 +563,8 @@ Has appenders for console and HTTP. </p>
 <tr class="code">
 <td class="docs">
 <p>Transforms a RenderResource into HTML output format. 
-Includes client-side dependencies. </p>
+This includes all dependencies of a view that are rendered into the output by using 
+require.js function calls to have additional dependencies loaded by the web client. </p>
 
 <h2></h2>
 
@@ -599,16 +596,19 @@ Includes client-side dependencies. </p>
     <span class="keyword">if</span> (<span class="variable">resource</span>.<span class="variable">elements</span>.<span class="variable">length</span> &<span class="variable">gt</span>; <span class="number integer">0</span>) {
         <span class="variable">markup</span>.<span class="variable">push</span>(<span class="string">'\n&lt;script type=&quot;application/javascript&quot;&gt;\n'</span>);
 
-        <span class="this">this</span>.<span class="variable">renderResources</span>.<span class="variable">reverse</span>().<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">dep</span>) { 
-            <span class="variable">markup</span>.<span class="variable">push</span>(<span class="string">'console.log(&quot;'</span>+<span class="variable">dep</span>.<span class="variable">url</span>+<span class="string">'&quot;);'</span>);
-        });
-
+        <span class="comment">// this.renderResources.reverse().forEach(function (dep) { </span>
+        <span class="comment">//     markup.push('console.log(&quot;'+dep.url+'&quot;);');</span>
+        <span class="comment">// });</span>
         <span class="variable">resource</span>.<span class="variable">elements</span>.<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">elem</span>) {
             <span class="keyword">var</span> <span class="variable">im</span> = <span class="variable">elem</span>.<span class="variable">instanceId</span> ? <span class="string">',&quot;text!/instances/'</span> + <span class="variable">elem</span>.<span class="variable">instanceId</span> + <span class="string">'.js&quot;'</span> : <span class="string">''</span>;
-            <span class="variable">markup</span>.<span class="variable">push</span>(<span class="string">'\nrequire([&quot;/modules/'</span>, <span class="variable">elem</span>.<span class="variable">moduleId</span>, <span class="string">'/client.js&quot;, &quot;text!/modules/'</span>
-                          , <span class="variable">elem</span>.<span class="variable">moduleId</span>,<span class="string">'/main.html?type=json&quot;'</span>, <span class="variable">im</span>
-                          , <span class="string">'], function (module, template, instance) { module.initView(&quot;'</span>
-                          , <span class="variable">elem</span>.<span class="variable">id</span>, <span class="string">'&quot;, template, instance) } );'</span>
+            <span class="keyword">var</span> <span class="variable">l</span> = <span class="variable">elem</span>.<span class="variable">locale</span>
+            <span class="variable">markup</span>.<span class="variable">push</span>(<span class="string">'\nrequire([&quot;/modules/'</span>, <span class="variable">elem</span>.<span class="variable">moduleId</span>, <span class="string">'/client.js&quot;'</span>
+                          , <span class="string">', &quot;text!/modules/'</span>, <span class="variable">elem</span>.<span class="variable">moduleId</span>, <span class="string">'/main.html?type=json&quot;'</span>
+                          , <span class="variable">im</span>
+                          , <span class="string">', &quot;text!/modules/'</span>, <span class="variable">elem</span>.<span class="variable">moduleId</span>, <span class="string">'/locales/de_DE.xml&quot;'</span>
+                          , <span class="string">'], '</span>
+                          , <span class="string">' function (module, template, instance, localefile) { module.initView(&quot;'</span>
+                          , <span class="variable">elem</span>.<span class="variable">id</span>, <span class="string">'&quot;, template, instance, localefile) } );'</span>
             );
         });
         <span class="variable">markup</span>.<span class="variable">push</span>(<span class="string">'\n&lt;/script&gt;\n'</span>);
@@ -659,6 +659,7 @@ Includes client-side dependencies. </p>
                 , <span class="variable">depsdone</span> = {};
             <span class="keyword">if</span> (<span class="variable">renderres</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">renderres</span>.<span class="variable">elements</span>) {
                 <span class="variable">renderres</span>.<span class="variable">elements</span>.<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">item</span>) {
+                    <span class="keyword">debugger</span>;
                     <span class="keyword">if</span> (<span class="variable">mod_modules</span>.<span class="variable">getModule</span>(<span class="variable">item</span>.<span class="variable">moduleId</span>)) {
                         <span class="keyword">var</span> <span class="variable">viewurl</span> = <span class="variable">mod_modules</span>.<span class="variable">getViewUrl</span>(<span class="variable">item</span>.<span class="variable">moduleId</span>, <span class="string">'main.html'</span>);
                         <span class="keyword">if</span> (!<span class="variable">depsdone</span>[<span class="variable">viewurl</span>]) {
@@ -875,10 +876,15 @@ If caching is enabled, the Resource Manager takes care of caching. </p>
     , <span class="variable">mod_events</span>        = <span class="variable">require</span>(<span class="string">'events'</span>)
     , <span class="variable">mod_resources</span>     = <span class="variable">require</span>(<span class="string">'./resources.js'</span>)
     , <span class="variable">mod_promise</span>       = <span class="variable">require</span>(<span class="string">'promised-io'</span>)
+    , <span class="variable">mod_path</span>          = <span class="variable">require</span>(<span class="string">'path'</span>)
     , <span class="variable">mod_sys</span>           = <span class="variable">require</span>(<span class="string">'sys'</span>)
     , <span class="variable">logger</span>            = <span class="variable">require</span>(<span class="string">'./logger.js'</span>).<span class="variable">getLogger</span>(<span class="string">'ResourceManager'</span>)
     , <span class="variable">config</span>            = <span class="keyword">null</span>
     , <span class="variable">cache</span>             = <span class="keyword">null</span>
+    , <span class="variable">c</span>                 = <span class="variable">console</span>.<span class="variable">log</span>
+
+<span class="comment">// we are in ./lib, document root is always one up</span>
+<span class="keyword">const</span> <span class="variable">documentRoot</span>      = <span class="variable">mod_path</span>.<span class="variable">join</span>(<span class="variable">__dirname</span>, <span class="string">'..'</span>);
 
 <span class="keyword">function</span> <span class="variable">configure</span>(<span class="variable">c</span>, <span class="variable">ch</span>) {
     <span class="variable">config</span> = <span class="variable">c</span>;
@@ -911,7 +917,7 @@ If caching is enabled, the Resource Manager takes care of caching. </p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Loads a resource from either a file://, http:// or relative path [LATER]</p>
+<p>Loads a resource from either a file://, http:// or relative path. </p>
 
 <h2></h2>
 
@@ -919,12 +925,104 @@ If caching is enabled, the Resource Manager takes care of caching. </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">getResource</span> (<span class="variable">url</span>) {
-    <span class="keyword">var</span> <span class="variable">defer</span> = <span class="variable">mod_promise</span>.<span class="variable">defer</span>();
-    <span class="variable">loadUrl</span>(<span class="variable">url</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">res</span>) {
-        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">res</span>);
-    });
+    <span class="keyword">return</span> <span class="variable">loadUrl</span>(<span class="variable">url</span>);
+    <span class="comment">// var defer = mod_promise.defer();</span>
+    <span class="comment">// loadUrl(url).then(function (res) {</span>
+    <span class="comment">//     defer.resolve(res);</span>
+    <span class="comment">// });</span>
+    <span class="comment">// return defer.promise;</span>
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Gets a resource either from the cache (if enabled) or loads it. </p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  url resource url</p></li><li><p><strong>param</strong>: <em>Promise</em>  Promise, resolves to resource</p></li><li><p><strong>publi</strong>: <em>c</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">loadUrl</span>(<span class="variable">url</span>) {
+    <span class="keyword">var</span> <span class="variable">defer</span> = <span class="variable">mod_promise</span>.<span class="variable">defer</span>()
+        , <span class="variable">type</span> = <span class="keyword">null</span>
+        , <span class="variable">resource</span> = <span class="keyword">null</span>
+
+    <span class="keyword">if</span> (<span class="variable">cache</span>) {
+        <span class="variable">cache</span>.<span class="variable">fromCache</span>(<span class="variable">url</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">resource</span>) {
+        <span class="keyword">if</span> (!<span class="variable">resource</span>) {
+            <span class="variable">resource</span> = <span class="variable">getResourceByUrl</span>(<span class="variable">url</span>)
+                    .<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">resource</span>) {
+                        <span class="variable">cache</span>.<span class="variable">toCache</span>(<span class="variable">url</span>, <span class="variable">resource</span>.<span class="variable">data</span>);
+                        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);
+                    });
+        } <span class="keyword">else</span> {
+            <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);
+        }
+        });        
+    } <span class="keyword">else</span> {
+        <span class="variable">resource</span> = <span class="variable">getResourceByUrl</span>(<span class="variable">url</span>)
+                    .<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">resource</span>) {
+                        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);
+                    });
+    }
+
+    
     <span class="keyword">return</span> <span class="variable">defer</span>.<span class="variable">promise</span>;
 }</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Gets the correct resource type assiocated to a URL without querying the cache. </p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  url resource URL</p></li><li><p><strong>param</strong>: <em>Promise</em>  promise, resolves to resource instance. </p></li><li><p><strong>publi</strong>: <em>c</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">getResourceByUrl</span>(<span class="variable">url</span>) {
+    <span class="keyword">var</span> <span class="variable">defer</span>       = <span class="variable">mod_promise</span>.<span class="variable">defer</span>()
+        , <span class="variable">resource</span>  = <span class="keyword">null</span>
+        , <span class="variable">intUrl</span>    = <span class="variable">url</span>
+    
+    <span class="keyword">if</span> (<span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'http://'</span>) === <span class="number integer">0</span>) {                         
+        <span class="variable">resource</span> = <span class="keyword">new</span> <span class="variable">mod_resources</span>.<span class="class">HttpResource</span>();
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'file://'</span>) === <span class="number integer">0</span>) {
+        <span class="variable">resource</span> = <span class="keyword">new</span> <span class="variable">mod_resources</span>.<span class="class">FileResource</span>();
+    } <span class="keyword">else</span> {                                                    <span class="comment">// assume it's a file location</span>
+        <span class="variable">intUrl</span> = <span class="variable">translatePathToFileUrl</span>(<span class="variable">url</span>);
+        <span class="variable">resource</span> = <span class="keyword">new</span> <span class="variable">mod_resources</span>.<span class="class">FileResource</span>();
+    }
+    <span class="comment">//c('getResourceByUrl ' + url + (url != intUrl ? url : ''))</span>
+    <span class="variable">resource</span>.<span class="variable">load</span>(<span class="variable">intUrl</span>);
+    <span class="variable">resource</span>.<span class="variable">addListener</span>(<span class="string">'stateChanged'</span>, <span class="keyword">function</span> () {
+        <span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">resource</span>);         
+    });  
+        
+    <span class="keyword">return</span> <span class="variable">defer</span>.<span class="variable">promise</span>;
+}</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Map a standard file path to a absolute file:// URL. Paths are always assumed relative to an
+installation root folder.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  path file path</p></li><li><p><strong>param</strong>: <em>String</em>  an absolute file:// URL</p></li><li><p><strong>publi</strong>: <em>c</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">translatePathToFileUrl</span>(<span class="variable">path</span>) {
+    <span class="keyword">var</span> <span class="variable">p</span> = <span class="string">'file://'</span>+ <span class="variable">mod_path</span>.<span class="variable">join</span>(<span class="variable">documentRoot</span>, <span class="variable">path</span>);
+    <span class="keyword">return</span> <span class="variable">p</span>;
+}
+
+<span class="variable">exports</span>.<span class="variable">getResources</span>            = <span class="variable">getResources</span>;
+<span class="variable">exports</span>.<span class="variable">getResource</span>             = <span class="variable">getResource</span>;
+<span class="variable">exports</span>.<span class="variable">configure</span>               = <span class="variable">configure</span>;
+<span class="variable">exports</span>.<span class="variable">translatePathToFileUrl</span>  = <span class="variable">translatePathToFileUrl</span>;</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="../lib/resources.js"><a href="#">resources</a></h2></td><td>../lib/resources.js</td></tr><tr class="code">
 <td class="docs">
@@ -983,9 +1081,19 @@ resource class
             <span class="this">this</span>.<span class="variable">emit</span>(<span class="string">'stateChanged'</span>, <span class="this">this</span>);
         }
     }
-});
+});</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Add a resource as a dependency to this resource. </p>
 
-<span class="class">Resource</span>.<span class="variable">prototype</span>.<span class="variable">addDependency</span> = <span class="keyword">function</span> (<span class="variable">res</span>) {
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Resource</em>  res</p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Resource</span>.<span class="variable">prototype</span>.<span class="variable">addDependency</span> = <span class="keyword">function</span> (<span class="variable">res</span>) {
     <span class="this">this</span>.<span class="variable">_requiredResources</span>[<span class="variable">res</span>.<span class="variable">uuid</span>] = <span class="variable">res</span>;
     <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
     <span class="variable">res</span>.<span class="variable">addListener</span>(<span class="string">'stateChanged'</span>, <span class="keyword">function</span> () { 
@@ -1001,9 +1109,16 @@ resource class
         <span class="variable">state</span> = <span class="class">Math</span>.<span class="variable">min</span>(<span class="this">this</span>.<span class="variable">_requiredResources</span>[<span class="variable">rn</span>].<span class="variable">state</span>, <span class="variable">state</span>);
     }
     <span class="this">this</span>.<span class="variable">state</span> = <span class="variable">state</span>;
-};
-
-<span class="class">Resource</span>.<span class="variable">prototype</span>.<span class="variable">load</span> = <span class="keyword">function</span> (<span class="variable">type</span>) {
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Must be implemented by subclasses.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="class">Resource</span>.<span class="variable">prototype</span>.<span class="variable">load</span> = <span class="keyword">function</span> () {
     <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'not implemented'</span>);
 }
 
@@ -1023,15 +1138,23 @@ resource class
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  URL of resource</p></li><li><p><strong>param</strong>: <em>String</em>  resource payload </p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  file URL of resource</p></li><li><p><strong>param</strong>: <em>String</em>  resource payload </p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="class">FileResource</span>() {
     <span class="class">Resource</span>.<span class="variable">apply</span>(<span class="this">this</span>, <span class="variable">arguments</span>);
 }
-<span class="variable">mod_util</span>.<span class="variable">inherits</span>(<span class="class">FileResource</span>, <span class="class">Resource</span>);
+<span class="variable">mod_util</span>.<span class="variable">inherits</span>(<span class="class">FileResource</span>, <span class="class">Resource</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<h2></h2>
 
-<span class="class">FileResource</span>.<span class="variable">prototype</span>.<span class="variable">load</span> = <span class="keyword">function</span> (<span class="variable">file</span>) {
+<ul><li><p><strong>param</strong>: <em>String</em>  file file URL of resource</p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">FileResource</span>.<span class="variable">prototype</span>.<span class="variable">load</span> = <span class="keyword">function</span> (<span class="variable">file</span>) {
     <span class="keyword">if</span> (<span class="string">'undefined'</span> === <span class="keyword">typeof</span> <span class="variable">file</span> || <span class="variable">file</span>.<span class="variable">indexOf</span>(<span class="string">'file://'</span>) !== <span class="number integer">0</span>) { 
         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'missing or faulty argument'</span>); 
     }
@@ -1044,14 +1167,32 @@ resource class
         <span class="variable">self</span>.<span class="variable">data</span> = <span class="variable">data</span>;
         <span class="variable">self</span>.<span class="variable">state</span> = <span class="class">Resource</span>.<span class="class">STATE</span>.<span class="class">READY</span>;
     });
-};
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<ul><li><strong>class</strong>: <em>HttpResource</em></li></ul>
 
-<span class="keyword">function</span> <span class="class">HttpResource</span>() {
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  http URL of resource</p></li><li><p><strong>param</strong>: <em>String</em>  resource payload </p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="class">HttpResource</span>() {
     <span class="class">Resource</span>.<span class="variable">apply</span>(<span class="this">this</span>);
 }
-<span class="variable">mod_util</span>.<span class="variable">inherits</span>(<span class="class">HttpResource</span>, <span class="class">Resource</span>);
+<span class="variable">mod_util</span>.<span class="variable">inherits</span>(<span class="class">HttpResource</span>, <span class="class">Resource</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<h2></h2>
 
-<span class="class">HttpResource</span>.<span class="variable">prototype</span>.<span class="variable">load</span> =  <span class="keyword">function</span> (<span class="variable">url</span>) {
+<ul><li><p><strong>param</strong>: <em>String</em>  url http URL of resource</p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">HttpResource</span>.<span class="variable">prototype</span>.<span class="variable">load</span> =  <span class="keyword">function</span> (<span class="variable">url</span>) {
     <span class="keyword">if</span> (<span class="string">'undefined'</span> === <span class="keyword">typeof</span> <span class="variable">url</span> || <span class="variable">url</span>.<span class="variable">indexOf</span>(<span class="string">'http://'</span>) !== <span class="number integer">0</span>) { 
         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'missing or faulty argument'</span>); 
     }
@@ -1074,168 +1215,40 @@ resource class
             <span class="variable">self</span>.<span class="variable">state</span> = <span class="class">Resource</span>.<span class="class">STATE</span>.<span class="class">READY</span>;
         });
     });
-};
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<ul><li><strong>class</strong>: <em>HttpResource</em></li></ul>
 
-<span class="keyword">function</span> <span class="class">RenderedViewResource</span>(<span class="variable">url</span>, <span class="variable">data</span>, <span class="variable">elements</span>, <span class="variable">cssdeps</span>, <span class="variable">scriptdeps</span>, <span class="variable">localedeps</span>) {
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  url http URL of view template resource</p></li><li><p><strong>param</strong>: <em>Buffer</em>  data</p></li><li><p><strong>param</strong>: <em>String[]</em>  cssdeps </p></li><li><p><strong>param</strong>: <em>String[]</em>  scriptdeps</p></li><li><p><strong>param</strong>: <em>String[]</em>  localdeps</p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="class">RenderedViewResource</span>(<span class="variable">url</span>, <span class="variable">data</span>, <span class="variable">elements</span>, <span class="variable">cssdeps</span>, <span class="variable">scriptdeps</span>, <span class="variable">localedeps</span>) {
     <span class="class">Resource</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">url</span>, <span class="variable">data</span>);
     <span class="this">this</span>.<span class="variable">elements</span> = <span class="variable">elements</span>;
     <span class="this">this</span>.<span class="variable">cssdeps</span> = <span class="variable">cssdeps</span>;
     <span class="this">this</span>.<span class="variable">scriptdeps</span> = <span class="variable">scriptdeps</span>;
     <span class="this">this</span>.<span class="variable">localedeps</span> = <span class="variable">localedeps</span>;
 }
+
+
+<span class="class">RenderedViewResource</span>.<span class="variable">prototype</span>.<span class="variable">toString</span> = <span class="keyword">function</span> () {
+    <span class="variable">process</span>.<span class="variable">exit</span>();
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">url</span> + <span class="string">','</span> + <span class="this">this</span>.<span class="variable">cssdeps</span> + <span class="string">''</span> + <span class="this">this</span>.<span class="variable">scriptdeps</span> + <span class="string">','</span> + <span class="this">this</span>.<span class="variable">localedeps</span>;
+}
 <span class="variable">mod_util</span>.<span class="variable">inherits</span>(<span class="class">RenderedViewResource</span>, <span class="class">Resource</span>);
+
+<span class="class">Resource</span>.<span class="variable">prototype</span>.<span class="variable">toString</span> = <span class="keyword">function</span> () {
+    <span class="variable">process</span>.<span class="variable">exit</span>();
+}
 
 <span class="variable">exports</span>.<span class="class">FileResource</span> = <span class="class">FileResource</span>;
 <span class="variable">exports</span>.<span class="class">HttpResource</span> = <span class="class">HttpResource</span>;
 <span class="variable">exports</span>.<span class="class">RenderedViewResource</span> = <span class="class">RenderedViewResource</span>;</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="../lib/resourceservice.js"><a href="#">resourceservice</a></h2></td><td>../lib/resourceservice.js</td></tr><tr class="code">
-<td class="docs">
-<h2>Todos</h2>
-
-<ul><li>add error handling</li><li>connect to redis for caching</li><li>support for HTTP files</li><li>correct distinction between local and remote file by protocol </li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span>  <span class="variable">mod_fs</span>		 	= <span class="variable">require</span>(<span class="string">'fs'</span>)
-	, <span class="variable">mod_url</span>		= <span class="variable">require</span>(<span class="string">'url'</span>)
-	, <span class="variable">mod_http</span>		= <span class="variable">require</span>(<span class="string">'http'</span>)
-	, <span class="variable">mod_promise</span>	= <span class="variable">require</span>(<span class="string">'promised-io'</span>)
-	, <span class="variable">mod_path</span>		= <span class="variable">require</span>(<span class="string">'path'</span>)
-	, <span class="variable">logger</span>		= <span class="variable">require</span>(<span class="string">'./logger.js'</span>).<span class="variable">getLogger</span>(<span class="string">'ResourceService'</span>)
-	, <span class="variable">config</span> 		= <span class="keyword">null</span></code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Configure must be called with a configuration object before this module can be used. 
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">configure</span> (<span class="variable">c</span>) { 
-	<span class="variable">config</span> = <span class="variable">c</span> 
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Handles resource requests, usually created by the render engine when scanning a template file.<br></br>Resource requests are aggregated requests to CSS or JavaScript files, both can not be mixed
-into a single request as usually. The correct mime type is dertimed by the suffix of the first 
-file.  </p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>request</em>  req Request object</p></li><li><p><strong>param</strong>: <em>response</em>  res Response object </p></li><li><p><strong>param</strong>: <em>response</em>  next Next connect middleware routing rule</p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">handleResourceRequest</span> (<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
-	<span class="keyword">var</span> <span class="variable">url</span> = <span class="variable">mod_url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>, <span class="variable">true</span>)
-		, <span class="variable">files</span> = <span class="variable">url</span>.<span class="variable">query</span>.<span class="variable">files</span>.<span class="variable">indexOf</span>(<span class="string">';'</span>) === -<span class="number integer">1</span> 
-			? [<span class="variable">url</span>.<span class="variable">query</span>.<span class="variable">files</span>] 
-			: <span class="variable">url</span>.<span class="variable">query</span>.<span class="variable">files</span>.<span class="variable">split</span>(<span class="string">';'</span>)
-		, <span class="variable">isCss</span> = <span class="variable">files</span>[<span class="number integer">0</span>].<span class="variable">lastIndexOf</span>(<span class="string">'.css'</span>) == <span class="variable">files</span>[<span class="number integer">0</span>].<span class="variable">length</span> - <span class="number integer">4</span>
-		, <span class="variable">absFiles</span>;
-
-	<span class="comment">// The config must be present for computing the absolute file path of a resource. </span>
-	<span class="keyword">if</span> (!<span class="variable">config</span>) {
-		<span class="variable">logger</span>.<span class="variable">error</span>(<span class="string">'config not found'</span>);
-		<span class="keyword">return</span>;
-	}
-
-	<span class="comment">// Translate URLs that were originally relative to a template location inside a module folder</span>
-	<span class="comment">// to absolute file paths.</span>
-	<span class="variable">absFiles</span> = <span class="variable">files</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">item</span>) { 
-		<span class="keyword">return</span> <span class="variable">item</span>.<span class="variable">indexOf</span>(<span class="string">'http://'</span>) &<span class="variable">lt</span>; <span class="number integer">0</span> ? <span class="variable">urlToAbsolutePath</span>(<span class="variable">item</span>) : <span class="variable">item</span>;
-	});
-
-	<span class="variable">loadUrls</span>(<span class="variable">absFiles</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">data</span>) {
-		<span class="keyword">var</span> <span class="variable">output</span> = <span class="variable">absFiles</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">item</span>) {
-			<span class="keyword">return</span> <span class="variable">item</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">data</span>[<span class="variable">item</span>] ? <span class="string">'\n\n\n\/\*\* FILE '</span> 
-				   + <span class="variable">item</span> + <span class="string">'\n\n\n \*\*\/'</span> + <span class="variable">data</span>[<span class="variable">item</span>].<span class="variable">toString</span>() : <span class="string">'File not found'</span>
-		});
-
-		<span class="comment">// [TBD] Redis caching</span>
-
-		<span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="variable">isCss</span> ? <span class="string">'text/css'</span> : <span class="string">'text/javascript'</span>)
-		<span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">output</span>.<span class="variable">join</span>(<span class="string">''</span>));
-	});
-}</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Checks if a file exists and loads it. 
-Returns 'null' on non-existing files or load errors. 
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">loadUrl</span> (<span class="variable">url</span>) { 
-	<span class="keyword">var</span> <span class="variable">defer</span> = <span class="variable">mod_promise</span>.<span class="variable">defer</span>();
-
-	<span class="variable">mod_path</span>.<span class="variable">exists</span>(<span class="variable">url</span>, <span class="keyword">function</span> (<span class="variable">exists</span>) {
-		<span class="keyword">if</span> (!<span class="variable">exists</span>) {
-			<span class="variable">logger</span>.<span class="variable">debug</span>(<span class="string">'file '</span> + <span class="variable">url</span> + <span class="string">' not found'</span>);
-			<span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="keyword">null</span>);
-			<span class="keyword">return</span>;
-		}
-		<span class="variable">mod_fs</span>.<span class="variable">readFile</span>(<span class="variable">url</span>, <span class="keyword">function</span> (<span class="variable">err</span>, <span class="variable">data</span>) {
-			<span class="keyword">if</span> (<span class="variable">err</span>) {
-				<span class="variable">logger</span>.<span class="variable">error</span>(<span class="variable">err</span>);
-				<span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="keyword">null</span>);
-				<span class="keyword">return</span>;
-			}
-			<span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">data</span>);
-		});
-	});
-	<span class="keyword">return</span> <span class="variable">defer</span>;
-}</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Loads an array of URLs asynchronously and simultanously. 
-Returns a defer that is resolved upon completion of all loads. 
- - <strong>param</strong>: <em>Array</em>
- of URLs
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">loadUrls</span> (<span class="variable">urls</span>) {
-	<span class="keyword">var</span> <span class="variable">defer</span> = <span class="variable">mod_promise</span>.<span class="variable">defer</span>()
-		, <span class="variable">promises</span> = []
-		, <span class="variable">files</span> = {}
-	<span class="comment">// the map function you should use, a fool you are</span>
-	<span class="variable">urls</span>.<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">url</span>) {
-		<span class="variable">promises</span>.<span class="variable">push</span>(<span class="variable">loadUrl</span>(<span class="variable">url</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">data</span>) {
-			<span class="variable">files</span>[<span class="variable">url</span>] = <span class="variable">data</span>;
-		}));
-	});
-
-	<span class="variable">mod_promise</span>.<span class="variable">all</span>(<span class="variable">promises</span>).<span class="variable">then</span>(<span class="keyword">function</span> () {
-		<span class="variable">defer</span>.<span class="variable">resolve</span>(<span class="variable">files</span>);
-	});
-
-	<span class="keyword">return</span> <span class="variable">defer</span>;
-}</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Creates an absolute file path from an URL coming from a resource request.
-Absolute URLs used in templates are treated as coming from a module's (public) 'htdocs' folder.</p>
-
-<p>[TBD] make module folder configurable
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">urlToAbsolutePath</span> (<span class="variable">url</span>) {
-	<span class="variable">url</span> = <span class="variable">url</span>.<span class="variable">replace</span>(<span class="keyword">new</span> <span class="class">RegExp</span>(&<span class="variable">quot</span>;^(<span class="regexp">/modules\/</span>[^\<span class="regexp">/]+)&quot;), &quot;$1/htdocs</span>/&<span class="variable">quot</span>;);
-	<span class="keyword">return</span> <span class="variable">config</span>.<span class="variable">server</span>.<span class="variable">serverRoot</span> + <span class="variable">url</span>
-}
-
-<span class="variable">exports</span>.<span class="variable">configure</span> = <span class="variable">configure</span>;
-<span class="variable">exports</span>.<span class="variable">handleResourceRequest</span> = <span class="variable">handleResourceRequest</span>
-<span class="variable">exports</span>.<span class="variable">loadUrls</span> = <span class="variable">loadUrls</span>;
-<span class="variable">exports</span>.<span class="variable">loadUrl</span> = <span class="variable">loadUrl</span>;</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="../lib/server.js"><a href="#">server</a></h2></td><td>../lib/server.js</td></tr><tr class="code">
 <td class="docs">
@@ -1246,7 +1259,7 @@ Absolute URLs used in templates are treated as coming from a module's (public) '
 <pre><code><span class="keyword">var</span> <span class="variable">mod_connect</span>         = <span class="variable">require</span>(<span class="string">'connect'</span>)
     , <span class="variable">mod_sys</span>               = <span class="variable">require</span>(<span class="string">'sys'</span>)
     , <span class="variable">mod_path</span>              = <span class="variable">require</span>(<span class="string">'path'</span>)
-    , <span class="variable">mod_resourceservice</span>   = <span class="variable">require</span>(<span class="string">'./resourceservice.js'</span>)
+    , <span class="variable">mod_resourceservice</span>   = <span class="keyword">null</span>
     , <span class="variable">mod_resourcemanager</span>   = <span class="variable">require</span>(<span class="string">'./resourcemanager.js'</span>)
     , <span class="variable">mod_tagmanager</span>        = <span class="variable">require</span>(<span class="string">'./tagmanager.js'</span>)
     , <span class="variable">mod_cache</span>             = <span class="variable">require</span>(<span class="string">'./Cache.js'</span>)
@@ -1273,8 +1286,8 @@ Absolute URLs used in templates are treated as coming from a module's (public) '
     <span class="variable">config</span> = <span class="class">JSON</span>.<span class="variable">parse</span>(<span class="variable">data</span>);
     <span class="variable">logger</span>.<span class="variable">info</span>(<span class="string">'config loaded'</span>);
     <span class="variable">mod_cache</span>.<span class="variable">configure</span>(<span class="variable">config</span>);
-    <span class="variable">mod_resourceservice</span>.<span class="variable">configure</span>(<span class="variable">config</span>);  
     <span class="variable">mod_resourcemanager</span>.<span class="variable">configure</span>(<span class="variable">config</span>, <span class="variable">mod_cache</span>);
+    <span class="variable">mod_resourceservice</span> = <span class="variable">require</span>(<span class="string">'./resourceservice.js'</span>)(<span class="variable">config</span>, <span class="variable">mod_resourcemanager</span>);
     <span class="variable">mod_tagmanager</span>.<span class="variable">setTagList</span>(<span class="variable">config</span>.<span class="variable">taglib</span>);
     <span class="variable">mod_modules</span>.<span class="variable">configure</span>(<span class="variable">config</span>, <span class="variable">mod_tagmanager</span>);
     <span class="variable">createServer</span>(<span class="variable">config</span>);
@@ -1287,7 +1300,7 @@ Absolute URLs used in templates are treated as coming from a module's (public) '
                 <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/^\/modules</span>\<span class="regexp">/([^\.]*)\/</span>(.*\.<span class="variable">js</span>)$/,          <span class="variable">mod_modules</span>.<span class="variable">handleScriptRequest</span>);
                 <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/^\/modules</span>\<span class="regexp">/([^\.]*)\/</span>(.*\.<span class="variable">html</span>)$/,        <span class="variable">mod_modules</span>.<span class="variable">handleViewRequest</span>);            
                 <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/^\/modules</span>\<span class="regexp">/([^\.]*)\/controller</span>\<span class="regexp">/(.*)$/</span>,  <span class="variable">mod_modules</span>.<span class="variable">handleControllerRequest</span>);
-                <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/^\/resources</span>(.*)$/,                        <span class="variable">mod_resourceservice</span>.<span class="variable">handleResourceRequest</span>);
+                <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/^\/resources</span>(.*)$/,                        <span class="variable">mod_resourceservice</span>.<span class="variable">handleRequest</span>);
                 <span class="comment">//app.get(/instances\/(.*)/,                          mod_instances.handleInstanceRequest);</span>
             }
         )
@@ -1303,6 +1316,93 @@ Absolute URLs used in templates are treated as coming from a module's (public) '
 <span class="comment">// process.on('SIGINT', function () {</span>
 <span class="comment">//  process.exit();</span>
 <span class="comment">// });</span></code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="../lib/resourceservice.js"><a href="#">resourceservice</a></h2></td><td>../lib/resourceservice.js</td></tr><tr class="code">
+<td class="docs">
+<p>The resource service, code name "cyclone", is a center piece of Rain. 
+Clients can call it with a list of resources separated by semicolons, 
+that are loaded and concatenated in the order of their occurence. 
+Rain currently creates request markup to this service in the render process. </p>
+
+<h2>Examples</h2>
+
+<p>&lt;link rel="stylesheet" type="text/css" href="/resources?files=/modules/scrollabletable/main.css
+;/modules/domains/main.css;/modules/weather/main.css;/modules/app/application.css
+;/modules/app/jquery-ui/css/smoothness/jquery-ui-1.8.14.custom.css"/&gt; </p>
+
+<p>&lt;script type="application/javascript" src="/resources?files=/modules/app/require-jquery.js
+;/modules/app/jquery-ui/js/jquery-ui-1.8.14.custom.min.js
+;/modules/app/js/socket.io/socket.io.js"&gt;&lt;/script&gt; </p>
+
+<p>A file must follow some simple rules to be loadable by the resource service: </p>
+
+<ul><li>For URLs, e.g. for background images, always use the url() notation, since the parsers won't recognize them otherwise.</li></ul>
+
+<h2>Todos</h2>
+
+<ul><li>refactor to use the resource manager</li><li>add error handling for files not found</li><li>rewrite URLs used url() in CSS files </li><li>connect to redis for caching</li><li>support for HTTP files</li><li>correct distinction between local and remote file by protocol </li><li><p>put the little fucker into its own worker</p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> (<span class="variable">c</span>, <span class="variable">resmgr</span>) {
+
+	<span class="keyword">var</span>  <span class="variable">mod_fs</span>		 		= <span class="variable">require</span>(<span class="string">'fs'</span>)
+		, <span class="variable">mod_url</span>			= <span class="variable">require</span>(<span class="string">'url'</span>)
+		, <span class="variable">mod_http</span>			= <span class="variable">require</span>(<span class="string">'http'</span>)
+		, <span class="variable">mod_promise</span>		= <span class="variable">require</span>(<span class="string">'promised-io'</span>)
+		, <span class="variable">mod_path</span>			= <span class="variable">require</span>(<span class="string">'path'</span>)
+		, <span class="variable">mod_cssnormalizer</span> = <span class="variable">require</span>(<span class="string">'./cssnormalizer.js'</span>)
+		, <span class="variable">logger</span>			= <span class="variable">require</span>(<span class="string">'./logger.js'</span>).<span class="variable">getLogger</span>(<span class="string">'ResourceService'</span>)
+		, <span class="variable">config</span> 			= <span class="variable">c</span>
+		, <span class="variable">resourceManager</span>   = <span class="variable">resmgr</span>
+
+	<span class="keyword">if</span> (!<span class="variable">config</span> || !<span class="variable">resmgr</span>) { <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'dependencies missing'</span>); }</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<pre><code> * Handles resource requests, usually created by the render engine when scanning a template file.  
+ * Resource requests are aggregated requests to CSS or JavaScript files, both can not be mixed
+ * into a single request. The correct mime type is determined by the suffix of the first 
+ * file.  
+ * 
+ * @param {request} req Request object
+ * @param {response} res Response object 
+ * @param {response} next Next connect middleware routing rule
+ * @public
+ </code></pre>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">handleRequest</span> (<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+		<span class="keyword">var</span> <span class="variable">url</span> = <span class="variable">mod_url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>, <span class="variable">true</span>)
+			, <span class="variable">files</span> = <span class="variable">url</span>.<span class="variable">query</span>.<span class="variable">files</span>.<span class="variable">indexOf</span>(<span class="string">';'</span>) === -<span class="number integer">1</span> 
+				? [<span class="variable">url</span>.<span class="variable">query</span>.<span class="variable">files</span>] 
+				: <span class="variable">url</span>.<span class="variable">query</span>.<span class="variable">files</span>.<span class="variable">split</span>(<span class="string">';'</span>)
+			, <span class="variable">isCss</span> = <span class="variable">files</span>[<span class="number integer">0</span>].<span class="variable">lastIndexOf</span>(<span class="string">'.css'</span>) == <span class="variable">files</span>[<span class="number integer">0</span>].<span class="variable">length</span> - <span class="number integer">4</span>
+			, <span class="variable">absFiles</span>;
+
+		<span class="comment">// The config must be present for computing the absolute file path of a resource. </span>
+		<span class="keyword">if</span> (!<span class="variable">config</span> || !<span class="variable">resourceManager</span>) {
+			<span class="variable">logger</span>.<span class="variable">error</span>(<span class="string">'config not found'</span>);
+			<span class="keyword">return</span>;
+		}
+
+		<span class="variable">files</span> = <span class="variable">files</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">url</span>) {
+			<span class="keyword">return</span> <span class="variable">config</span>.<span class="variable">server</span>.<span class="variable">serverRoot</span> + <span class="variable">url</span>.<span class="variable">replace</span>(<span class="keyword">new</span> <span class="class">RegExp</span>(&<span class="variable">quot</span>;^(<span class="regexp">/modules\/</span>[^\<span class="regexp">/]+)&quot;), &quot;$1/htdocs</span>/&<span class="variable">quot</span>;)
+		})
+
+		<span class="variable">resourceManager</span>.<span class="variable">getResources</span>(<span class="variable">files</span>).<span class="variable">then</span>(<span class="keyword">function</span> (<span class="variable">resources</span>) {
+			<span class="keyword">var</span> <span class="variable">output</span> = [];
+			<span class="variable">resources</span>.<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">resource</span>) {
+				<span class="variable">output</span>.<span class="variable">push</span>(<span class="string">'\n\n\n\/\*\* FILE '</span>, <span class="variable">resource</span>.<span class="variable">url</span>, <span class="string">' */\n'</span>, <span class="variable">resource</span>.<span class="variable">data</span>.<span class="variable">toString</span>());
+			});
+			<span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">output</span>.<span class="variable">join</span>(<span class="string">''</span>));
+		});
+	}
+
+	<span class="keyword">return</span> {
+		<span class="string">'handleRequest'</span> : <span class="variable">handleRequest</span>
+	}
+};</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="../lib/socketio.js"><a href="#">socketio</a></h2></td><td>../lib/socketio.js</td></tr><tr class="code">
 <td class="docs">
@@ -1436,6 +1536,38 @@ Sizzle could be used, but it's most probably way too slow.</p>
 }
 
 <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">new</span> <span class="class">TagManager</span>();</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="../lib/modulecontainer.js"><a href="#">modulecontainer</a></h2></td><td>../lib/modulecontainer.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module Container, Manager, Factory, whatever. All module related thingz must belong to us. </p>
+
+<h2>Todos</h2>
+
+<ul><li>scan the local module folder for web component descriptors as resources. </li><li>download module descriptors from remote web component hosts as resources. </li><li>provide web component objects.  </li><li><p>crud on module instances. </p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">mod_fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>)
+	, <span class="variable">mod_resourcemanager</span> = <span class="variable">require</span>(<span class="string">'./resourcemanager.js'</span>)
+	, <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>)
+
+
+
+<span class="keyword">function</span> <span class="variable">moduleRootFolder</span>() {
+	<span class="keyword">return</span> <span class="variable">path</span>.<span class="variable">join</span>(<span class="variable">__dirname</span>, <span class="string">'..'</span>, <span class="string">'modules'</span>);
+}
+
+<span class="keyword">function</span> <span class="variable">scanFolder</span>(<span class="variable">folder</span>) {
+	<span class="variable">mod_fs</span>.<span class="variable">readdir</span>(<span class="variable">moduleRootFolder</span>(), <span class="keyword">function</span> (<span class="variable">err</span>, <span class="variable">files</span>) {
+		<span class="keyword">if</span> (<span class="variable">err</span>) <span class="keyword">throw</span> <span class="variable">err</span>;
+
+		<span class="variable">mod_resourcemanager</span>.<span class="variable">getResources</span>([<span class="string">'file://'</span> + <span class="variable">moduleRootFolder</span>() + <span class="string">'/app/htdocs/index.html'</span>]).<span class="variable">then</span>(<span class="keyword">function</span> () {
+			<span class="variable">console</span>.<span class="variable">log</span>(<span class="string">'grunz...'</span>);	
+		}); 
+		
+	});
+}
+
+<span class="variable">scanFolder</span>();</code></pre>
 </td>
 </tr>	</body>
 </html></tbody></table>

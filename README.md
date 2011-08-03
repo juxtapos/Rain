@@ -26,6 +26,7 @@ Install the following modules using (versions in parenthesis show development ve
 * socket.io-client (0.7.4)
 * webworker (0.8.4)
 * dox (0.0.5) (required only for creating a JSDoc)
+* csslint (0.5.0) (required for checking CSS file syntax) 
 
 # Development
 
@@ -65,9 +66,8 @@ it automatically on changes.
 
     $ node run.js CONFIGFILE
 
-It works in connection with the Ruby watchr utility used for testing, which must be running also in order 
-for run.js to work. In case one of the files in /lib, /modules, /test is changed, server.js is touched. run.js 
-watches this file, kills the running server and spawns a new one. 
+For this to work, you need to start a watchr task, that watches your local source folders 
+(currently ./lib/, ./modules) and touches run.js that kills spawns a server and kills the old one. 
 
 PLEASE NOTE: 
 

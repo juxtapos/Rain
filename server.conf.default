@@ -6,8 +6,8 @@
 		, "modulePath" : "modules"
 	}
 	, "caching" : {
-		"resources" : false
-		, "ttl"		: 1
+		"resources" : true
+		, "ttl"		: 5
 	} 
 
 	, "taglib" : [

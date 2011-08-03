@@ -1,3 +1,5 @@
+@import url('modules://app/application.css');
+
 * {
-	Xbackground-color:red;
+	Xbackground-color:green;
 }

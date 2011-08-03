@@ -2,7 +2,7 @@ def restart
 	puts `touch ./run.js`
 end
 
-watch("(test|lib|modules)(/.*)+.js") { |m| restart }
+watch("(lib|modules)(/.*)+.js") { |m| restart }
 
 @interrupted = false
 
