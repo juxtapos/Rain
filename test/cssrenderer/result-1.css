@@ -1,0 +1,107 @@
+/*@import url("/modules/app/testing");
+
+a.23ea95b683c82c732db81c54db57af09 {
+	color: #cafe73;
+}
+
+#23ea95b683c82c732db81c54db57af09-test {
+	color:green;
+}
+
+.23ea95b683c82c732db81c54db57af09.app  td {
+	color:blue;
+}*/
+
+body.23ea95b683c82c732db81c54db57af09 {
+	margin:0;
+	padding:0;	
+}
+
+container.23ea95b683c82c732db81c54db57af09 {
+	display:block;
+	background:-moz-linear-gradient(top, #c2e2ed, #fff);
+	background:-webkit-linear-gradient(top, #c2e2ed, #fff);
+	background:-webkit-gradient(linear, left top, left bottom, from(#c2e2ed), to(#fff));
+}
+
+app.23ea95b683c82c732db81c54db57af09 {
+	display:inline-block;
+	width:400px;
+	min-height:200px; 
+	border-radius: 10px;
+	border:1px solid #cacaca;
+	min-height:100px;
+	margin:10px;
+	-moz-box-shadow:2px 2px 0px 0px rgba(0,0,0,0.2);
+	-webkit-box-shadow:2px 2px 0px 0px rgba(0,0,0,0.2);
+	vertical-align:top;
+	background-color:#fff;
+	overflow:hidden;
+
+	font-family:Tahoma,sans-serif;
+	font-size:12px;
+	padding:10px;
+}
+
+app.23ea95b683c82c732db81c54db57af09 header {
+	display:block;
+	background:-moz-linear-gradient(top, #ececec, #fff);
+	background:-webkit-linear-gradient(top, #ececec, #fff);
+	border-radius:10px 10px 0px 0px;
+	border-bottom:1px solid #eee;
+	font-family:Tahoma,Arial,Helvetica,Verdana,sans-serif;
+	padding:2px 8px 2px 28px;
+}
+
+app.23ea95b683c82c732db81c54db57af09 header:before {
+	display:block;
+	float:right;
+	width:16px;
+	height:16px;
+	background-image:url("/modules/app/icon-config.png");
+	content:'';
+}
+
+app.23ea95b683c82c732db81c54db57af09 content {
+	display:block;
+	margin:18px;
+}
+
+toolbar.23ea95b683c82c732db81c54db57af09 {
+	display:block;
+	background:-moz-linear-gradient(top, #0070b9, #0936af);
+	background:-webkit-linear-gradient(top, #0070b9, #0936af);
+	background:-webkit-gradient(linear, left top, left bottom, from(#0070b9), to(#0936af));
+	height:48px;
+}
+
+toolbar.23ea95b683c82c732db81c54db57af09 button {
+	border:1px solid blue;
+	font:20px Tahoma,Arial,sans-serif;
+	color:#fff;
+}
+
+dock.23ea95b683c82c732db81c54db57af09 {
+	display:block;
+	height:29px;
+	background-color:#87b2df;
+}
+
+
+
+/**
+ * EMAIL 
+ */
+app[id=email].23ea95b683c82c732db81c54db57af09 {
+	height:400px;
+}
+
+
+
+/**
+ * WEATHER
+ */
+app[id=weather].23ea95b683c82c732db81c54db57af09 {
+	height:300px;
+	font-family:Tahoma,Arial,sans-serif;
+}
