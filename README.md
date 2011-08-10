@@ -19,7 +19,7 @@ Install the following modules using (versions in parenthesis show development ve
 
 * nodeunit (0.5.1)
 * node-xml (1.0.0)
-* promised-io
+* promised-io (0.2.3)
 * jsdom (0.2.0)
 * connect (1.4.3)
 * socket.io (0.7.7)

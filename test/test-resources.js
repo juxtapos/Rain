@@ -1,5 +1,6 @@
 var nodeunit	 		= require('nodeunit')
 	, mod_resources 	= require('../lib/resources.js')
+	, Resource			= mod_resources.Resource
 	, promises  		= require('promised-io')
 	, assert			= require('assert')
 	, mod_path			= require('path')
@@ -7,45 +8,71 @@ var nodeunit	 		= require('nodeunit')
 module.exports = nodeunit.testCase({
 	setUp : function (callback) {
 		callback();
-	}
+	},
 
-	, testFileSimple : function (test) {
-		var resource1 = new mod_resources.FileResource();
-		assert.notEqual(resource1, null);
-		assert.throws(function () { resource1.load(); });
-		assert.equal(resource1.state, mod_resources.Resource.STATE.INIT);
-		// [TBD] change path
-		assert.throws(function () { resource1.load('/Users/cag/workspace/rain/server.js') });
-		assert.doesNotThrow(function () { resource1.load('file://' + mod_path.join(__dirname, '..', 'lib', 'server.js')) });
-		assert.equal(resource1.state, mod_resources.Resource.STATE.LOADING);
-		resource1.addListener('stateChanged', function (res) {
-			assert.equal(res.state, mod_resources.Resource.STATE.READY);
-			test.done();
+	simpleDependency : function (test) {
+		var url1 = 'file://' + mod_path.join(__dirname, '..', '/lib/server.js')
+			, url2 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html')
+
+		var r1 = new Resource(url1);
+		var r2 = new Resource(url2);
+		r1.addDependency(r2);
+
+		r1.load();
+		r1.loadDependencies();
+
+		r1.addListener('stateChanged', function (resource) {
+			if (resource.state == Resource.STATES.COMPLETE) test.done();
+
 		});
-	}
+	}, 
 
-	, testHttpSimple : function (test) {
-		var resource2 = new mod_resources.HttpResource();
-		assert.notEqual(resource2, null);
-		assert.throws(function () { resource2.load();});
-		assert.equal(resource2.state, mod_resources.Resource.STATE.INIT);
-		assert.throws(function () { resource2.load('heise.de') });
-		assert.doesNotThrow(function () { resource2.load('http://heise.de') });
-		assert.throws(function () { resource2.load(); });
+	twoLevelDependency : function (test) {
+		var url1 = 'file://' + mod_path.join(__dirname, '..', '/lib/server.js')
+			, url2 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html')
+			, url3 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html')
 
-		// [TBD] how to do error handling in case in domain can't be resolved? 
-		// doesn't seem to be possible when using http.get 
-		//assert.throws(function () { resource2.load('http://127.255.255.1/I/dont/exist') });
-		assert.equal(resource2.state, mod_resources.Resource.STATE.LOADING);
-		resource2.addListener('stateChanged', function (res) {
-			console.log('file://' + mod_path.join(__dirname, '..', 'lib', 'server.js'));
-			assert.equal(res.state, mod_resources.Resource.STATE.READY);
-			test.done();
+		var r1 = new Resource(url1);
+		var r2 = new Resource(url2);
+		var r3 = new Resource(url3);
+		r1.addDependency(r2);
+		r2.addDependency(r3);
+
+		r1.load();
+		r2.load();
+		r1.loadDependencies();
+
+		r1.addListener('stateChanged', function (resource) {
+			if (resource.state == Resource.STATES.COMPLETE) {
+				test.done();
+			}
 		});
+	},
 
-		//
-		// [TBD] Lame hack to fix the behavior on non-resolvable URLs (which never throw an error)
-		//
-		test.done();
+	complexDependencies : function (test) {
+		var url1 = 'file://' + mod_path.join(__dirname, '..', '/lib/server.js')
+			, url2 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html')
+			, url3 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html')
+			, url4 = url1
+
+		var r1 = new Resource(url1);
+		var r2 = new Resource(url2);
+		var r3 = new Resource(url3);
+		var r4 = new Resource(url4);
+		r3.addDependency(r4);
+		r1.addDependency(r2);
+		r1.addDependency(r3);
+
+		r1.load();
+		r1.loadDependencies();
+		r2.load();
+		r3.load();
+		r4.load();
+
+		r1.addListener('stateChanged', function (resource) {
+			if (resource.state == Resource.STATES.COMPLETE) {
+				test.done();
+			}
+		});
 	}
 });

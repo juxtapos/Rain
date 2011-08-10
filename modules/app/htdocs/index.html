@@ -19,7 +19,11 @@
 	<toolbar>
 		<!--<button>Home</button>-->
 		<tx:text key="wetter"/>
+		It's {{name}}y day
+
+
 	</toolbar>
+	
 	<dock>
 	</dock>
 	<container>
@@ -27,13 +31,14 @@
 
 		<app type="email"></app>
 		
-		<app type="weather" renderat="before" instanceid="weather3" renderat2="server" index="bebe"/>
+		<!--<app type="weather" instanceid="weather3" renderat="server"/>-->		
 		
 		<app type="app2"></app>
 
 		<app type="app1"></app>
-		<app type="weather" id="weather2"  instanceid="weather2" viewx="configure"/>
-
+		<!--<app type="weather" id="weather2"  instanceid="weather2" view="configure"/>-->
+		<div type="scrollabletable"/>
+<fooWeather view="main"/>
 		<app id="app3"></app>
 
 		<br clear="all"/>
