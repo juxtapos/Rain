@@ -26,10 +26,5 @@
 	    	, "selector" : "*[type=scrollabletable]"
 	    	, "module" : "scrollabletable"
 	  	}
-	  	,{
-	  		"namespace" : ""
-	  		, "selector" : "fooWeather"
-	  		, "module" : "http://127.0.0.1/modules/weather/"
-	  	}
 	]
 }
