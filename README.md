@@ -1,6 +1,6 @@
 # What is it? 
 
-Rain (Rapid Application Integration and Development) is a proof-of-concept mini-framework, that
+Rain is a proof-of-concept architecture, that
 builds upon commonjs modules on the server-side (well, obviously) and on the client-side. 
 It is a highly modular approach in building distributed web applications that are assembled at runtime. 
 It focuses on fast development of views in pure HTML and CSS. See the wiki for more information at some
