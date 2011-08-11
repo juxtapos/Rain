@@ -3,22 +3,24 @@
 <head>
 	<title>Rain</title>
 
-	<!-- all link and script are removed and replaced by calls to the resource service -->
+	<!-- link and script elements are removed and replaced by calls to the resource service -->
 	<link rel="stylesheet" href="application.css"/>
 	<script data-main="main" src="require-jquery.js"></script>
 	<script src="jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
 	<link rel="stylesheet" href="jquery-ui/css/smoothness/jquery-ui-1.8.14.custom.css"/>
 	<script src="js/socket.io/socket.io.js"></script>
 
-	<!-- next style block must stay intact after rendering -->
+	<!-- Test: next style and script elements must stay intact after rendering (inlines are preserved) -->
 	<style>
 		body, html { margin:0px; padding:0px; }
 	</style>
+	<script>var RAIN = 'rules';</script>
+
 </head>
 <body>
 	<toolbar>
 		<!--<button>Home</button>-->
-		<tx:text key="wetter"/>
+		<tx:text key="wetter" href="local.html"/>
 		It's {{name}}y day
 
 
@@ -28,7 +30,7 @@
 	</dock>
 	<container>
 		<app type="weather" id="weather1" instanceid="weather1"/>
-
+<ad/>
 		<app type="email"></app>
 		
 		<!--<app type="weather" instanceid="weather3" renderat="server"/>-->		

@@ -4,7 +4,10 @@
 		, "serverRoot"   : "."
 		, "documentRoot" : "./public"
 		, "modulePath" : "modules"
-	}
+	},
+
+	"remoteControl" : true
+	
 	, "caching" : {
 		"resources" : false
 		, "ttl"		: 5
@@ -24,7 +27,7 @@
 	  	,{
 	    	"namespace" : ""
 	    	, "selector" : "*[type=scrollabletable]"
-	    	, "module" : "scrollabletable"
+	    	, "module" : "http://127.0.0.1/modules/scrollabletable/"
 	  	}
 	]
 }
