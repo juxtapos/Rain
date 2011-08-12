@@ -6,7 +6,7 @@
 		, "modulePath" : "modules"
 	},
 
-	"remoteControl" : true
+	"remotecontrol" : true
 	
 	, "caching" : {
 		"resources" : false
@@ -27,7 +27,7 @@
 	  	,{
 	    	"namespace" : ""
 	    	, "selector" : "*[type=scrollabletable]"
-	    	, "module" : "http://127.0.0.1/modules/scrollabletable/"
+	    	, "module" : "scrollabletable"
 	  	}
 	]
 }
