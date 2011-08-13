@@ -11,6 +11,10 @@ rendering time. Rain takes care of dependencies, which is one of the very reason
 it can be an elastic network of resources and resource hosts, hosting and serving different types of data 
 to various types of clients.
 
+In terms of GUI development, Rain uses a poor-rich client approach: as many things as possible are pushed towards the upper layer 
+(i.e. towards a web client), but control of interaction that goes beyond UI interaction is always at least indirectly controlled by the 
+application server. The server-side application only knows about URLs and services and injects those into the client runtime. 
+
 See the wiki for more information at some
 not too distant time in the future ;-)
 
