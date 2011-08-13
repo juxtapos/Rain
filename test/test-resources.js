@@ -27,7 +27,7 @@ module.exports = nodeunit.testCase({
 		});
 	}, 
 
-	twoLevelDependency : function (test) {
+	chainImplicit : function (test) {
 		var url1 = 'file://' + mod_path.join(__dirname, '..', '/lib/server.js')
 			, url2 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html')
 			, url3 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html')
@@ -40,7 +40,9 @@ module.exports = nodeunit.testCase({
 
 		r1.load();
 		r2.load();
-		r1.loadDependencies();
+		r3.load();
+
+		r2.state = Resource.STATES.LOADING;
 
 		r1.addListener('stateChanged', function (resource) {
 			if (resource.state == Resource.STATES.COMPLETE) {
@@ -74,5 +76,14 @@ module.exports = nodeunit.testCase({
 				test.done();
 			}
 		});
+	},
+
+	addDependencyAfterLoadStarted : function () {
+		var url1 = 'file://' + mod_path.join(__dirname, '..', '/lib/server.js')
+			, url2 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html');
+		var r1 = new Resource(url1);
+		var r2 = new Resource(url2);
+		r1.load();
+		r1.addDependency(r2);
 	}
 });
