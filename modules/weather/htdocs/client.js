@@ -16,7 +16,26 @@ define(function ()
 		//$.tmpl(template, { city : data.city } ).appendTo($('*[id=' + elementid + ']'));
 	}
 
+	function init () {
+		initView();
+	}
+
+	function load () {}
+
+	function start () {}
+
+	function pause () {}
+
+	function stop () {}
+
+	function dispose () {}
+
 	return {
-		initView : initView
+		init 		: init,
+		load 		: load, 
+		start 		: start, 
+		pause 		: stop, 
+		stop 		: stop
+		dispose 	: dispose
 	}
 });
