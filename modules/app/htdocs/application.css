@@ -87,7 +87,8 @@ app[id=email] {
 /**
  * WEATHER
  */
-app[id=weather] {
+app[type=weather] {
 	height:300px;
+	width:600px;
 	font-family:Tahoma,Arial,sans-serif;
 }
