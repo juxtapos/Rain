@@ -6,14 +6,16 @@
 		, "modulePath" : "modules"
 	},
 
-	"remotecontrol" : true
+	"loglevel" : 10,
+
+	"remotecontrol" : true,
 	
-	, "caching" : {
+	"caching" : {
 		"resources" : false
 		, "ttl"		: 5
-	} 
+	}, 
 
-	, "taglib" : [
+	"taglib" : [
 	  	{
 	    	"namespace" : ""
 	    	, "selector" : "app[type=weather]"
