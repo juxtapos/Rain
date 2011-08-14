@@ -9,6 +9,8 @@
 	"loglevel" : 10,
 
 	"remotecontrol" : false,
+
+	"websockets" : false,
 	
 	"caching" : {
 		"resources" : false
