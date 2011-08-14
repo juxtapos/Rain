@@ -98,6 +98,15 @@ To play with the socket.io package, you need the client-side library. It comes a
 but it is actually not required to run the example as the needed JavaScript files are included in Rain
 as part of the 'app' module.  
 
+## Debugging
+
+If you to do serious debugging at development time, you can either use Eclipse plus the chromedevtools, which I find to be pretty unusable. 
+
+Another option is to use the node-inspector (https://github.com/dannycoates/node-inspector), which is pretty awesome but 
+unfortunately works only in webkit-based browsers. 
+
+Please note: it currently requires a version of Chrome lower than 14 due to a change in the web sockets protocol support.  
+
 # Running
 
 For a quick start, you should be ok with the default config file, ./server.conf.default (that comes with sensible defaults now. 
