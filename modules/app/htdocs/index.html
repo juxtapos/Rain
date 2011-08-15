@@ -4,7 +4,7 @@
 	<title>Rain</title>
 
 	<!-- link and script elements are removed and replaced by calls to the resource service -->
-	<link rel="stylesheet" href="application.css"/>
+	<link rel="stylesheet" href="css/application.css"/>
 	<script data-main="main" src="require-jquery.js"></script>
 	<script src="jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
 	<link rel="stylesheet" href="jquery-ui/css/smoothness/jquery-ui-1.8.14.custom.css"/>
@@ -29,18 +29,21 @@
 	<dock>
 	</dock>
 	<container>
-		<app type="weather" id="weather1" instanceid="weather1"/>
-<ad/>
+		<app type="weather" id="weather1"/>
+		<ad/>
 		<app type="email"></app>
 		
-		<!--<app type="weather" instanceid="weather3" renderat="server"/>-->		
+		<app type="weather" instanceid="weather3" renderat="server"/>
 		
 		<app type="app2"></app>
 
 		<app type="app1"></app>
 		<!--<app type="weather" id="weather2"  instanceid="weather2" view="configure"/>-->
-		<div type="scrollabletable"/>
-<fooWeather view="main"/>
+
+		<div type="scrollabletable" srenderat="server" instanceid="domain-data-large.json"/>
+		
+		<!--<fooWeather view="main"/>-->
+
 		<app id="app3"></app>
 
 		<br clear="all"/>
@@ -53,7 +56,7 @@
 		$('app').resizable();
 		$('container').sortable();	
 		
-		makeItRain();	
+		//makeItRain();	
 	});
 
 	function makeItRain() {
