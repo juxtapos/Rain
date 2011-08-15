@@ -33,10 +33,10 @@
 	    	, "selector" : "*[type=scrollabletable]"
 	    	, "module" : "scrollabletable"
 	  	}
-			,{
- 				"namespace" : ""
- 				, "selector" : ""
- 	    	, "module" : "app"
- 			}
+		,{
+			"namespace" : ""
+			, "selector" : ""
+    		, "module" : "app"
+		}
 	]
 }
