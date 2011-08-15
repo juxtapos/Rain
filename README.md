@@ -80,6 +80,9 @@ In the project root folder execute:
 
 watchr will detect saved files and run all tests (per default in ./test)
 
+WARNING: If you don't really need the run script (because you are not playing with the Rain source), 
+do not use it, as it's currently not very stable. 
+
 ## "Hot Deploy"
 
 At development time you can use the run.js script that starts a server instance and re-spawns 
