@@ -24,18 +24,26 @@ mod_fs.watchFile('./run.js', { persistent: true, interval: 200 }, function (curr
 spawnServer();
 
 function spawnServer() {
-	var server = currentServer = spawn('node', [serverfile, process.argv[2]]);
+	var args = [];
+	if (process.argv[3] == 'debug') {
+		args.push('--debug');	
+	}
+	args.push(serverfile);
+	args.push(process.argv[2]);
+	var server = currentServer = spawn('node', args);
+
+	// [TBD] would be better to connect stream, which is possible now with latest node
 	server.stdout.on('data', function (data) {
-		// [TBD] not so nice, but do so until I can connect streams.
-		var data = data.toString().substring(0, data.length-1);
+		var data = data.toString().trim();
 		logger.info(data);
 	});
 	server.stderr.on('data', function (data) {
-		var data = data.toString().substring(0, data.length-1);
-		logger.error(data);
+		var data = data.toString().trim();
+		// [TBD] that works until... :-), listen to signal instead
+		if (data.indexOf('debugger listening on port') == 0) return;
 		setTimeout(function () { 
 			logger.error('\033[31mrun: server error, exiting');
-      if (currentServer) currentServer.kill('SIGINT');
+      		if (currentServer) currentServer.kill('SIGINT');
 			process.exit(); 
 		}, 100);
 	});
