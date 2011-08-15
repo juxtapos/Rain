@@ -105,7 +105,9 @@ If you to do serious debugging at development time, you can either use Eclipse p
 Another option is to use the node-inspector (https://github.com/dannycoates/node-inspector), which is pretty awesome but 
 unfortunately works only in webkit-based browsers. 
 
-Please note: it currently requires a version of Chrome lower than 14 due to a change in the web sockets protocol support.  
+Please note: it currently requires a version of Chrome lower than 14 due to a change in the web sockets protocol support.
+
+Append the 'debug' parameter when executing the run script.  
 
 # Running
 
