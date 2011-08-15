@@ -120,6 +120,14 @@ To start the server, execute
 
 in the project root folder.
 
+Getting around: 
+
+Call the example page using http://localhost:1337/modules/app/index.html to see a few web components being aggregated on a single page. 'app' is 
+a web component itself. You can of course call the each of the embedded web components individually: http://localhost:1337/modules/weather/main.html
+or http://localhost:1337/modules/scrollabletable/main.html. Check the view template source files to get an idea how things work. The mapping between 
+elements and web components is currently resided in the server config (which breaks decoupling). You can easily add web components by yourself
+by simply adding new entries in the config.  
+
 PLEASE NOTE: 
 
 * Currently, you do need a symlink from ./htdocs/instances to the instances folder! [don't think it's true anymore...?]
@@ -127,10 +135,6 @@ PLEASE NOTE:
 
 * I've set up a local nginx web server (of course you can use whatever you want), whose document root points to the 
 Rain project folder. That allows me to quickly check if web components behave the same over file and http. 
-
-You're done. Happy development :-)
-
-Call the example page using http://localhost:1337/modules/app/index.html first. 
 
 # Developing Web Components 
 
