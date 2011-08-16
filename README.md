@@ -21,11 +21,11 @@ not too distant time in the future ;-)
 # Installation
 
 *PLEASE NOTE*: Rain is currently under heavy development. I'm not putting too much effort into making sure the head isn't broken. If
-you want to test Rain and play with it, use a tagged version. The most current working version is *v-0.3*. You can select this version
+you want to test Rain and play with it, use a tagged version. The most current working version is *v-0.3.1*. You can select this version
 by cloning the repository as usual and then checkout the version:  
 
     $ git clone git@github.com:juxtapos/Rain.git
-    $ git checkout v-0.3
+    $ git checkout v-0.3.1
 
 ## Requirements
 
