@@ -39,6 +39,7 @@ function spawnServer() {
 	});
 	server.stderr.on('data', function (data) {
 		var data = data.toString().trim();
+		logger.error(data);
 		// [TBD] that works until... :-), listen to signal instead
 		if (data.indexOf('debugger listening on port') == 0) return;
 		setTimeout(function () { 
