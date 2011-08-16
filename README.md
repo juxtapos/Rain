@@ -33,6 +33,7 @@ Install the following modules using (versions in parenthesis show the versions I
 * promised-io (0.2.3)
 * jsdom (0.2.0)
 * connect (1.4.3)
+* mu (0.5.2)
 
 Please note: some people have reported problems trying to install promised-io via npm. If it doesn't work 
 for you, clone the repository at https://github.com/kriszyp/promised-io.git, cd into the module root folder, and install using
