@@ -18,7 +18,16 @@ application server. The server-side application only knows about URLs and servic
 See the wiki for more information at some
 not too distant time in the future ;-)
 
-# Requirements
+# Installation
+
+*PLEASE NOTE*: Rain is currently under heavy development. I'm not putting too much effort into making sure the head isn't broken. If
+you want to test Rain and play with it, use a tagged version. The most current working version is *v-0.3*. You can select this version
+by cloning the repository as usual and then checkout the version:  
+
+    $ git clone git@github.com:juxtapos/Rain.git
+    $ git checkout v-0.3
+
+## Requirements
 
 The code has been developed and tested using:
 
