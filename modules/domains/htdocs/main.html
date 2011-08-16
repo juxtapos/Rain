@@ -3,10 +3,22 @@
 <head>
 	<title>Domain: Main</title>
 	<link rel="stylesheet" href="htdocs/css/main.css"/>
+	<!--<link rel="stylesheet" href="webcomponent://app;1.0/htdocs/css/application.css"/>-->
+	<style>
+		app {
+			width: 800px;
+			background-color: #fff;
+		}
+
+		body {
+			background-color:cafe73;
+		}
+	</style>
 </head>
 <body>
-	{{html blob}}
-	<test:header/>
-	
+	<app>
+		<h1>ur domains r us</h1>
+		<div type="scrollabletable"></div>
+	</app>
 </body>
 </html>

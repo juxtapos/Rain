@@ -1,3 +1,0 @@
-publish rain.tagmanager "addTag({\"namespace\":\"\",\"selector\":\"fooWeather\",\"module\":\"http://127.0.0.1/modules/weather\/\"})"
-
-publish rain.tagmanager "removeTag('|fooWeather')"
