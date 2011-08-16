@@ -1,0 +1,2 @@
+curl -vX POST http://localhost:1337/modules/weather/controller/main.js  -H "Content-Type: application/json" -d"{\"foo\":\"bar\"}"
+

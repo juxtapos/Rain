@@ -1,1 +1,0 @@
-curl -X PUT http://localhost:1337/modules/weather/controller/main.js -d "{}"
