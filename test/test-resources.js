@@ -78,12 +78,16 @@ module.exports = nodeunit.testCase({
 		});
 	},
 
-	addDependencyAfterLoadStarted : function () {
+	addDependencyAfterLoadStarted : function (test) {
 		var url1 = 'file://' + mod_path.join(__dirname, '..', '/lib/server.js')
 			, url2 = 'file://' + mod_path.join(__dirname, '..', '/modules/app/htdocs/index.html');
 		var r1 = new Resource(url1);
 		var r2 = new Resource(url2);
 		r1.load();
 		r1.addDependency(r2);
+    r2.load();
+    r1.addListener('load', function (resource) {
+      test.done();
+    });
 	}
 });
