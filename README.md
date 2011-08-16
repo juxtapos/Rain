@@ -29,7 +29,6 @@ Install the following modules using (versions in parenthesis show the versions I
 
     $ npm install PACKAGENAME
 
-* nodeunit (0.5.1)
 * node-xml (1.0.0)
 * promised-io (0.2.3)
 * jsdom (0.2.0)
@@ -42,6 +41,7 @@ for you, clone the repository at https://github.com/kriszyp/promised-io.git, cd 
 
 Optional:
 
+* nodeunit (0.5.1) (only if you want to run the unit tests in ./test)
 * socket.io (0.7.7) (only if you set the config parameter 'websockets' to 'true')
 * socket.io-client (0.7.4) (only if you set the config parameter 'websockets' to 'true')
 * webworker (0.8.4) (only if you set the config parameter 'websockets' to 'true')
@@ -64,6 +64,10 @@ redis-cli console (which is awesome, since it enables you to switch render hosts
 # Development
 
 ## Continuous Testing
+
+The unit test are nodeunit modules. nodeunit comes with a command, simply execute it with the module you want to test as an argument: 
+
+   $ nodeunit ./test/test-resources.js
 
 If you want to run continuous and automated tests you need:
 
