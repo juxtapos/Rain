@@ -119,7 +119,9 @@ Append the 'debug' parameter when executing the run script.
 # Running
 
 For a quick start, you should be ok with the default config file, ./server.conf.default (that comes with sensible defaults now. 
-I promise I won't never again use this file locally and push it back to the repository from now on! :-)
+I promise I won't never again use this file locally and push it back to the repository from now on! :-) Currently, you need to 
+create a local module configuration file by copying the ./module.conf.default file to ./module.conf.local 
+(this is hardcoded in ./lib/modulecontainer.js). 
 
 To start the server, execute 
 
