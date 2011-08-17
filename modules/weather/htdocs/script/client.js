@@ -35,7 +35,7 @@ define(function ()
 		load 		: load, 
 		start 		: start, 
 		pause 		: stop, 
-		stop 		: stop
+		stop 		: stop,
 		dispose 	: dispose
 	}
 });
