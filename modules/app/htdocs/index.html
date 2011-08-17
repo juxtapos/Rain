@@ -5,9 +5,9 @@
 	
 	<!-- link and script elements are removed and replaced by calls to the resource service -->
 	<link rel="stylesheet" href="htdocs/css/application.css"/>
-	<script src="htdocs/require-jquery.js"></script>
-	<script src="htdocs/jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
-	<link rel="stylesheet" href="htdocs/jquery-ui/css/smoothness/jquery-ui-1.8.14.custom.css"/>
+	<script src="htdocs/js/require-jquery.js"></script>
+	<script src="htdocs/js/jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
+	<link rel="stylesheet" href="htdocs/js/jquery-ui/css/smoothness/jquery-ui-1.8.14.custom.css"/>
 	<script src="htdocs/js/socket.io/socket.io.js"></script>
 
 	<!-- Test: next style and script elements must stay intact after rendering (inlines are preserved) -->
@@ -21,7 +21,7 @@
 	<toolbar>
 		<!--<button>Home</button>-->
 		<tx:text key="wetter" href="local.html"/>
-		It's {{name}}y day
+		<p><strong>It's {{name}}y day</strong></p>
 
 
 	</toolbar>
