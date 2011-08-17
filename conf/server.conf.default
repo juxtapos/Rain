@@ -6,6 +6,8 @@
 		, "modulePath" : "modules"
 	},
 
+	"componentconfigfile" : "module.conf.default",
+
 	"loglevel" : 10,
 
 	"remotecontrol" : false,
