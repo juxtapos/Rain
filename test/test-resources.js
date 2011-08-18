@@ -1,7 +1,7 @@
 var nodeunit	 		= require('nodeunit')
 	, mod_resources 	= require('../lib/resources.js')
 	, Resource			= mod_resources.Resource
-	, promises  		= require('promised-io')
+	, promises  		= require('promised-io/lib/promise')
 	, assert			= require('assert')
 	, mod_path			= require('path')
 
