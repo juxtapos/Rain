@@ -21,11 +21,11 @@ not too distant time in the future ;-)
 # Installation
 
 *PLEASE NOTE*: Rain is currently under heavy development. I'm not putting too much effort into making sure the head isn't broken. If
-you want to test Rain and play with it, use a tagged version. The most current working version is *v-0.3.1*. You can select this version
-by cloning the repository as usual and then checkout the version:  
+you want to test Rain and play with it, use the latest tagged version. See the "Switch Tags" menu at the top of this page. 
+You can select a tag by cloning the repository as usual and then checkout the version: 
 
     $ git clone git@github.com:juxtapos/Rain.git
-    $ git checkout v-0.3.1
+    $ git checkout <version>
 
 ## Requirements
 
@@ -129,13 +129,12 @@ Append the 'debug' parameter when executing the run script.
 # Running
 
 For a quick start, you should be ok with the default config file, ./server.conf.default (that comes with sensible defaults now. 
-I promise I won't never again use this file locally and push it back to the repository from now on! :-) Currently, you need to 
-create a local module configuration file by copying the ./module.conf.default file to ./module.conf.local 
-(this is hardcoded in ./lib/modulecontainer.js). 
+I promise I won't never again use this file locally and push it back to the repository from now on! :-). The server.conf points
+to the module.conf.default file per default.
 
 To start the server, execute 
 
-    $ node server.js CONFIGFILE
+    $ node server.js conf/CONFIGFILE
 
 in the project root folder.
 
@@ -145,11 +144,11 @@ Call the example page using http://localhost:1337/modules/app/index.html to see 
 a web component itself. You can of course call the each of the embedded web components individually: http://localhost:1337/modules/weather/main.html
 or http://localhost:1337/modules/scrollabletable/main.html. Check the view template source files to get an idea how things work. The mapping between 
 elements and web components is currently resided in the server config (which breaks decoupling). You can easily add web components by yourself
-by simply adding new entries in the config.  
+by simply adding new entries in the server and module configuration.  
 
-PLEASE NOTE: 
+*PLEASE NOTE:*
 
-* Currently, you do need a symlink from ./htdocs/instances to the instances folder! [don't think it's true anymore...?]
+* Currently, you do need a symlink from ./htdocs/instances to the instances folder
 * Only expected to work on unixoid machines
 
 * I've set up a local nginx web server (of course you can use whatever you want), whose document root points to the 
