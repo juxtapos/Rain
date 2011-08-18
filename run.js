@@ -4,11 +4,6 @@ var mod_fs 			= require('fs')
 	, currentServer = null
 	, logger 		= require('./lib/logger.js').getLogger()
 
-if (process.argv.length < 3) {
-	logger.error('usage: run <configfile>');
-	process.exit();
-} 
-
 mod_fs.watchFile('./run.js', { persistent: true, interval: 200 }, function (curr, prev) {
   	// why does a string compare not work? 
   	if (new Date(curr.mtime).getTime() == new Date(prev.mtime).getTime()) { return; }
