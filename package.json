@@ -1,0 +1,19 @@
+{
+  "name": "Rain",
+  "description": "An experiment on component-based and distributed web applications",
+  "version": "0.3.1",
+  "author": "Claus Augusti <claus@formatvorlage.de>",
+  "contributors": [
+    { "name": "Mitko Tschimev", "email": "privat@tschimev.de" }
+  ],
+  "dependencies": {
+    "node-xml": ">= 1.0.0",
+    "promised-io": ">= 0.2.3",
+    "jsdom": ">= 0.2.0",
+    "connect": ">= 1.4.3",
+    "mu": ">= 0.5.2"
+  },
+  "keywords": ["framework", "rain"],
+  "repository": "git://github.com/juxtapos/Rain",
+  "engines": { "node": ">= 0.4.10 < 0.7.0" }
+}
