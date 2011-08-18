@@ -20,25 +20,25 @@
 	}, 
 
 	"taglib" : [
+		{
+			"namespace" : ""
+			, "selector" : ""
+	    	, "module" : "app;1.0"
+		},
 	  	{
 	    	"namespace" : ""
 	    	, "selector" : "app[type=weather]"
-	    	, "module" : "weather"
+	    	, "module" : "weather;1.0"
 	  	}
 	  	,{
 	    	"namespace" : "http://juxtapos.de/rain"
 	    	, "selector" : "domains"
-	    	, "module" : "domains"
+	    	, "module" : "domains;1.0"
 	  	}
 	  	,{
 	    	"namespace" : ""
 	    	, "selector" : "*[type=scrollabletable]"
-	    	, "module" : "scrollabletable"
+	    	, "module" : "scrollabletable;1.0"
 	  	}
-		,{
-			"namespace" : ""
-			, "selector" : ""
-    		, "module" : "app"
-		}
 	]
 }
