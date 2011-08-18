@@ -82,7 +82,12 @@ do not use it, as it's currently not very stable.
 At development time you can use the run.js script that starts a server instance and re-spawns 
 it automatically on changes. 
 
-    $ node run.js CONFIGFILE
+    $ node run.js
+    
+Use
+  server-conf=<PATH_TO_CONFIGFILE>
+  module-conf=<PATH_TO_CONFIGFILE>
+for custom configuration files
 
 For this to work, you need to start a watchr task, that watches your local source folders 
 (currently ./lib/, ./modules) and touches run.js that spawns a server and kills an old one (if any).
