@@ -34,29 +34,9 @@ The code has been developed and tested using:
 * node.js (0.4.10)
 * npm (0.2.19)
 
-Install the following modules using (versions in parenthesis show the versions I have used on my Mac OS X development system)
+Go to the root of your cloned repository and install all required modules with following command:
 
-    $ npm install PACKAGENAME
-
-* node-xml (1.0.0)
-* promised-io (0.2.3)
-* jsdom (0.2.0)
-* connect (1.4.3)
-* mu (0.5.2)
-
-Please note: some people have reported problems trying to install promised-io via npm. If it doesn't work 
-for you, clone the repository at https://github.com/kriszyp/promised-io.git, cd into the module root folder, and install using
-
-    $ npm install . 
-
-Optional:
-
-* nodeunit (0.5.1) (only if you want to run the unit tests in ./test)
-* socket.io (0.7.7) (only if you set the config parameter 'websockets' to 'true')
-* socket.io-client (0.7.4) (only if you set the config parameter 'websockets' to 'true')
-* webworker (0.8.4) (only if you set the config parameter 'websockets' to 'true')
-* dox (0.0.5) (required only for creating a JSDoc)
-* csslint (0.5.0) (only required for checking CSS file syntax) 
+    $ npm install -d
 
 ## Remote Control
 
