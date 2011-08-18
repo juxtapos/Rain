@@ -1,22 +1,18 @@
 {
 	"app;1.0" : {
-		"urls" : [
-			"/modules/app"
-		]
+		"moduleId" 	: "app;1.0",
+		"url" 		:  "/modules/app"
 	},
 	"domains;1.0" : {
-		"urls" : [
-			"/modules/domains"
-		]
+		"moduleId" 	: "domains;1.0",
+		"url" 		: "/modules/domains"
 	},
 	"scrollabletable;1.0" : {
-		"urls" : [
-			"/modules/scrollabletable"
-		]
+		"moduleId" 	: "scrollabletable;1.0",
+		"url" 		: "/modules/scrollabletable"
 	},
 	"weather;1.0" : {
-		"urls" : [
-			"/modules/weather"
-		]
+		"moduleId" 	: "weather;1.0",
+		"url"		: "/modules/weather"
 	}
 }
