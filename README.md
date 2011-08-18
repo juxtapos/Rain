@@ -49,7 +49,6 @@ redis-cli console (which is awesome, since it enables you to switch render hosts
 "Redis is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets."
 
 * redback (0.2.7) (only if config parameter 'remotecontrol' set to 'true')
-* redback (0.2.7) (only if config parameter 'remotecontrol' set to 'true')
 
 # Development
 
@@ -119,7 +118,7 @@ to the module.conf.default file per default.
 
 To start the server, execute 
 
-    $ node server.js conf/CONFIGFILE
+    $ node lib/server.js
 
 in the project root folder.
 
