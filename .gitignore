@@ -1,2 +1,3 @@
 *.conf.local
 /node_modules
+/.project
