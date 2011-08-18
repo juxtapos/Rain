@@ -20,11 +20,15 @@ spawnServer();
 
 function spawnServer() {
 	var args = [];
-	if (process.argv[3] == 'debug') {
-		args.push('--debug');	
+	// must do it this way because a node application won't receive '--' flags
+	for (var i = 2, l = process.argv.length; i < l; i++) {
+		if (process.argv[i] == 'debug') {
+			args.push('--debug');
+			break;			
+		}
 	}
 	args.push(serverfile);
-	args.push(process.argv[2]);
+	args = args.concat(process.argv.slice(2, process.argv.length));
 	var server = currentServer = spawn('node', args);
 
 	// [TBD] would be better to connect stream, which is possible now with latest node
