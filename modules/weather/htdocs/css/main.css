@@ -1,9 +1,9 @@
+@rainspace weather;
 @import url('include.css');
 
 body {
 	font-family: Verdana,Arial, sans-serif;
 }
-
 
 .content {
 	background-image:url('../weather.png');	
