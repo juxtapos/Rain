@@ -32,23 +32,26 @@ You can select a tag by cloning the repository as usual and then checkout the ve
 The code has been developed and tested using:
 
 * node.js (0.4.10)
-* npm (0.2.19)
+* npm (1.0.26)
 
 Go to the root of your cloned repository and install all required modules with following command:
 
     $ npm install -d
 
-## Remote Control
+In case you're curious, the dependencies are pulled from the package.json file.  
 
-If you want to remote control the Rain application server you need to switch on remote control by setting the config
-parameter 'remotecontrol' to 'true'. Currently, you can control the TagManager by firing addTag and removeTag messages on a 
-redis-cli console (which is awesome, since it enables you to switch render hosts at runtime). 
+*PLEASE NOTE:*
 
-* Redis (see http://redis.io, 2.2.12)
+* Only expected to work on unixoid machines (because of path handling)
+* You need a symlink to from ./public/modules to ./modules, and from ./public/instances to ./instances. In the project root execute: 
 
-"Redis is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets."
-
+<<<<<<< HEAD
 * redback (0.2.7) (only if config parameter 'remotecontrol' set to 'true')
+=======
+ 
+    $ ln -s ../modules public/modules
+    $ ln -s ../instances public/instances
+>>>>>>> 31ec94622542ec3547982a9ca57e575d185daaf2
 
 # Development
 
@@ -79,14 +82,9 @@ do not use it, as it's currently not very stable.
 ## "Hot Deploy"
 
 At development time you can use the run.js script that starts a server instance and re-spawns 
-it automatically on changes. 
+it automatically on changes. Use run.js instead of ./lib/server.js (for standard operation), both take the same arguments (see Running):
 
     $ node run.js
-    
-Use
-  server-conf=<PATH_TO_CONFIGFILE>
-  module-conf=<PATH_TO_CONFIGFILE>
-for custom configuration files
 
 For this to work, you need to start a watchr task, that watches your local source folders 
 (currently ./lib/, ./modules) and touches run.js that spawns a server and kills an old one (if any).
@@ -108,7 +106,7 @@ unfortunately works only in webkit-based browsers.
 
 Please note: it currently requires a version of Chrome lower than 14 due to a change in the web sockets protocol support.
 
-Append the 'debug' parameter when executing the run script.  
+The debugger is started by adding the 'debug' parameter when executing run.js or ./lib/server.js. 
 
 # Running
 
@@ -116,11 +114,14 @@ For a quick start, you should be ok with the default config file, ./server.conf.
 I promise I won't never again use this file locally and push it back to the repository from now on! :-). The server.conf points
 to the module.conf.default file per default.
 
-To start the server, execute 
+To start the server, in the project root folder execute 
 
     $ node lib/server.js
 
-in the project root folder.
+Copy the supplied default configuration files once you start adding your own stuff. You can use your own configuration files by the
+'module-conf' and 'server-conf' parameters, e.g.:
+
+   $ node lib/server.js module-conf=./conf/module.conf.local server-conf=./conf/server.conf.local
 
 Getting around: 
 
@@ -130,17 +131,19 @@ or http://localhost:1337/modules/scrollabletable/main.html. Check the view templ
 elements and web components is currently resided in the server config (which breaks decoupling). You can easily add web components by yourself
 by simply adding new entries in the server and module configuration.  
 
-*PLEASE NOTE:*
+## Remote Control
 
-* Currently, you do need a symlink from ./htdocs/instances to the instances folder
-* Only expected to work on unixoid machines
+If you want to remote control the Rain application server you need to switch on remote control by setting the config
+parameter 'remotecontrol' to 'true'. Currently, you can control the TagManager by firing addTag and removeTag messages on a 
+redis-cli console (which is awesome, since it enables you to switch render hosts at runtime). 
 
-* I've set up a local nginx web server (of course you can use whatever you want), whose document root points to the 
-Rain project folder. That allows me to quickly check if web components behave the same over file and http. 
+* Redis (see http://redis.io, 2.2.12)
+
+"Redis is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets."
 
 # Developing Web Components 
 
-Please refer to the 'weather' module for the required folder structure of Web Components.
+Use the '_skeleton' component as a template for your own components. 
 
 # Documentation 
 
