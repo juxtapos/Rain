@@ -38,16 +38,16 @@ Go to the root of your cloned repository and install all required modules with f
 
     $ npm install -d
 
-In case you're curious, the dependencies are pulled from the package.json file.  
+In case you're curious, the dependencies are pulled from the package.json file. The modules are installed in the folder
+node_modules in the project folder. 
 
-*PLEASE NOTE:*
+**PLEASE NOTE:**
 
-* Only expected to work on unixoid machines (because of path handling)
-* You need a symlink to from ./public/modules to ./modules, and from ./public/instances to ./instances. In the project root execute: 
+* **Only expected to work on unixoid machines (because of path handling)**
+* **You need a symlink to from ./public/modules to ./modules, and from ./public/instances to ./instances. In the project root execute:** 
 
- 
-    $ ln -s ../modules public/modules
-    $ ln -s ../instances public/instances
+        $ ln -s ../modules public/modules
+        $ ln -s ../instances public/instances
 
 # Development
 
