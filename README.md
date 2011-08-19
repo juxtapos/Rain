@@ -45,13 +45,10 @@ In case you're curious, the dependencies are pulled from the package.json file.
 * Only expected to work on unixoid machines (because of path handling)
 * You need a symlink to from ./public/modules to ./modules, and from ./public/instances to ./instances. In the project root execute: 
 
-<<<<<<< HEAD
 * redback (0.2.7) (only if config parameter 'remotecontrol' set to 'true')
-=======
  
     $ ln -s ../modules public/modules
     $ ln -s ../instances public/instances
->>>>>>> 31ec94622542ec3547982a9ca57e575d185daaf2
 
 # Development
 
@@ -121,7 +118,7 @@ To start the server, in the project root folder execute
 Copy the supplied default configuration files once you start adding your own stuff. You can use your own configuration files by the
 'module-conf' and 'server-conf' parameters, e.g.:
 
-   $ node lib/server.js module-conf=./conf/module.conf.local server-conf=./conf/server.conf.local
+    $ node lib/server.js module-conf=./conf/module.conf.local server-conf=./conf/server.conf.local
 
 Getting around: 
 
