@@ -117,7 +117,7 @@ To start the server, in the project root folder execute
 Copy the supplied default configuration files once you start adding your own stuff. You can use your own configuration files by the
 'module-conf' and 'server-conf' parameters, e.g.:
 
-   $ node lib/server.js module-conf=./conf/module.conf.local server-conf=./conf/server.conf.local
+    $ node lib/server.js module-conf=./conf/module.conf.local server-conf=./conf/server.conf.local
 
 Getting around: 
 
