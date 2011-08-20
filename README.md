@@ -49,6 +49,13 @@ node_modules in the project folder.
         $ ln -s ../modules public/modules
         $ ln -s ../instances public/instances
 
+* **node-xml unfortunately doesn't allow configuration of entity resolution. Entities should not be resolved in 
+the parser, which is why I patched my local node-xml module. Open ./node_modules/node-xml/lib/node-xml.js, wrap 
+the switch statement in XMLP.prototype._replaceEntity in a comment and add the following line behind it. I might
+fork node-xml and patch it there in the future (probably a better SAX parser would be a more viable option)** 
+
+        strEnt = '&' + strD.substring(iB, iE) + ';'
+
 # Development
 
 ## Continuous Testing
