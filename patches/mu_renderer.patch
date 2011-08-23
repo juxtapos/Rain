@@ -1,0 +1,118 @@
+--- node_modules/mu/lib/mu/renderer.js	2011-08-22 15:44:26.493394199 +0200
++++ node_modules/mu/lib/mu/renderer_rain_fix.js	2011-08-22 16:29:55.844021469 +0200
+@@ -14,9 +14,15 @@
+   //  context = [context];
+   //}
+   
+-  var i = 1;
++  for(var i = 1, tokenLen = tokens.length; i <= tokenLen; i++){
++    if(i < tokenLen){
++      next(tokens[i]); 
++    } else {
++      next(null);
++    }
++  }
+   
+-  function next() {
++  function next(token) {
+     try {
+     
+       if (stream.paused) {
+@@ -26,8 +32,6 @@
+         return;
+       }
+     
+-      var token = tokens[i++];
+-    
+       if (!token) {
+         return callback ? callback() : true;
+       }
+@@ -35,24 +39,24 @@
+       switch (token[0]) {
+       case 'static':
+         stream.emit('data', token[2]);
+-        return next();
++        return;
+     
+       case 'mustache':    
+         switch (token[1]) {
+         case 'utag': // Unescaped Tag
+           stream.emit('data', s(normalize(context, token[2])));
+-          return next();
++          return;
+         
+         case 'etag': // Escaped Tag
+           stream.emit('data', escape(s(normalize(context, token[2]))));
+-          return next();
++          return;
+       
+         case 'section':
+           var res = normalize(context, token[2], token[3]);
+           if (res) {
+             return section(context, token[2], res, token[4], partials, stream, next);
+           } else {
+-            return next();
++            return;
+           }
+         
+         case 'inverted_section':
+@@ -60,7 +64,7 @@
+           if (!res || res.length === 0) {
+             return section(context, token[2], !res, token[4], partials, stream, next);
+           } else {
+-            return next();
++            return;
+           }
+         
+         case 'partial':
+@@ -69,7 +73,7 @@
+           if (partial) {
+             return render(partial[0].tokens, context, partials, stream, next);
+           } else {
+-            return next();
++            return;
+           }
+         }
+     
+@@ -77,11 +81,8 @@
+     
+     } catch (err) {
+       stream.emit('error', err);
+-      next();
+     }
+   }
+-  
+-  next();
+ }
+ 
+ function s(val) {
+@@ -112,22 +113,14 @@
+   if (val instanceof Array) {
+     var i = 0;
+     
+-    (function next() {
+-      var item = val[i++];
++    for(var i = 0, valLen = val.length; i < valLen; i++){
++      var item = val[i];
+       
+-      if (item) {
+-        //view.push(item);
+-        var proto = insertProto(item, view);
+-        render(tokens, item, partials, stream, function () {
+-          proto.__proto__ = baseProto;
+-          next();
+-        });
+-        //view.pop();
+-      } else {
+-        callback();
+-      }
+-      
+-    }());
++      var proto = insertProto(item, view);
++      render(tokens, item, partials, stream, function () {
++        proto.__proto__ = baseProto;
++      });
++    }
+     
+     return;
+   }
