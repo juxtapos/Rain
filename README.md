@@ -50,11 +50,15 @@ node_modules in the project folder.
         $ ln -s ../instances public/instances
 
 * **node-xml unfortunately doesn't allow configuration of entity resolution. Entities should not be resolved in 
-the parser, which is why I patched my local node-xml module. Open ./node_modules/node-xml/lib/node-xml.js, wrap 
-the switch statement in XMLP.prototype._replaceEntity in a comment and add the following line behind it. I might
-fork node-xml and patch it there in the future (probably a better SAX parser would be a more viable option)** 
+the parser, which is why I patched my local node-xml module. **
 
-        strEnt = '&' + strD.substring(iB, iE) + ';'
+* **mu renderer (mustache) is built with a recursive rendering what's end up in stack range problems with big template data.
+We have fixed it **
+
+Go to the root:
+
+        $ patch node_modules/node-xml/lib/node-xml.js < patches/node_xml.patch
+        $ patch node_modules/mu/lib/mu/renderer.js < patches/mu_renderer.patch
 
 # Development
 
