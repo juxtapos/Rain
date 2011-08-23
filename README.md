@@ -50,10 +50,10 @@ node_modules in the project folder.
         $ ln -s ../instances public/instances
 
 * **node-xml unfortunately doesn't allow configuration of entity resolution. Entities should not be resolved in 
-the parser, which is why I patched my local node-xml module. **
+the parser, which is why I patched my local node-xml module.**
 
 * **mu renderer (mustache) is built with a recursive rendering what's end up in stack range problems with big template data.
-We have fixed it **
+We have fixed it**
 
 Go to the root:
 
