@@ -55,10 +55,7 @@ the parser, which is why I patched my local node-xml module.**
 * **mu renderer (mustache) is built with a recursive rendering what's end up in stack range problems with big template data.
 We have fixed it**
 
-Go to the root:
-
-        $ patch node_modules/node-xml/lib/node-xml.js < patches/node_xml.patch
-        $ patch node_modules/mu/lib/mu/renderer.js < patches/mu_renderer.patch
+Patches were executed with the installation of the dependencies
 
 # Development
 
