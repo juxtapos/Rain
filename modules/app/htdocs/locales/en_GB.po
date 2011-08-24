@@ -29,7 +29,6 @@ msgid "testwithmustache"
 msgstr "This is a translation with mustache tags: {{name}}"
 
 msgid "singular"
-msgstr "singular"
-
-msgid "plural"
-msgstr "plural"
+msgid_plural "plural"
+msgstr[0] "singular"
+msgstr[1] "plural"
