@@ -7,18 +7,19 @@
     { "name": "Mitko Tschimev", "email": "privat@tschimev.de" }
   ],
   "dependencies": {
-    "node-xml": ">= 1.0.0",
-    "promised-io": ">= 0.2.3",
-    "jsdom": ">= 0.2.0",
-    "connect": ">= 1.4.3",
-    "mu": ">= 0.5.2",
-    "nodeunit": ">= 0.5.1",
-    "socket.io": ">= 0.7.7",
-    "socket.io-client": ">= 0.7.4",
-    "webworker": ">= 0.8.4",
-    "dox": ">= 0.0.5",
-    "csslint": ">= 0.5.0",
-    "redback": ">= 0.2.7"
+    "node-xml": ">= 1.0.0"
+    ,"promised-io": ">= 0.2.3"
+    ,"jsdom": ">= 0.2.0"
+    ,"connect": ">= 1.4.3"
+    ,"mu": ">= 0.5.2"
+    ,"nodeunit": ">= 0.5.1"
+    ,"socket.io": ">= 0.7.7"
+    ,"socket.io-client": ">= 0.7.4"
+    ,"webworker": ">= 0.8.4"
+    ,"dox": ">= 0.0.5"
+    ,"csslint": ">= 0.5.0"
+    ,"redback": ">= 0.2.7"
+    ,"gettext": ">= 0.0.1"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
