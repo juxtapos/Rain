@@ -29,7 +29,6 @@ msgid "testwithmustache"
 msgstr "Dies ist eine Üersetzung mit internen mustache tags: {{name}}"
 
 msgid "singular"
-msgstr "Singular"
-
-msgid "plural"
-msgstr "Plural"
+msgid_plural "plural"
+msgstr[0] "singular"
+msgstr[1] "plural"
