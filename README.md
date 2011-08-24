@@ -34,6 +34,10 @@ The code has been developed and tested using:
 * node.js (0.4.10)
 * npm (1.0.26)
 
+**PEASE NOTE:**
+You have to install nodejs-dev package to for some modules
+
+
 Go to the root of your cloned repository and install all required modules with following command:
 
     $ npm install -d
