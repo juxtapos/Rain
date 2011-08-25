@@ -50,6 +50,8 @@
 		<br clear="all"/>
 	</container>
 
+	<!--<cockpit/>-->
+
 		
 <strong>Are entities handled correctly?</strong>
 <p>hällÖ Wültß!</p>
@@ -57,6 +59,12 @@
 
 </body>
 <script>
+
+	//
+	// this stuff is temporary!
+	// don't use the document.ready function for webcomponents, as it may break the correct order 
+	// of execution that is ensured by Rain. 
+	//
 	$(document).ready(function () {
 		//rain();
 		$('app').resizable();
