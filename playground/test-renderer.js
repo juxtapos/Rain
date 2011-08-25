@@ -1,14 +1,21 @@
 var Renderer 		= require('./renderer.js').Renderer,
 	c 				= console.log,
 	Resource        = require('../lib/resources.js').Resource,
-	configModules = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'conf', 'module.conf.local')).toString()),
-	modulecontainer = require('../lib/modulecontainer.js')(configModules);
+	configServer 	= JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'conf', 'server.conf.local')).toString())
+	configModules 	= JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'conf', 'module.conf.local')).toString()),
+	modulecontainer = require('../lib/modulecontainer.js')(configModules),
+	tagmanager		= require('../lib/tagmanager.js'),
+	modulecontainer = require('../lib/modulecontainer.js')(configModules),
+	Renderer 		= require('./renderer.js')(tagmanager, modulecontainer).Renderer;
 
 
-var compconfig = modulecontainer.resolveFromRequestPath('/modules/app');
-var res1 = new Resource('file:///Users/cag/workspace/rain/modules/app/htdocs/index.html');
-// var compconfig = modulecontainer.resolveFromRequestPath('/modules/cockpit');
-// var res1 = new Resource('file:///Users/cag/workspace/rain/modules/cockpit/htdocs/main.html');
+tagmanager.setTagList(configServer.taglib);
+
+
+// var compconfig = modulecontainer.resolveFromRequestPath('/modules/app');
+// var res1 = new Resource('file:///Users/cag/workspace/rain/modules/app/htdocs/index.html');
+var compconfig = modulecontainer.resolveFromRequestPath('/modules/cockpit');
+var res1 = new Resource('file:///Users/cag/workspace/rain/modules/cockpit/htdocs/main.html');
 // var compconfig = modulecontainer.resolveFromRequestPath('/modules/toolbar');
 // var res1 = new Resource('file:///Users/cag/workspace/rain/modules/toolbar/htdocs/main.html');
 
