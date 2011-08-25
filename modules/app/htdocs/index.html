@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>App: Main</title>
+	<title>gettext('app.title')</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	
 	<!-- link and script elements are removed and replaced by calls to the resource service -->
@@ -22,7 +22,10 @@
 	<toolbar>
 		<!--<button>Home</button>-->
 		<tx:text key="wetter" href="local.html"/>
-		<p><strong>gettext('{{name}}')</strong></p>
+		<p><strong>
+		{{#rain}} gettext('weather.rainy') {{/rain}}
+		{{^rain}} gettext('weather.sunny') {{/rain}}
+		</strong></p>
 
 
 	</toolbar>
@@ -30,7 +33,7 @@
 	<dock>
 	</dock>
 	<container>
-		<app type="weather" id="weather1"/>
+		<app type="weather" id="weather1" instanceid="weather1.js" />
 		<ad/>
 		<app type="email"></app>
 		
@@ -61,6 +64,8 @@
 <p>0 = ngettext('singular',"plural",0)</p>
 <p>1 = ngettext('singular',"plural",1)</p>
 <p>2 = ngettext('singular',"plural",2)</p>
+
+
 
 </body>
 <script>
