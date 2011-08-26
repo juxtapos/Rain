@@ -1,0 +1,8 @@
+{
+	"moduleId" 		: "cockpit;1.0",
+	"name"			: "Cockpit",
+	"url"			: "/modules/cockpit",
+	"author"		: "juxtapos",
+	"description" 	: "Simple sample component.",
+	"created"		: "2011/08/26 00:00:00 GMT"
+}

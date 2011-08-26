@@ -1,0 +1,8 @@
+{
+	"moduleId" 		: "toolbar;1.0",
+	"name"			: "Toolbar & Toolbarbutton",
+	"url"			: "/modules/toolbar",
+	"author"		: "juxtapos",
+	"description" 	: "Component acting as a tag bundle, contains toolbar and toolbarbutton views.",
+	"created"		: "2011/08/26 00:00:00 GMT"
+}

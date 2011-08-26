@@ -1,0 +1,8 @@
+{
+	"moduleId" 		: "scrollabletable;1.0",
+	"name"			: "Scrollabletable",
+	"url" 			: "/modules/scrollabletable",
+	"author"		: "juxtapos",
+	"description" 	: "Scrollable, pure-CSS table with fixed header.",
+	"created"		: "2011/08/26 00:00:00 GMT"
+}
