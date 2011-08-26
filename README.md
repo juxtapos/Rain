@@ -181,18 +181,25 @@ Here is an example for a folder structure:
 In this example we have 3 languages and 2 different domains.
 So you can easily switch between languages and domains.
 
-Following methods are understanding in a template:
+**Following methods are understanding in a template:**
+
 * gettext('msgid')
 * ngettext('msgid', 'msgid_plural', number)
+* dgettext('domain', 'msgid')
+* dgettext('domain', 'msgid', 'msgid_plural', number)
+
+Rain loads as default language en\_US. If you want to change this, do it with the query parameter "lang"
+e.g.: lang=de\_DE
 
 Example:
 
-<title>gettext('title')</title>
+    <title>gettext('title')</title>
 
 **TO BE DONE:**
 
 * getmedia('media.png') which will be dissolved with a convention too
 * parameter to gettext, ngettext, getmedia to force a language
+* fallback to english if a translation dosn't exist
 
 
 # Documentation 
