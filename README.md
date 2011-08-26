@@ -155,7 +155,7 @@ Use the '_skeleton' component as a template for your own components.
 
 # i18n
 
-Rain uses for internationalization gettext. Their is a convention for the po files.
+Rain uses for internationalization gettext. There exists a convention for the po files.
 Here is an example for a folder structure:
 
        appname/htdocs/locales
