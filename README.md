@@ -158,7 +158,7 @@ Use the '_skeleton' component as a template for your own components.
 Rain uses for internationalization gettext. Their is a convention for the po files.
 Here is an example for a folder structure:
 
-  appname/htdocs/locales
+       appname/htdocs/locales
                     |
                     |- en_US
                     |      \
@@ -189,7 +189,7 @@ Example:
 
 <title>gettext('title')</title>
 
-TO BE DONE:
+*TO BE DONE:*
 *getmedia('media.png') which will be dissolved with a convention too
 *parameter to gettext, ngettext, getmedia to force a language
 
