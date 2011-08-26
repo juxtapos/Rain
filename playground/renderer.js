@@ -12,15 +12,18 @@ module.exports = function (tagmanager, modulecontainer) {
         c                   = console.log;
 
     
-    function Renderer(moduleconfig, viewresource, mode, parentcontent) {
-        if (!viewresource || !moduleconfig) { throw new Error('missing arguments'); }
-        this.resource       = viewresource;
-        this.moduleconfig   = moduleconfig;
+    function Renderer(url, mode, element) {
+        if (!url) { throw new Error('missing arguments'); }
+
+        this.moduleconfig   = modulecontainer.resolveFromRequestPath(url);
+        this.resource       = new Resource('file://' + mod_path.join(__dirname, '..', url));
+        this.resource.load();
         this.mode           = mode || Renderer.MODES.HTML;
         this.state          = Renderer.STATES.INIT;
         this.uuid           = ++rendererCount;
 
-        this.parentcontent  = parentcontent;
+        this.element        = element;                                      // reference to the element context object created by the parser
+        this.parentcontent  = element ? element.elementContent : null;
         this.parentrenderer = null;
 
         this.parseresult    = null;         
@@ -84,14 +87,9 @@ module.exports = function (tagmanager, modulecontainer) {
                 parseresult.elements.forEach(function (child) {
                     var moduleconfig = modulecontainer.getConfiguration(child.tag.module);
                     var viewurl = modulecontainer.getViewUrl(moduleconfig, child.tag.view);
-                    //logger.debug(viewurl)
-                    
-                    var childview = new Resource(viewurl);
-                    var childrenderer = new Renderer(moduleconfig, childview, 'json', child.elementContent);
+                    var childrenderer = new Renderer(viewurl, 'json', child);
                     child.renderer = childrenderer;
                     self.addChildRenderer(childrenderer);
-                    logger.debug(self.uuid + ': created renderer, resource' + childview.url);
-                    childview.load();
                 });      
             }
 
