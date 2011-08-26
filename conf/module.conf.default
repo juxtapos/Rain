@@ -1,26 +1,3 @@
 {
-	"app;1.0" : {
-		"moduleId" 	: "app;1.0",
-		"url" 		:  "/modules/app"
-	},
-	"domains;1.0" : {
-		"moduleId" 	: "domains;1.0",
-		"url" 		: "/modules/domains"
-	},
-	"scrollabletable;1.0" : {
-		"moduleId" 	: "scrollabletable;1.0",
-		"url" 		: "/modules/scrollabletable"
-	},
-	"weather;1.0" : {
-		"moduleId" 	: "weather;1.0",
-		"url"		: "/modules/weather"
-	},
-	"toolbar;1.0" : {
-		"moduleId" 	: "toolbar;1.0",
-		"url"		: "/modules/toolbar"
-	},
-	"cockpit;1.0" : {
-		"moduleId" 	: "cockpit;1.0",
-		"url"		: "/modules/cockpit"
-	}
+
 }
