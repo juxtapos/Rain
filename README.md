@@ -159,24 +159,24 @@ Rain uses for internationalization gettext. Their is a convention for the po fil
 Here is an example for a folder structure:
 
        appname/htdocs/locales
-                    |
-                    |- en_US
-                    |      \
-                    |      |- messages.po
-                    |      |- other.po
-                    |      o
-                    |
-                    |- de_DE
-                    |      \
-                    |      |- messages.po
-                    |      |- other.po
-                    |      o
-                    |
-                    |- fr_FR
-                    o      \
-                           |- messages.po
-                           |- other.po
-                           o
+                         |
+                         |- en_US
+                         |      \
+                         |      |- messages.po
+                         |      |- other.po
+                         |      o
+                         |
+                         |- de_DE
+                         |      \
+                         |      |- messages.po
+                         |      |- other.po
+                         |      o
+                         |
+                         |- fr_FR
+                         o      \
+                                |- messages.po
+                                |- other.po
+                                o
 
 In this example we have 3 languages and 2 different domains.
 So you can easily switch between languages and domains.
