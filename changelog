@@ -1,0 +1,10 @@
+# Changelog
+
+## Version 0.4
+
+* Path to views now conform to other paths, i.e. they contain 'htdocs'.
+* No more global component configuration from a single file (may reappear at a later stage). 
+  Components bring their own meta file in <component folder>/meta.json and are automatically
+  registered at module container startup. 
+* Nested components are now correctly resolved.
+* Completely rewritten renderer 
