@@ -42,6 +42,7 @@
 	    	"namespace" : ""
 	    	, "selector" : "toolbar"
 	    	, "module" : "toolbar;1.0"
+	    	, "view" : "toolbar.html"
 	  	}
 	  	,{
 	    	"namespace" : ""
