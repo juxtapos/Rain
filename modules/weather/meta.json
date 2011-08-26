@@ -1,8 +1,0 @@
-{
-	"moduleId" 		: "weather;1.0",
-	"name"			: "Weather Widget (Yahoo)",
-	"url"			: "/modules/weather",
-	"author"		: "juxtapos",
-	"description" 	: "Component acting as a widget that displays weather data from Yahoo.",
-	"created"		: "2011/08/26 00:00:00 GMT"
-}

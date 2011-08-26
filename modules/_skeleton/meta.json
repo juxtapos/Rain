@@ -1,8 +1,0 @@
-{
-	"moduleId" 		: "<unique-id>;<version-string>",
-	"name"			: "<full name>",
-	"url" 			: "<path to component, must currently be /modules/ + name>",
-	"author"		: "<author name>",
-	"description" 	: "<full description>",
-	"created"		: "<2011/08/26 00:00:00 GMT>"
-}

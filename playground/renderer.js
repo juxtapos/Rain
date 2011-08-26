@@ -21,7 +21,7 @@ module.exports = function (tagmanager, modulecontainer) {
         this.uuid           = ++rendererCount;
 
         this.parentcontent  = parentcontent;
-        this.parentRenderer = null;
+        this.parentrenderer = null;
 
         this.parseresult    = null;         
 
@@ -118,13 +118,13 @@ module.exports = function (tagmanager, modulecontainer) {
         });
 
         this.childrenderers.push(renderer);
-        renderer.parentRenderer = this;
+        renderer.parentrenderer = this;
     }
 
     Renderer.prototype.render = function () {
         logger.debug(this.uuid + ': render');
         var self = this,
-            body = this.parentRenderer == null ? this.parseresult.document : HTMLRenderer.getViewBody(this.parseresult.document),
+            body = this.parentrenderer == null ? this.parseresult.document : HTMLRenderer.getViewBody(this.parseresult.document),
             deps = this.collectChildDependencies();
 
         var document = body;
@@ -145,19 +145,19 @@ module.exports = function (tagmanager, modulecontainer) {
             content : document
         }
 
-        if (this.parentRenderer == null) {        
+        if (this.parentrenderer == null) {        
             logger.debug('root renderer');
             this.renderresult.dependencies.css      = Renderer.unique(this.renderresult.dependencies.css);
             this.renderresult.dependencies.script   = Renderer.unique(this.renderresult.dependencies.script);
             this.renderresult.dependencies.locale   = Renderer.unique(this.renderresult.dependencies.locale); 
 
-            this.renderresult.dependencies.css.forEach(function (dep) { c(dep); });
+            // this.renderresult.dependencies.css.forEach(function (dep) { c(dep); });
             // this.renderresult.dependencies.script.forEach(function (dep) { c(dep); });
             // this.renderresult.dependencies.locale.forEach(function (dep) { c(dep); });
             // c('cc:' + this.renderresult.clientcontroller);
 
             if (this.mode == 'html') {
-                var document = HTMLRenderer.renderDocument(document, this.renderresult.dependencies);
+                var document = HTMLRenderer.renderDocument(this);
                 this.renderresult.content = document;    
             } 
         }

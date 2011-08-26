@@ -1,8 +1,0 @@
-{
-	"moduleId" 		: "domains;1.0",
-	"name"			: "Domains",
-	"url" 			: "/modules/domains",
-	"author"		: "juxtapos",
-	"description" 	: "Example with embedded scrollabletable component",
-	"created"		: "2011/08/26 00:00:00 GMT"
-}
