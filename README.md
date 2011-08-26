@@ -151,7 +151,48 @@ redis-cli console (which is awesome, since it enables you to switch render hosts
 
 # Developing Web Components 
 
-Use the '_skeleton' component as a template for your own components. 
+Use the '_skeleton' component as a template for your own components.
+
+# i18n
+
+Rain uses for internationalization gettext. Their is a convention for the po files.
+Here is an example for a folder structure:
+
+  appname/htdocs/locales
+                    |
+                    |- en_US
+                    |      \
+                    |      |- messages.po
+                    |      |- other.po
+                    |      o
+                    |
+                    |- de_DE
+                    |      \
+                    |      |- messages.po
+                    |      |- other.po
+                    |      o
+                    |
+                    |- fr_FR
+                    o      \
+                           |- messages.po
+                           |- other.po
+                           o
+
+In this example we have 3 languages and 2 different domains.
+So you can easily switch between languages and domains.
+
+Following methods are understanding in a template:
+* gettext('msgid')
+* ngettext('msgid', 'msgid_plural', number)
+
+Example:
+
+<title>gettext('title')</title>
+
+TO BE DONE:
+*getmedia('media.png') which will be dissolved with a convention too
+*parameter to gettext, ngettext, getmedia to force a language
+
 
 # Documentation 
 
