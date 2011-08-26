@@ -191,8 +191,8 @@ Example:
 
 **TO BE DONE:**
 
-*getmedia('media.png') which will be dissolved with a convention too
-*parameter to gettext, ngettext, getmedia to force a language
+* getmedia('media.png') which will be dissolved with a convention too
+* parameter to gettext, ngettext, getmedia to force a language
 
 
 # Documentation 
