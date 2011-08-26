@@ -189,7 +189,8 @@ Example:
 
 <title>gettext('title')</title>
 
-*TO BE DONE:*
+**TO BE DONE:**
+
 *getmedia('media.png') which will be dissolved with a convention too
 *parameter to gettext, ngettext, getmedia to force a language
 
