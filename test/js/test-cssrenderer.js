@@ -1,7 +1,8 @@
-var nodeunit	 			= require('nodeunit')
-	, mod_cssnormalizer		= require('../lib/cssrenderer.js')
-	, mod_fs				= require('fs')
-	, mod_path				= require('path')
+console.log(require.paths);
+var nodeunit	 			    = require('nodeunit')
+	, mod_cssnormalizer		= require('cssrenderer.js')
+	, mod_fs				      = require('fs')
+	, mod_path				    = require('path')
 
 module.exports = nodeunit.testCase({
 	testSimple : function (test) {
