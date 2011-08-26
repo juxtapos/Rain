@@ -1,0 +1,7 @@
+{
+	"moduleId"     	: "domains;1.0",
+	"url"         	:  "/modules/domains",
+	"name"			: "Domains",
+	"author"		: "juxtapos",
+	"date"			: "2008/08/26 00:00:00 GMT"
+}
