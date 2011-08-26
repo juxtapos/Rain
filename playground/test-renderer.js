@@ -26,7 +26,6 @@ res1.load();
 render1.once('stateChanged', function (renderer) {
 	if (renderer.state == Renderer.STATES.RENDERED) {
 		c('done');
-		c(renderer.renderresult.content);
 		//Renderer.showTree(render1);
 	}
 });
