@@ -191,7 +191,7 @@ module.exports = function (tagmanager, modulecontainer) {
             this.renderresult.dependencies.locale   = Renderer.unique(this.renderresult.dependencies.locale); 
             if (this.mode == 'html') {
                 this.renderresult.content = HTMLRenderer.renderDocument(this, modulecontainer);    
-            } 
+            }
         }
     }
 

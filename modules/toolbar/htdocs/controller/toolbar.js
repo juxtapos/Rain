@@ -2,7 +2,7 @@ function init(elementid) {
 	console.log('init toolbar component');
 
 
-	console.log($('#' + elementid));
+	//console.log($('#' + elementid));
 }
 
 define(function () {
