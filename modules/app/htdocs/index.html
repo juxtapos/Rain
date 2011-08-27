@@ -15,19 +15,15 @@
 	<style>
 		body, html { margin:0px; padding:0px; }
 	</style>
-	<script>var RAIN = 'rules';</script>
+	<!--<script>var RAIN = 'rules';</script>-->
 
 </head>
 <body>
+	<p><strong>It's a {{req_name}}y day</strong></p>
+
 	<toolbar>
-		<!--<button>Home</button>-->
-		<tx:text key="wetter" href="local.html"/>
-		<p><strong>
-		{{#rain}} gettext('weather.rainy') {{/rain}}
-		{{^rain}} gettext('weather.sunny') {{/rain}}
-		</strong></p>
-
-
+		<toolbarbutton label="Home"/>
+		<toolbarbutton label="Settings"/>
 	</toolbar>
 	
 	<dock>
@@ -53,6 +49,8 @@
 		<br clear="all"/>
 	</container>
 
+	<!--<cockpit/>-->
+
 		
 <strong>gettext('entitiescorrect')</strong>
 <p>hällÖ Wültß!</p>
@@ -69,6 +67,12 @@
 
 </body>
 <script>
+
+	//
+	// this stuff is temporary!
+	// don't use the document.ready function for webcomponents, as it may break the correct order 
+	// of execution that is ensured by Rain. 
+	//
 	$(document).ready(function () {
 		//rain();
 		$('app').resizable();

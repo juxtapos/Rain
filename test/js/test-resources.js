@@ -1,8 +1,8 @@
 var nodeunit	 		= require('nodeunit')
-	, mod_resources 	= require('../lib/resources.js')
+	, mod_resources = require('resources.js')
 	, Resource			= mod_resources.Resource
 	, promises  		= require('promised-io/lib/promise')
-	, assert			= require('assert')
+	, assert				= require('assert')
 	, mod_path			= require('path')
 
 module.exports = nodeunit.testCase({

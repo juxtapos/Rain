@@ -1,9 +1,9 @@
 var nodeunit            = require('nodeunit')
-    , mod_resmanager    = require('../lib/resourcemanager.js')(true, true)
+    , mod_resmanager    = require('resourcemanager.js')(true, true)
     , mod_promise       = require('promised-io/lib/promise')
-    , mod_cache         = require('../lib/Cache.js')
+    , mod_cache         = require('cache.js')
     , mod_path          = require('path')
-    , Resource          = require('../lib/resources.js').Resource
+    , Resource          = require('resources.js').Resource
 
 module.exports = nodeunit.testCase({
     testSingleFileUrl : function (test) {

@@ -204,8 +204,8 @@ Example:
 
 # Documentation 
 
-Documentation is very sparse currently. See ./doc/index.html for an API documentation. Use build.sh to create documentation from 
-files in ./lib. 
+Documentation is very sparse currently, see the ./doc folder and the wiki. 
+Use build.sh to create jsdoc documentation from files in ./lib. 
 
 # Licensing
 

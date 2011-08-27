@@ -1,21 +1,21 @@
 {
 	"server" : {
-		"port" : 1337
+		"port" : 1338
 		, "serverRoot"   : "."
 		, "documentRoot" : "./public"
 		, "modulePath" : "modules"
 	},
 
-	"loglevel" : 10,
+	"loglevel" : 0,
 
 	"remotecontrol" : false,
-
-	"websockets" : false,
 	
+	"websockets" : false,
+
 	"caching" : {
 		"resources" : false
 		, "ttl"		: 5
-	}, 
+	},
 
 	"taglib" : [
 		{
@@ -37,23 +37,6 @@
 	    	"namespace" : ""
 	    	, "selector" : "*[type=scrollabletable]"
 	    	, "module" : "scrollabletable;1.0"
-	  	}
-	  	,{
-	    	"namespace" : ""
-	    	, "selector" : "toolbar"
-	    	, "module" : "toolbar;1.0"
-	    	, "view" : "toolbar.html"
-	  	}
-	  	,{
-	    	"namespace" : ""
-	    	, "selector" : "toolbarbutton"
-	    	, "module" : "toolbar;1.0"
-	    	, "view" : "toolbarbutton.html"
-	  	}
-	  	,{
-	    	"namespace" : ""
-	    	, "selector" : "cockpit"
-	    	, "module" : "cockpit;1.0"
 	  	}
 	]
 }

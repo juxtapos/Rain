@@ -1,5 +1,5 @@
-var nodeunit = require('nodeunit')
-	,tagmanager = require('../lib/tagmanager.js');
+var nodeunit  = require('nodeunit')
+	,tagmanager = require('tagmanager.js');
 
 module.exports = nodeunit.testCase({
 	setUp : function (callback) {
