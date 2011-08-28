@@ -32,6 +32,7 @@ module.exports = function (tagmanager, modulecontainer) {
     var parseHtmlView       = require('../lib/parser.js').parseHtmlView,
         tagmanager          = require('../lib/tagmanager.js'),
         Resource            = require('../lib/resources.js').Resource,
+        TranslationManager  = require('../lib//translationmanager'),
         mod_path            = require('path'),
         mod_mu              = require('mu'),
         HTMLRenderer        = require('../lib/htmlrenderer.js').HTMLRenderer,
@@ -46,6 +47,7 @@ module.exports = function (tagmanager, modulecontainer) {
         // [TBD] EVIL! Use resource manager
         this.resource       = new Resource('file://' + mod_path.join(__dirname, '..', url));
         this.resource.load();
+        this.translationmanager = new TranslationManager(this.moduleconfig, data.req_lang);
         this.mode           = mode || Renderer.MODES.HTML;
         this.data           = data;
         this.state          = Renderer.STATES.INIT;
@@ -84,7 +86,7 @@ module.exports = function (tagmanager, modulecontainer) {
         PARSED          : 20,
         CHILDSPARSED    : 30,
         RENDERED        : 40
-    }
+    };
 
     Renderer.prototype.parse = function () {
         var self = this,
@@ -108,14 +110,14 @@ module.exports = function (tagmanager, modulecontainer) {
                 parseresult.elements.forEach(function (child) {
                     var moduleconfig = modulecontainer.getConfiguration(child.tag.module);
                     var viewurl = modulecontainer.getViewUrl(moduleconfig, child.tag.view);
-                    var childrenderer = new Renderer(viewurl, 'json', child);
+                    var childrenderer = new Renderer(viewurl, 'json', child, self.data);
                     child.renderer = childrenderer;
                     self.addChildRenderer(childrenderer);
                 });      
             }
             this.state = Renderer.STATES.PARSED;
         });
-    }
+    };
 
     Renderer.prototype.addChildRenderer = function (renderer) {
         if (!renderer) { throw new Error('wrong type'); } 
@@ -135,7 +137,7 @@ module.exports = function (tagmanager, modulecontainer) {
 
         this.childrenderers.push(renderer);
         renderer.parentrenderer = this;
-    }
+    };
 
     Renderer.prototype.render = function () {
         var self = this;
@@ -143,11 +145,11 @@ module.exports = function (tagmanager, modulecontainer) {
             self.renderView(document);
             self.state = Renderer.STATES.RENDERED;    
         });
-    }
+    };
 
     Renderer.prototype.renderTemplate = function (callback) {
         var document = this.parentrenderer == null ? this.parseresult.document : HTMLRenderer.getViewBody(this.parseresult.document),
-            out = [],
+            self = this,
             data = this.data || {};
         this.parseresult.elements.forEach(function (element) {
             data['__render__' + element.id] = element.renderer.renderresult.content; 
@@ -159,16 +161,52 @@ module.exports = function (tagmanager, modulecontainer) {
                 data['attr_' + keyvalue[0]] = keyvalue[1];
             });
         }
-
-        mod_mu.compileText('viewtemplate', document);
-        var stream = mod_mu.render('viewtemplate', data)
-            .on('data', function (data) {
-                out.push(data);
+        
+        
+        
+        var templating = function(template){
+          // 4. Do templating
+          var buffer = "";
+          mod_mu.compileText('viewtemplate', template);
+          var stream = mod_mu.render('viewtemplate', data)
+            .on('data', function (c) {
+              buffer += c;
             })
             .on('end' , function () {
-                callback(out.join(''));
+                callback(buffer);
             });
-    }
+        };
+        var transmgr = this.translationmanager;
+        
+        switch(transmgr.__state){
+          case transmgr.STATES.NO_LOCALES:
+            templating(document);
+            break;
+          case transmgr.STATES.LOADED:
+            this.translationRenderer(document, templating);
+            break;
+          default:
+            transmgr.addListener('stateChanged', function (event) { 
+              if(transmgr.__state == transmgr.STATES.LOADED){
+                self.translationRenderer(document, templating);
+              } else {
+                templating(document);
+              }
+            });
+            break;
+        };
+    };
+    
+    Renderer.prototype.translationRenderer = function(template, callback){
+      var self = this,
+          transmgr = this.translationmanager
+      
+      logger.debug('translationRenderer ' + self.uuid);
+      template = this.translationmanager.translateTemplate(template);
+      
+      callback(template);
+    };
+    
 
     Renderer.prototype.renderView = function (document) {
         logger.debug(this.uuid + ': render');
@@ -182,7 +220,7 @@ module.exports = function (tagmanager, modulecontainer) {
             }, 
             clientcontroller : this.resolveUrl(this.parseresult.clientcontroller),
             content : document
-        }
+        };
 
         if (this.parentrenderer == null) {        
             logger.debug('root renderer');
@@ -193,7 +231,7 @@ module.exports = function (tagmanager, modulecontainer) {
                 this.renderresult.content = HTMLRenderer.renderDocument(this, modulecontainer);    
             }
         }
-    }
+    };
 
     Renderer.prototype.collectChildDependencies = function () {
         var self = this;
@@ -212,18 +250,18 @@ module.exports = function (tagmanager, modulecontainer) {
             css : css,
             script : script,
             locale : locale
-        }
-    }
+        };
+    };
 
     Renderer.prototype.getDependencies = function (isRemote) {
         // [TBD] isRemote
-        var self = this, m = function (url) { return self.resolveUrl(url); }
+        var self = this, m = function (url) { return self.resolveUrl(url); };
         return {
             css     : this.renderresult.dependencies.css.map(m),
             script  : this.renderresult.dependencies.script.map(m),
             locale  : this.renderresult.dependencies.locale.map(m)
-        }
-    }
+        };
+    };
 
     Renderer.prototype.resolveUrl = function (url, isRemote) {
         if (!url) return;
@@ -238,12 +276,12 @@ module.exports = function (tagmanager, modulecontainer) {
             return mod_path.join(this.moduleconfig.url, url);
         }
 
-    }
+    };
 
     Renderer.MODES = {
         HTML    : 1,
         JSON    : 2
-    }
+    };
 
     Renderer.unique = function (array) {
         var hlp = {},
@@ -255,7 +293,7 @@ module.exports = function (tagmanager, modulecontainer) {
             }
         });
         return arr;
-    }
+    };
 
     Renderer.showTree = function (renderer) {
         var spaces = '                                                       ';
@@ -267,9 +305,9 @@ module.exports = function (tagmanager, modulecontainer) {
                 show(renderer.childrenderers[i], depth + 1);
             }
         }
-    }
+    };
 
     return {
         Renderer : Renderer
-    }
-}
+    };
+};
