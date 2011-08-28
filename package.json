@@ -27,6 +27,6 @@
   "repository": "git://github.com/juxtapos/Rain",
   "engines": { "node": ">= 0.4.10 <= 0.4.11" },
   "scripts" : {
-    "postinstall" : "patch node_modules/node-xml/lib/node-xml.js < patches/node_xml.patch && patch node_modules/mu/lib/mu/renderer.js < patches/mu_renderer.patch"
+    "postinstall" : "patch node_modules/node-xml/lib/node-xml.js < patches/node_xml.patch && patch node_modules/mu/lib/mu/renderer.js < patches/mu_renderer.patch && patch node_modules/gettext/lib/gettext.js < patches/gettext.patch"
   }
 }

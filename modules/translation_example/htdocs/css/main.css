@@ -1,0 +1,12 @@
+@rainspace weather;
+@import url('include.css');
+
+body {
+	font-family: Verdana,Arial, sans-serif;
+}
+
+.content {
+	background-image:url('../weather.png');	
+	background-repeat:no-repeat;
+	height:200px;
+}

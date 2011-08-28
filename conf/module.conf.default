@@ -22,5 +22,9 @@
 	"cockpit;1.0" : {
 		"moduleId" 	: "cockpit;1.0",
 		"url"		: "/modules/cockpit"
+	},
+	"translation_example;1.0" : {
+		"moduleId" 	: "translation_example;1.0",
+		"url"		: "/modules/translation_example"
 	}
 }

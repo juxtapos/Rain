@@ -55,5 +55,10 @@
 	    	, "selector" : "cockpit"
 	    	, "module" : "cockpit;1.0"
 	  	}
+	  	,{
+	  		"namespace"	 :""
+	  		, "selector" : "app[type=transexample]"
+	  		, "module"   : "translation_example;1.0"
+	  	}
 	]
 }
