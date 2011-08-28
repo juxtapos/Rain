@@ -25,13 +25,5 @@ msgstr "Es ist ein sonniger Tag"
 msgid "entitiescorrect"
 msgstr "Werden Entitäten korrekt behandelt?"
 
-msgid "testwithmustache"
-msgstr "Dies ist eine Übersetzung mit internen mustache tags: {{name}}"
-
-msgid "singular"
-msgid_plural "plural"
-msgstr[0] "Singular"
-msgstr[1] "Plural"
-
 msgid "app.title"
 msgstr "App: Main"

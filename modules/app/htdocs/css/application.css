@@ -92,3 +92,12 @@ app[type=weather] {
 	width:600px;
 	font-family:Tahoma,Arial,sans-serif;
 }
+
+
+/**
+ * translation styling for editors
+ */
+*[data-gettext] {
+	padding-right: 40px;
+	background: url('../img/header_icons.png') norepeat scroll top right transparent;
+}
