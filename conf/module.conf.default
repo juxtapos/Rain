@@ -30,5 +30,14 @@
 	"translation_example;1.0" : {
 		"moduleId" 	: "translation_example;1.0",
 		"url"		: "/modules/translation_example"
+	},
+	"multiple_views;1.0" : {
+		"moduleId" : "multiple_views;1.0",
+		"url"  	   : "/modules/multiple_views",
+		"views"	   : [
+			{"viewId" : "main",
+			 "view"	  : "multiple_views_widget.html",
+			 "controller" : "/script/multiple_views_widget.js"}
+		]
 	}
 }

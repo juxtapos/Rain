@@ -59,6 +59,12 @@
 	  		"namespace"	 :""
 	  		, "selector" : "app[type=transexample]"
 	  		, "module"   : "translation_example;1.0"
+	  	},
+	  	{
+	  		"namespace" : "",
+	  		"selector"  : "multiple_views_widget",
+	  		"module" 	: "multiple_views;1.0",
+	  		"viewId"	: "main"
 	  	}
 	]
 }
