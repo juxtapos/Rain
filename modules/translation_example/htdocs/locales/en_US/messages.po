@@ -29,3 +29,24 @@ msgid "singular"
 msgid_plural "plural"
 msgstr[0] "singular"
 msgstr[1] "plural"
+
+msgid "tag_in_tag.outer.right"
+msgstr "tag in tag - outter right"
+
+msgid "tag_in_tag.outer.left"
+msgstr "tag in tag - outter left"
+
+msgid "tag_in_tag.inner"
+msgstr "tag in tag - inner"
+
+msgid "translation1"
+msgstr "first translation"
+
+msgid "translation2"
+msgstr "second translation"
+
+msgid "test.fallback_to_english"
+msgstr "test fallback if a language dosn't exist"
+
+msgid "only_en_US"
+msgstr "this translation is only in en_US available"
