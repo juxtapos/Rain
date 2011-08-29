@@ -98,6 +98,5 @@ app[type=weather] {
  * translation styling for editors
  */
 *[data-gettext] {
-	padding-right: 40px;
-	background: url('../img/header_icons.png') norepeat scroll top right transparent;
+	background-color: #FCC;
 }
