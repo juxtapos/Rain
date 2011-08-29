@@ -3,6 +3,10 @@
 		"moduleId" 	: "app;1.0",
 		"url" 		:  "/modules/app"
 	},
+	"core-components;1.0" : {
+		"moduleId" : "core-components;1.0",
+		"url"  	   : "/modules/core-components"
+	},
 	"domains;1.0" : {
 		"moduleId" 	: "domains;1.0",
 		"url" 		: "/modules/domains"
