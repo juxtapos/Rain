@@ -125,7 +125,7 @@ module.exports = function (tagmanager, modulecontainer) {
         logger.debug(this.uuid + ': addChildRenderer ' + renderer.uuid);
 
         renderer.addListener('stateChanged', function (renderer) {
-            //logger.debug(self.uuid + ': renderer ' + renderer.uuid + ' changed state to ' + renderer.state);
+            logger.debug(self.uuid + ': renderer ' + renderer.uuid + ' changed state to ' + renderer.state);
             var rendered = self.childrenderers.every(function (renderer) {
                 return renderer.state >= Renderer.STATES.RENDERED;
             });        
@@ -161,8 +161,6 @@ module.exports = function (tagmanager, modulecontainer) {
                 data['attr_' + keyvalue[0]] = keyvalue[1];
             });
         }
-        
-        
         
         var templating = function(template){
           // 4. Do templating
