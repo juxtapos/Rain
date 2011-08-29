@@ -57,7 +57,7 @@
 	  	}
 	  	,{
 	  		"namespace"	 :""
-	  		, "selector" : "app[type=transexample]"
+	  		, "selector" : "div[type=transexample]"
 	  		, "module"   : "translation_example;1.0"
 	  	}
 	]

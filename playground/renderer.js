@@ -110,7 +110,7 @@ module.exports = function (tagmanager, modulecontainer) {
                 parseresult.elements.forEach(function (child) {
                     var moduleconfig = modulecontainer.getConfiguration(child.tag.module);
                     var viewurl = modulecontainer.getViewUrl(moduleconfig, child.tag.view);
-                    var childrenderer = new Renderer(viewurl, 'json', child, self.data);
+                    var childrenderer = new Renderer(viewurl, 'json', child, { req_lang : self.data.req_lang});
                     child.renderer = childrenderer;
                     self.addChildRenderer(childrenderer);
                 });      
