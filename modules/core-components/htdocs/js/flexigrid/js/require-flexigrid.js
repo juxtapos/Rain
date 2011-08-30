@@ -7,8 +7,7 @@
  * http://jquery.org/license
  *
  */
-var require,define;
-(function ($) {
+require(["jquery"], function ($) {
 	$.addFlex = function (t, p) {
 		if (t.grid) return false; //return if already exist
 		p = $.extend({ //apply default properties
@@ -1249,4 +1248,4 @@ var require,define;
 			});
 		}
 	}; //end noSelect
-})(jQuery);
+});
