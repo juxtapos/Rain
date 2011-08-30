@@ -24,11 +24,11 @@ define(function ()
 		  var li = '';
 		  for(var i = obj.messages.length; i--;){
 		    var message = obj.messages[i];
-		    li += '<li><p><div>msgid: '+message.msgid+'</div>'
-		          + '<div>msgid_plural: '+(message.msgid_plural || '--------')+'</div>'
-		          + '<div>attribute: '+(message.attr || '--------')+'</div>'
-		          + '<div>fallback: '+message.fallback+'</div>'
-		          + '<div>locale: '+message.locale+'</div>'
+		    li += '<li><p><div>msgid: <span class="reeeeeed">'+message.msgid+'</span></div>'
+		          + '<div>msgid_plural: <span class="reeeeeed">'+(message.msgid_plural || '--------')+'</span></div>'
+		          + '<div>attribute: <span class="reeeeeed">'+(message.attr || '--------')+'</span></div>'
+		          + '<div>fallback: <span class="reeeeeed">'+message.fallback+'</span></div>'
+		          + '<div>locale: <span class="reeeeeed">'+message.locale+'</span></div>'
 		          + '</p></li>'
 		  }
 		  
