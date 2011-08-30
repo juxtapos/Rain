@@ -55,7 +55,6 @@ define(function() {
 		}
 		
 		if(this.queue_delayed[eventName]) {
-			alert("Queue delayed hit.");
 			callback(this.queue_delayed[eventName]);
 		}
 	}
