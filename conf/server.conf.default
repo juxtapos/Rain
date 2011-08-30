@@ -59,6 +59,18 @@
 	  		"namespace"	 :""
 	  		, "selector" : "div[type=transexample]"
 	  		, "module"   : "translation_example;1.0"
+	  	},
+	  	{
+	  		"namespace" : "",
+	  		"selector"  : "domains_spro",
+	  		"module" 	: "domains_spro;1.0",
+	  		"view"	: "domains_overview.html"
+	  	},	  	
+	  	{
+	  		"namespace" : "",
+	  		"selector"  : "domains_bkshop",
+	  		"module" 	: "domains_bkshop;1.0",
+	  		"view"	: "domains_upsell_widget.html"
 	  	}	  		  	
 	]
 }
