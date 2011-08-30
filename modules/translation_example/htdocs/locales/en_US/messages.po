@@ -53,3 +53,6 @@ msgstr "this translation is only in en_US available"
 
 msgid "weather.picture"
 msgstr "picture of weather"
+
+msgid "nasty"
+msgstr ":()_ very very NASTY *hust*"

@@ -50,3 +50,6 @@ msgstr "Teste den Fallback, wenn eine Sprache nicht existiert"
 
 msgid "weather.picture"
 msgstr "Bild des Wetters"
+
+msgid "nasty"
+msgstr ":()_ sehr sehr NASTY *hust*"
