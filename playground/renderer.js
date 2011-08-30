@@ -36,7 +36,7 @@ module.exports = function (tagmanager, modulecontainer) {
         mod_path            = require('path'),
         mod_mu              = require('mu'),
         HTMLRenderer        = require('../lib/htmlrenderer.js').HTMLRenderer,
-        logger              = require('../lib/logger.js').getLogger(mod_path.basename(module.filename)),
+        logger              = require('../lib/logger.js').getLogger(mod_path.basename(module.filename), 10),
         rendererCount       = 0,
         c                   = console.log;
     
@@ -48,6 +48,7 @@ module.exports = function (tagmanager, modulecontainer) {
         this.resource       = new Resource('file://' + mod_path.join(__dirname, '..', url));
         this.resource.load();
         this.translationmanager = new TranslationManager(this.moduleconfig, data.req_lang);
+
         this.mode           = mode || Renderer.MODES.HTML;
         this.data           = data;
         this.state          = Renderer.STATES.INIT;
@@ -60,7 +61,7 @@ module.exports = function (tagmanager, modulecontainer) {
         this.childrenderers = [];
         var self            = this;
         this.resource.addListener('stateChanged', function (resource) {
-            if (resource.state >= Resource.STATES.LOADED) {
+            if (resource.state >= Resource.STATES.COMPLETE) {
                 if (self.state < Renderer.STATES.PARSED) { 
                     //logger.debug('resource loaded, parse');
                     self.parse(); 
@@ -110,7 +111,7 @@ module.exports = function (tagmanager, modulecontainer) {
                 parseresult.elements.forEach(function (child) {
                     var moduleconfig = modulecontainer.getConfiguration(child.tag.module);
                     var viewurl = modulecontainer.getViewUrl(moduleconfig, child.tag.view);
-                    var childrenderer = new Renderer(viewurl, 'json', child, { req_lang : self.data.req_lang});
+                    var childrenderer = new Renderer(viewurl, 'json', child, { req_lang : 'self.data.req_lang'});
                     child.renderer = childrenderer;
                     self.addChildRenderer(childrenderer);
                 });      
@@ -141,6 +142,7 @@ module.exports = function (tagmanager, modulecontainer) {
 
     Renderer.prototype.render = function () {
         var self = this;
+        logger.debug(this.uuid + ': render');
         this.renderTemplate(function (document) {
             self.renderView(document);
             self.state = Renderer.STATES.RENDERED;    
@@ -161,7 +163,7 @@ module.exports = function (tagmanager, modulecontainer) {
                 data['attr_' + keyvalue[0]] = keyvalue[1];
             });
         }
-        
+
         var templating = function(template){
           // 4. Do templating
           var buffer = "";
@@ -171,11 +173,12 @@ module.exports = function (tagmanager, modulecontainer) {
               buffer += c;
             })
             .on('end' , function () {
+                logger.debug(self.uuid + ': done templating');
                 callback(buffer);
             });
         };
-        var transmgr = this.translationmanager;
         
+        var transmgr = this.translationmanager;
         switch(transmgr.__state){
           case transmgr.STATES.NO_LOCALES:
             templating(document);
@@ -207,7 +210,7 @@ module.exports = function (tagmanager, modulecontainer) {
     
 
     Renderer.prototype.renderView = function (document) {
-        logger.debug(this.uuid + ': render');
+        logger.debug(this.uuid + ': renderView');
         var self = this,
             deps = this.collectChildDependencies();
         this.renderresult = {
