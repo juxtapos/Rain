@@ -71,6 +71,6 @@
 	  		"selector"  : "domains_bkshop",
 	  		"module" 	: "domains_bkshop;1.0",
 	  		"view"	: "domains_upsell_widget.html"
-	  	}	  		  	
+	  	}
 	]
 }
