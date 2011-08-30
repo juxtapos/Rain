@@ -47,3 +47,6 @@ msgstr "Zweite Übersetzung"
 
 msgid "test.fallback_to_english"
 msgstr "Teste den Fallback, wenn eine Sprache nicht existiert"
+
+msgid "weather.picture"
+msgstr "Bild des Wetters"
