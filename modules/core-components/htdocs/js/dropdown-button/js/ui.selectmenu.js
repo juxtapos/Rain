@@ -8,12 +8,10 @@
  * http://docs.jquery.com/UI
  */
 
-require(["jquery"], function(module) {
+require(["jquery"], function($) {
 
-(function($) {
-
-	alert($);
-$.widget("ui.selectmenu", {
+(function() {
+$.fn.widget("ui.selectmenu", {
 	_init: function() {
 		var self = this, o = this.options;
 		
