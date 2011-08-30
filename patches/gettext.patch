@@ -1,7 +1,0 @@
-588c588,591
-<         return translation;
----
->         return {
->           args : arguments,
->           translation : translation
->         };
