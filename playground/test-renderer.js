@@ -1,7 +1,7 @@
 var Renderer 		= require('./renderer.js').Renderer,
 	c 				= console.log,
 	Resource        = require('../lib/resources.js').Resource,
-	configServer 	= JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'conf', 'server.conf.local')).toString())
+	configServer 	= JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'conf', 'server.conf.default')).toString())
 	modulecontainer = require('../lib/modulecontainer.js')(),
 	tagmanager		= require('../lib/tagmanager.js'),
 	Renderer 		= require('./renderer.js')(tagmanager, modulecontainer).Renderer;
