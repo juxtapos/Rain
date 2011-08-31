@@ -63,10 +63,11 @@ define(function() {
 		
 		$.ajax({
 			url : url,
+			accept : "application/json",
 			contentType : "application/json",
 			type: "PUT",
 			success : function(data, textStatus, jqXHR) {
-				parentObj.sessionId = JSON.parse(data).sessionId;
+				parentObj.sessionId = data.sessionId;
 				$.cookie(parentObj._sessionCookieName, parentObj.sessionId, 
 						parentObj._expirePeriod);
 				
@@ -98,7 +99,7 @@ define(function() {
 					"key" : key},
 			success : function(data, textStatus, jqXHR) {
 				if(successCallback) {
-					successCallback(data);
+					successCallback(data.data);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {

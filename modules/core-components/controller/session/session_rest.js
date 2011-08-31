@@ -55,6 +55,7 @@ function createSession(request, response) {
 		
 		logger.info("session id json: " + ret);
 		
+		response.writeHead(200, {"Content-Type" : "application/json"})
 		response.write(ret);
 		response.end();
 	}
@@ -107,8 +108,10 @@ function getValue(request, response) {
 	logger.info("Obtaining key " + key + " from session " + sessionId);
 	
 	try {
-		var ret = mod_session.session.getValue(sessionId, key);
+		var ret = {"data" : mod_session.session.getValue(sessionId, key)};
+		ret = JSON.stringify(ret);
 		
+		response.writeHead(200, {"Content-Type" : "application/json"})
 		response.end(ret);
 	}
 	catch(ex) {
