@@ -21,7 +21,8 @@
     "redback": ">= 0.2.7",
     "requirejs": ">=0.26.0",
     "node-inspector": ">=0.1.9",
-    "gettext": ">= 0.0.1"
+    "gettext": ">= 0.0.1",
+    "less": ">= 1.1.4"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
