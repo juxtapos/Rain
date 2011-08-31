@@ -9,11 +9,14 @@
 define(function() {
 	function ClientQueue() {
 		this.queue = {};
+		this.queue_delayed = {}; // this holds all events for which no callback was registered.
 	}
 	
 	/**
 	 * This is the method that will publish an event
-	 * and will execute all registered callbacks. 
+	 * and will execute all registered callbacks. If no
+	 * registered callbacks are found it will be kept in a separate
+	 * queue and when a consumer appear it will get notified. 
 	 * 
 	 * @param eventName
 	 * @param data
@@ -23,6 +26,8 @@ define(function() {
 		 * Nobody is registered for this event so we simply exit this method.
 		 */
 		if(!this.queue[eventName]) {
+			this.queue_delayed[eventName] = data;
+			
 			return;
 		}
 		
@@ -47,6 +52,10 @@ define(function() {
 		
 		if(this.queue[eventName].indexOf(callback) == -1) {
 			this.queue[eventName].push(callback);
+		}
+		
+		if(this.queue_delayed[eventName]) {
+			callback(this.queue_delayed[eventName]);
 		}
 	}
 	

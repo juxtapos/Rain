@@ -1,0 +1,9 @@
+{
+		"moduleId"	: "session-demo;1.0",
+		"url"		: "/modules/session-demo",
+		"views" : [{
+			"viewId" : "login",
+			"view"	 : "/htdocs/login.html",
+			"controller" : "/htdocs/scripts/login.js"
+		}]
+}
