@@ -6,9 +6,7 @@ body {
 }
 
 .content {
-	background-image:url('../weather.png');	
-	background-repeat:no-repeat;
-	height:200px;
+	background-color : #8E8;
 }
 
 #translationInfo {
