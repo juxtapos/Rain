@@ -181,12 +181,32 @@ Here is an example for a folder structure:
 In this example we have 3 languages and 2 different domains.
 So you can easily switch between languages and domains.
 
+**Fallback mechanism**
+
+Rain works in two steps.
+
+1. Rain looks for the standard locale en_US if the given translation dosn't exist and return it.
+2. Rain returns the msgid if there is no translation.
+
+
+Internationalization for mediafiles.
+Here is an example for a folder structure:
+
+        appname/htdocs/media
+                         |
+                         |-  de_DE_filename.extension
+                         |-  en_EN_filename.extension
+                         |-  en_US_filename.extension
+
+
 **Following methods are understanding in a template:**
 
 * gettext('msgid')
 * ngettext('msgid', 'msgid_plural', number)
 * dgettext('domain', 'msgid')
 * dgettext('domain', 'msgid', 'msgid_plural', number)
+* getmedia('filname.extension')
+* getmedia('filname.extension', 'locale_CODE')
 
 Rain loads as default language en\_US. If you want to change this, do it with the query parameter "lang"
 e.g.: lang=de\_DE
@@ -197,10 +217,7 @@ Example:
 
 **TO BE DONE:**
 
-* getmedia('media.png') which will be dissolved with a convention too
 * parameter to gettext, ngettext, getmedia to force a language
-* fallback to english if a translation dosn't exist
-
 
 # Documentation 
 
