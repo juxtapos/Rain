@@ -31,12 +31,13 @@ You can select a tag by cloning the repository as usual and then checkout the ve
 
 The code has been developed and tested using:
 
-* node.js (0.4.10)
-* npm (1.0.26)
+* node.js (0.4.10) [http://nodejs.org/] 
+* npm (1.0.26) [http://npmjs.org/]
+
+Download both from the given URLs, follow the instructions to install. 
 
 **PEASE NOTE:**
-You have to install nodejs-dev package to for some modules
-
+You have to install nodejs-dev package for some modules
 
 Go to the root of your cloned repository and install all required modules with following command:
 
