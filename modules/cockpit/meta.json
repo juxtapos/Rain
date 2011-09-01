@@ -1,4 +1,18 @@
 {
 	"moduleId"     	: "cockpit;1.0",
-	"url"         	:  "/modules/cockpit"
+	"url"         	:  "/modules/cockpit",
+	"taglib"		: [
+		{
+	    	"namespace" : ""
+	    	, "selector" : "toolbar"
+	    	, "module" : "toolbar;1.0"
+	    	, "view" : "toolbar.html"
+	  	}
+	  	,{
+	    	"namespace" : ""
+	    	, "selector" : "toolbarbutton"
+	    	, "module" : "toolbar;1.0"
+	    	, "view" : "toolbarbutton.html"
+	  	}
+	]
 }

@@ -1,6 +1,22 @@
 {
-	"moduleId"     	: "app;1.0",
-	"url"         	:  "/modules/app",
+	"server" : {
+		"port" : 1338
+		, "serverRoot"   : "."
+		, "documentRoot" : "./public"
+		, "modulePath" : "modules"
+	},
+
+	"loglevel" : 10,
+
+	"remotecontrol" : false,
+
+	"websockets" : false,
+	
+	"caching" : {
+		"resources" : false
+		, "ttl"		: 5
+	}, 
+
 	"taglib" : [
 		{
 			"namespace" : ""
@@ -43,11 +59,6 @@
 	  		"namespace"	 :""
 	  		, "selector" : "div[type=transexample]"
 	  		, "module"   : "translation_example;1.0"
-	  	}
-	  	,{
-	  		"namespace"	 :""
-	  		, "selector" : "remote"
-	  		, "module"   : "remote;1.0"
 	  	}
 	]
 }
