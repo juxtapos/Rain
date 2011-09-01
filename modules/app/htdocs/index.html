@@ -29,22 +29,34 @@
 	<dock>
 	</dock>
 	<container>
-		<app type="weather" id="weather1" instanceid="weather1.js" />
+		<div class="dashlet">
+		  <app type="weather" id="weather1" instanceid="weather1.js" />
+		</div>
 		<ad/>
-		<app type="email"></app>
+		<div class="dashlet">
+		  <app type="email"></app>
+		</div>
 		
-		<app type="weather" instanceid="weather3.js" renderat="server"/>
+		<div class="dashlet">
+		  <app type="weather" instanceid="weather3.js" renderat="server"/>
+		</div>
 		
-		<app type="app2"></app>
-
-		<app type="app1"></app>
+		<div class="dashlet">
+		  <app type="app2"></app>
+    </div>
+    
+    <div class="dashlet">
+		  <app type="app1"></app>
+		</div>
 		<!--<app type="weather" id="weather2"  instanceid="weather2" view="configure"/>-->
 
 		<div type="scrollabletable" srenderat="server" instanceid="domain-data-large.json"/>
 		
 		<!--<fooWeather view="main"/>-->
 
-		<app id="app3"></app>
+    <div class="dashlet">
+		  <app id="app3"></app>
+		</div>
 		
 		<div type="transexample"></div>
 
@@ -68,7 +80,7 @@
 	//
 	$(document).ready(function () {
 		//rain();
-		$('app').resizable();
+		$('.dashlet').resizable();
 		$('container').sortable();	
 		
 		//makeItRain();	
