@@ -51,9 +51,13 @@ for(var i = watchingFiles.length; i--;){
         console.log('\033[31mrun: server reloading');
         currentServer.kill('SIGINT');
       }
+      if (currentDebugger) {
+        console.log('\033[31mrun: debugger reloading');
+        currentDebugger.kill('SIGINT');
+      }
       setTimeout(function () {
         currentServer = spawnServer();
-    }, 100)
+      }, 100)
   });
 }
 
@@ -68,16 +72,8 @@ function spawnServer() {
 		}
 		
 		if (process.argv[i] == 'node-inspector') {
-		  if(currentDebugger){
-        currentDebugger.kill('SIGINT');
-        console.log("debugger killed");
-      } else {
-        currentDebugger = spawn('node-inspector');
-        currentDebugger.on('exit', function(){
-          currentDebugger = spawn('node-inspector');
-          console.log("debugger spawned");
-        })
-      }
+      currentDebugger = spawn('node-inspector');
+      console.log("debugger spawned");
 		}
 	}
 	args.push(serverfile);
