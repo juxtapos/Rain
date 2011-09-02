@@ -93,6 +93,7 @@ function spawnServer() {
 		setTimeout(function () { 
 			logger.error('\033[31mrun: server error, exiting');
       		if (currentServer) currentServer.kill('SIGINT');
+      		if (currentDebugger) currentDebugger.kill('SIGINT');
 			process.exit(); 
 		}, 100);
 	});
