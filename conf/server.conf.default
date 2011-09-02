@@ -15,5 +15,7 @@
 	"caching" : {
 		"resources" : false
 		, "ttl"		: 5
-	}
+	},
+	
+	"default_language" : "en_US"
 }
