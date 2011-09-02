@@ -1,8 +1,3 @@
-body {
-	margin:0;
-	padding:0;	
-}
-
 container {
 	display:block;
 	background:-moz-linear-gradient(top, #c2e2ed, #fff);
