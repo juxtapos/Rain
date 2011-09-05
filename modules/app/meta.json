@@ -1,5 +1,5 @@
 {
-	"moduleId"     	: "app;1.0",
+	"id"		  	: "app;1.0",
 	"url"         	:  "/modules/app",
 	"taglib" : [
 		{

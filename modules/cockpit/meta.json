@@ -1,5 +1,5 @@
 {
-	"moduleId"     	: "cockpit;1.0",
+	"id"	     	: "cockpit;1.0",
 	"url"         	:  "/modules/cockpit",
 	"taglib"		: [
 		{
