@@ -4,7 +4,8 @@
   "version": "0.3.6",
   "author": "Claus Augusti <claus@formatvorlage.de>",
   "contributors": [
-    { "name": "Mitko Tschimev", "email": "privat@tschimev.de" }
+    { "name": "Mitko Tschimev", "email": "privat@tschimev.de" },
+    { "name": "Radu Cosnita", "email": "radu.cosnita@gmail.com" }
   ],
   "dependencies": {
     "node-xml": ">= 1.0.0",

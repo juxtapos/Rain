@@ -31,7 +31,7 @@ You can select a tag by cloning the repository as usual and then checkout the ve
 
 The code has been developed and tested using:
 
-* node.js (0.4.10) [http://nodejs.org/] 
+* node.js (0.4.11) [http://nodejs.org/] 
 * npm (1.0.26) [http://npmjs.org/]
 
 Download both from the given URLs, follow the instructions to install. 
