@@ -6,13 +6,13 @@
 	    	"namespace" : ""
 	    	, "selector" : "toolbar"
 	    	, "module" : "toolbar;1.0"
-	    	, "view" : "toolbar.html"
+	    	, "view" : "/htdocs/toolbar.html"
 	  	}
 	  	,{
 	    	"namespace" : ""
 	    	, "selector" : "toolbarbutton"
 	    	, "module" : "toolbar;1.0"
-	    	, "view" : "toolbarbutton.html"
+	    	, "view" : "/htdocs/toolbarbutton.html"
 	  	}
 	]
 }
