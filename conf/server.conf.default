@@ -5,6 +5,12 @@
 		, "documentRoot" : "./public"
 		, "modulePath" : "modules"
 	},
+	
+	"mothership" : {
+	  "port" : 31337,
+	  "host" : "localhost",
+	  "connect" : true
+	},
 
 	"loglevel" : 10,
 
@@ -17,5 +23,5 @@
 		, "ttl"		: 5
 	},
 	
-	"default_language" : "en_US"
+	"default_language" : "en_US"	
 }

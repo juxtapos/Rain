@@ -1,1 +1,1 @@
-var mothership = require('./lib/mothership.js');
+var mothership = require('./lib/mothership/server.js');
