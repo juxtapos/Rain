@@ -27,7 +27,7 @@
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
-  "engines": { "node": ">= 0.4.10 <= 0.4.11" },
+  "engines": { "node": ">= 0.4.11 <= 0.4.11" },
   "scripts" : {
     "postinstall" : "./patches/run_patches.sh"
   }
