@@ -31,8 +31,8 @@ var mod_fs 			= require('fs')
 	, currentServer = null
 	, currentDebugger = null
 	, logger 		= require('./lib/logger.js').getLogger()
-	, watchingFiles = ['./run.js']
-  , dirs        = ['./lib', './playground']; // directories to be watched
+	, watchingFiles = [__dirname+'/run.js']
+  , dirs        = [__dirname+'/lib', __dirname+'/playground']; // directories to be watched
 
 
 for(var i = dirs.length; i--;){
