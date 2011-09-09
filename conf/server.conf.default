@@ -8,7 +8,7 @@
 	
 	"mothership" : {
 	  "port" : 31337,
-	  "host" : "localhost",
+	  "host" : "172.17.13.241",
 	  "connect" : true
 	},
 
