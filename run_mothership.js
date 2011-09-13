@@ -1,0 +1,1 @@
+var mothership = require('./lib/mothership/server.js');

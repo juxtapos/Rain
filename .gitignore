@@ -3,3 +3,5 @@
 /.project
 /.settings
 /.externalToolBuilders
+/test/mothership/conf/server.conf.*
+

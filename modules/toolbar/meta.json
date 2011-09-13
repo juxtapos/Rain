@@ -1,5 +1,5 @@
 {
-	"moduleId"     	: "toolbar;1.0",
+	"id"	     	: "toolbar;1.0",
 	"url"         	:  "/modules/toolbar",
 	"views"       	: [
 		{

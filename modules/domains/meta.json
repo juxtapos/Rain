@@ -1,5 +1,5 @@
 {
-	"moduleId"     	: "domains;1.0",
+	"id"	     	: "domains;1.0",
 	"url"         	:  "/modules/domains",
 	"name"			: "Domains",
 	"description"   : "",

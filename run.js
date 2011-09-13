@@ -29,19 +29,37 @@ var mod_fs 			= require('fs')
    	, spawn 		= require('child_process').spawn
 	, serverfile 	= __dirname + '/lib/server.js'
 	, currentServer = null
+	, currentDebugger = null
 	, logger 		= require('./lib/logger.js').getLogger()
+	, watchingFiles = [__dirname+'/run.js']
+  , dirs        = [__dirname+'/lib', __dirname+'/playground']; // directories to be watched
 
-mod_fs.watchFile('./run.js', { persistent: true, interval: 200 }, function (curr, prev) {
-  	// why does a string compare not work? 
-  	if (new Date(curr.mtime).getTime() == new Date(prev.mtime).getTime()) { return; }
-  	if (currentServer) { 
-  		console.log('\033[31mrun: server reloading');
-  		currentServer.kill('SIGINT');
-  	}
-  	setTimeout(function () {
-  		currentServer = spawnServer();
-	}, 100)
-});
+
+for(var i = dirs.length; i--;){
+  var files = mod_fs.readdirSync(dirs[i]);
+  for(var j = files.length; j--;){
+    files[j] = dirs[i]+'/'+files[j];
+  }
+  watchingFiles = watchingFiles.concat(files);
+}
+
+for(var i = watchingFiles.length; i--;){
+  mod_fs.watchFile(watchingFiles[i], { persistent: true, interval: 200 }, function (curr, prev) {
+      // why does a string compare not work? 
+      if (new Date(curr.mtime).getTime() == new Date(prev.mtime).getTime()) { return; }
+      if (currentServer) {
+        console.log('\033[31mrun: server reloading');
+        currentServer.kill('SIGINT');
+      }
+      if (currentDebugger) {
+        console.log('\033[31mrun: debugger reloading');
+        currentDebugger.kill('SIGINT');
+      }
+      setTimeout(function () {
+        currentServer = spawnServer();
+      }, 100)
+  });
+}
 
 spawnServer();
 
@@ -50,8 +68,12 @@ function spawnServer() {
 	// must do it this way because a node application won't receive '--' flags
 	for (var i = 2, l = process.argv.length; i < l; i++) {
 		if (process.argv[i] == 'debug') {
-			args.push('--debug');
-			break;			
+		  args.push('--debug');			
+		}
+		
+		if (process.argv[i] == 'node-inspector') {
+      currentDebugger = spawn('node-inspector');
+      console.log("debugger spawned");
 		}
 	}
 	args.push(serverfile);
@@ -71,6 +93,7 @@ function spawnServer() {
 		setTimeout(function () { 
 			logger.error('\033[31mrun: server error, exiting');
       		if (currentServer) currentServer.kill('SIGINT');
+      		if (currentDebugger) currentDebugger.kill('SIGINT');
 			process.exit(); 
 		}, 100);
 	});

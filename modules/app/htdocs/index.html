@@ -16,7 +16,36 @@
 		body, html { margin:0px; padding:0px; }
 	</style>
 	<!--<script>var RAIN = 'rules';</script>-->
+<script>
 
+  //
+  // this stuff is temporary!
+  // don't use the document.ready function for webcomponents, as it may break the correct order 
+  // of execution that is ensured by Rain. 
+  //
+  $(document).ready(function () {
+    //rain();
+    $('.dashlet').resizable();
+    $('container').sortable();  
+    
+    //makeItRain(); 
+  });
+
+  function makeItRain() {
+    var socket = io.connect('http://localhost', 7331);
+    socket.on('connect', function () {
+      console.log('connected');
+      socket.emit('rain.application.state', 'application', 'running');
+    });
+
+    socket.on('rain.application.reload', function (val) {
+      console.log('reloading on server request');
+      setTimeout(function() {
+        window.location.reload();
+      }, 400);
+    });
+  }
+  </script>
 </head>
 <body>
 	<p><strong>It's a {{req_name}}y day</strong></p>
@@ -29,22 +58,34 @@
 	<dock>
 	</dock>
 	<container>
-		<app type="weather" id="weather1" instanceid="weather1.js" />
+		<div class="dashlet">
+		  <app type="weather" id="weather1" instanceid="weather1.js" />
+		</div>
 		<ad/>
-		<app type="email"></app>
+		<div class="dashlet">
+		  <app type="email"></app>
+		</div>
 		
-		<app type="weather" instanceid="weather3.js" renderat="server"/>
+		<div class="dashlet">
+		  <app type="weather" instanceid="weather3.js" renderat="server"/>
+		</div>
 		
-		<app type="app2"></app>
-
-		<app type="app1"></app>
+		<div class="dashlet">
+		  <app type="app2"></app>
+    </div>
+    
+    <div class="dashlet">
+		  <app type="app1"></app>
+		</div>
 		<!--<app type="weather" id="weather2"  instanceid="weather2" view="configure"/>-->
 
 		<div type="scrollabletable" srenderat="server" instanceid="domain-data-large.json"/>
 		
 		<!--<fooWeather view="main"/>-->
 
-		<app id="app3"></app>
+    <div class="dashlet">
+		  <app id="app3"></app>
+		</div>
 		
 		<div type="transexample"></div>
 
@@ -59,34 +100,5 @@
 <p>h&auml;ll&Ouml; W&uuml;lt&szlig;!</p>
 
 </body>
-<script>
 
-	//
-	// this stuff is temporary!
-	// don't use the document.ready function for webcomponents, as it may break the correct order 
-	// of execution that is ensured by Rain. 
-	//
-	$(document).ready(function () {
-		//rain();
-		$('app').resizable();
-		$('container').sortable();	
-		
-		//makeItRain();	
-	});
-
-	function makeItRain() {
-		var socket = io.connect('http://localhost', 7331);
-		socket.on('connect', function () {
-			console.log('connected');
-			socket.emit('rain.application.state', 'application', 'running');
-		});
-
-		socket.on('rain.application.reload', function (val) {
-			console.log('reloading on server request');
-			setTimeout(function() {
-				window.location.reload();
-			}, 400);
-		});
-	}
-	</script>
 </html>

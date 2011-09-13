@@ -4,7 +4,8 @@
   "version": "0.3.6",
   "author": "Claus Augusti <claus@formatvorlage.de>",
   "contributors": [
-    { "name": "Mitko Tschimev", "email": "privat@tschimev.de" }
+    { "name": "Mitko Tschimev", "email": "privat@tschimev.de" },
+    { "name": "Radu Cosnita", "email": "radu.cosnita@gmail.com" }
   ],
   "dependencies": {
     "node-xml": ">= 1.0.0",
@@ -21,12 +22,13 @@
     "redback": ">= 0.2.7",
     "requirejs": ">=0.26.0",
     "node-inspector": ">=0.1.9",
-    "gettext": ">= 0.0.1"
+    "gettext": ">= 0.0.1",
+    "less": ">= 1.1.4"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
-  "engines": { "node": ">= 0.4.10 <= 0.4.11" },
+  "engines": { "node": ">= 0.4.11 <= 0.4.11" },
   "scripts" : {
-    "postinstall" : "patch node_modules/node-xml/lib/node-xml.js < patches/node_xml.patch && patch node_modules/mu/lib/mu/renderer.js < patches/mu_renderer.patch && patch node_modules/gettext/lib/gettext.js < patches/gettext.patch"
+    "postinstall" : "./patches/run_patches.sh"
   }
 }
