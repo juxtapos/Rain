@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<form name="form1">
+		<label for="firstName">First name</label>
+		<input type="text" id="firstName" value="John" /><br/>
+		
+		<label for="lastName">Last name</label>
+		<input type="text" id="lastName" value="Doe" />
+	</form>
+	
+	<form name="cities">
+		<label for="city">City</label>
+		<select name="city">
+			<option value="Bucharest">Bucharest</option>
+			<option value="Karlsruhe">Karlsruhe</option>
+		</select>
+	</form>
+
+	<hr/>	
+	
+	<label for="names">Rain responsible contact</label>
+	<select id="names">
+		<option value="1">Claus</option>
+		<option value="2">Mitko</option>
+		<option value="3">Radu</option>
+	</select>
+			
+	<br/><hr/>
+
+	<a href="webcomponent://navigation-flow;1.0/dest_nav">
+		<param control="firstName" form="form1" />
+		<param control="lastName" form="form1" />
+		<param control="names" value-method="options[this.selectedIndex].value;" />
+		<param control="city" form="cities" value-method="options[this.selectedIndex].value" />
+		Goto to rain dynamic destination.		
+	</a>
+</body>
+</html>

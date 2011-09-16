@@ -1,0 +1,11 @@
+{
+	"id"	:	"navigation-flow;1.0",
+	"url"		:	"/modules/navigation-flow",
+	"views"		:	[
+		{"viewId"	:	"source_nav",
+		 "view"		:	"/htdocs/source_navigation.html"},
+		{"viewId"	:	"dest_nav",
+		 "view"		:	"/htdocs/destination_navigation.html",
+		 "controller"	:	"/htdocs/script/destination_navigation.js"}
+	]
+}
