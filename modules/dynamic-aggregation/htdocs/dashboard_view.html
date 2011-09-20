@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>This is a super cool dynamic dashboard.</title>
+<link rel="stylesheet" href="htdocs/css/dashboard.css" />
+</head>
+<body>
+	<h1>Header</h1>
+	
+	<!-- this is a rain specific aggregator. It injects all views of type dashboard
+		and lay them out on two columns.
+	 -->
+	<dynamic-aggregator>
+		<filter value="type=dashboard" />
+		<grid cols="2" />
+		<renderTag value="widget" />
+	</dynamic-aggregator>
+	
+	<h1>Footer</h1>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+	"id"	:	"dynamic-aggregations;1.0",
+	"url"		:	"/modules/dynamic-aggregation",
+	"views"		:	[
+		{"viewId"	:	"widget1",
+		 "view"		:	"/htdocs/commercials_widget.html",
+		 "type"		:	["dashboard"]},
+		{"viewId"	:	"widget2",
+		 "view"		:	"/htdocs/persons_widget.html",
+		 "type"		:	["dashboard"]},
+		{"viewId"	:	"commercials-subwidget1",
+		 "view"		:	"/htdocs/subwidgets/commercials_subwidget1.html",
+		 "type"		:	["dashboard-commercials"]},		 
+		{"viewId"	:	"commercials-subwidget2",
+		 "view"		:	"/htdocs/subwidgets/commercials_subwidget2.html",
+		 "type"		:	["dashboard-commercials"]},		 
+		{"viewId"	:	"dashboard_view",
+		 "view"		:	"/htdocs/dashboard_view.html"}
+	]
+}
