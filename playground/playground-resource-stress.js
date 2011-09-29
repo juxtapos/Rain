@@ -1,5 +1,5 @@
 var mod_resmanager    = require('../lib/resourcemanager.js')(true, true)
-    , mod_promise       = require('promised-io/lib/promise')
+    , mod_promise       = require('promised-io/promise')
     , mod_cache         = require('../lib/Cache.js')
     , mod_path          = require('path')
     , Resource          = require('../lib/resources.js').Resource

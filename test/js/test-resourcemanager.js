@@ -1,6 +1,6 @@
 var nodeunit            = require('nodeunit')
     , mod_resmanager    = require('resourcemanager.js')(true, true)
-    , mod_promise       = require('promised-io/lib/promise')
+    , mod_promise       = require('promised-io/promise')
     , mod_cache         = require('cache.js')
     , mod_path          = require('path')
     , Resource          = require('resources.js').Resource

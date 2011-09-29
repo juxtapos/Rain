@@ -1,7 +1,7 @@
 var mod_fs 					= require('fs')
 	, mod_http 				= require('http')
 	, mod_path 				= require('path')
-	, mod_promise 			= require('promised-io/lib/promise')
+	, mod_promise 			= require('promised-io/promise')
 	, mod_url               = require('url')
     , mod_querystring       = require('querystring')
     //, logger                = require('./logger.js').getLogger('weather/main', require('./logger.js').Logger.SEVERITY.INFO)

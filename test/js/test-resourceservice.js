@@ -1,6 +1,6 @@
 var nodeunit  = require('nodeunit')
 	, resources = require('resources.js')
-	, promises  = require('promised-io/lib/promise')
+	, promises  = require('promised-io/promise')
 
 var testfiles = [
 	"../../modules/app/application.css", "../../modules/app/nothere.js", "./resources.js"

@@ -32,7 +32,7 @@ var mod_fs 			= require('fs')
 	, currentDebugger = null
 	, logger 		= require('./lib/logger.js').getLogger()
 	, watchingFiles = [__dirname+'/run.js']
-  , dirs        = [__dirname+'/lib', __dirname+'/playground']; // directories to be watched
+  , dirs        = [__dirname+'/lib', __dirname+'/playground', __dirname+"/lib/tagparsing"]; // directories to be watched
 
 
 for(var i = dirs.length; i--;){
