@@ -23,11 +23,15 @@
     "requirejs": ">=0.26.0",
     "node-inspector": ">=0.1.9",
     "gettext": ">= 0.0.1",
-    "less": ">= 1.1.4"
+    "less": ">= 1.1.4",
+    "optimist": ">= 0.2.6",
+    "colors": ">= 0.5.1",
+    "wrench": ">= 1.2.0"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
-  "engines": { "node": ">= 0.4.11 <= 0.4.11" },
+  "bin": { "rain": "./bin/rain" },
+  "engines": { "node": ">= 0.4.12 <= 0.4.12" },
   "scripts" : {
     "postinstall" : "./patches/run_patches.sh"
   }
