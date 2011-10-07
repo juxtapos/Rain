@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+  , mod_path = require('path')
+  , color = require('colors')
+  , exec = require('child_process').exec
+  , optimist = require('optimist')
+  , wrench = require('wrench');
+
+var argv = optimist
+   .usage('rain [options] PATH')
+   .options('c', { alias : 'create-app', describe: 'Create application: --create-app=/path/to/'})
+   .options('a', { alias : 'app-name', describe: 'Application name: --app-name=NewAppName'})
+   .options('h', { alias : 'help', describe: 'Show the help' })
+   .options('s', { alias : 'start', describe: 'Start Server as deamon' })
+   .options('q', { alias : 'quit', describe: 'Stop deamon Server' })
+   .options('r', { alias : 'restart', describe: 'Restart deamon Server' })
+   .options('m', { alias : 'mothership', describe: 'Start with mothership' })
+   .boolean(['start', 's', 'quit', 'q', 'restart', 'r', 'mothership', 'm'])
+   .check(checkOptions)
+   .argv;
+
+//================= only for development
+if(argv.d)
+  console.log(argv)
+//========================
+
+/**
+ * create new application
+ */
+if(argv.c){
+  var app_path = mod_path.join(mod_path.resolve(argv.c), argv.a);
+  wrench.copyDirSyncRecursive(mod_path.resolve('../modules/_skeleton'), app_path);
+  console.log("Created application :) Let it rain baby!!!".rainbow)
+}
+
+
+
+
+
+function checkOptions(args){
+  /**
+   * check create application rules
+   */
+  if(args.c){
+    if(typeof args.c == 'boolean')
+      throw 'You must set a path';
+    
+    if(!mod_path.existsSync(args.c))
+      throw("Path does not exist".red+": "+args.c);
+    
+    if(!args.a || typeof args.a == 'boolean' || args.a.length == 0)
+      throw "No application name provided! use "+"-a, --app-name".green+" to set it";
+  }
+  return true;
+}
