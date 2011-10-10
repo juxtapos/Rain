@@ -10,43 +10,70 @@ var fs = require('fs')
 
 program
     .usage("<options> <command>")
-    .option("-m, --mothership", "start with mothership")
-    .option("-d, --debug", "debugging", function(){
-      console.log(program);
-    });
+    .option("-d, --debug", "debugging")
+    .option("-c, --conf <path_to_conf>", "start server with custom configuration")
+    .option("-m, --nothership-conf <path_to_conf>", "start server with custom mothership configuration");
 
 program
     .command("create-app <path> <app-name>")
-    .description("create application project")
+    .description("create an application project")
     .action(createApplication);
 
 program
-    .command("stop")
-    .description("stop deamon server")
-    .action(stop);
-
-program
-    .command("start")
-    .description("start server as deamon")
+    .command("start [#pid]")
+    .description([
+       "1. on project root the command starts the server and creates an pid file"
+    ].join('\n'))
     .action(start);
 
 program
-    .command("restart")
-    .description("restart deamon server")
+    .command("stop [#pid]")
+    .description([
+       "1. on project root the command stops the associated server",
+       "2. with [#pid] stops the server with the associated process id"
+    ].join('\n'))
+    .action(stop);
+
+program
+    .command("restart [#pid]")
+    .description([
+       "1. on project root the command restarts the associated server",
+       "2. with [#pid] restarts the server with the associated process id"
+    ].join('\n'))
     .action(restart);
 
+program
+    .command("list [server|mothership]")
+    .description("lists all running server/motherships, with [type] only 1 of both will be displayed")
+    .action(list);
+
+program
+    .command("stopall")
+    .description("shutting down all server and motherships")
+    .action(stopall);
+
+
+var extendedHelp = [
+    '  Examples:'
+    ,''
+    ,'    $ rain create-app /home/username/workspace newProject'
+    ,''
+    ,'    $ rain start'
+    ,'    $ rain start -c /home/username/workspace/custom_confs/server.conf'
+    ,'    $ rain start -m /home/username/workspace/custom_confs/mothership.conf'
+    ,''
+    ,'    $ cd /home/username/workspace/newProject | rain stop'
+    ,'    $ rain stop 5361'
+    ,''
+].join('\n');
 
 program.on('--help', function(){
-  console.log('  Examples:');
-  console.log('');
-  console.log('    $ rain create-app /home/username/workspace newProject');
-  console.log('    $ rain -m start');
-  console.log('');
+  console.log(extendedHelp);
 });
 
 program.parse(process.argv);
-var args = program.args;
-checkOptions();
+if(!program.mothership && !program.debug && program.rawArgs.length <= 2)
+  console.log(program.helpInformation()+'\n\n\n'+extendedHelp);
 
 /**
  * create new application
@@ -54,44 +81,61 @@ checkOptions();
 function createApplication(path, app_name){
   var app_path = mod_path.join(mod_path.resolve(path), app_name);
   if(!mod_path.existsSync(app_path)){
-    console.log("Directory "+app_path.blue+" does not exist! Do you want to create it?");
+    log("Directory "+app_path.blue+" does not exist!");
+    program.confirm('Create Directory?  -  yes/no: ', function(yes){
+      process.stdin.destroy();
+      if(yes){
+        wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../modules/_skeleton')), app_path);
+        log(
+          "Application created".green
+          ,""
+          ,"Go to the root directory of the project and start the server."
+          ,"  $ cd "+app_path+" | rain start"
+          ,""
+          ,"Happy developing ;-)".rainbow
+          ,""
+        );
+      }
+    });
   }
-  wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../modules/_skeleton')), app_path);
-  console.log("Created application :) Let it rain baby!!!".rainbow)
-}
+};
 
 function debug(){
   console.log(program);
-}
+};
 
 function start(){
-  if(program.mothership)
-    console.log("mothership started!".green);
   console.log("server started!".green);
-}
+};
 
 function stop(){
-  console.log("server stoped!".green);
-}
+  console.log("server stopped!".green);
+};
 
 function restart(){
   console.log("server restarted!".green);
-}
+};
 
-function checkOptions(){
-  /**
-   * check create application rules
-   */
-  if(program.createApp){
-    if(typeof program.createApp == 'boolean')
-      console.log('You must set a path');
-    
-    if(!mod_path.existsSync(program.createApp))
-      console.log("Path does not exist".red+": "+program.createApp);
-    
-    if(!args.a || typeof args.a == 'boolean' || args.a.length == 0)
-      console.log("No application name provided! use "+"-a, --app-name".green+" to set it");
+function list(type){
+
+  if(!type || type == 'mothership'){
+    console.log("mothership list");
   }
+  
+  if(!type || type == 'server'){
+    console.log("server list");
+  }
+};
 
-  return true;
-}
+function stopall(){
+  console.log("all server shutted down!");
+};
+
+
+function log(){
+  var arr_String = [''];
+  for(var str in arguments){
+    arr_String.push(arguments[str]);
+  }
+  console.log(arr_String.join('\n'));
+};

@@ -1,5 +1,10 @@
-.settings/
 .gitignore
 .externalToolBuilders/
 .project
 .npmignore
+.settings/
+test/
+playground/
+conf/mothership.conf.default.*
+conf/server.conf.default.*
+modules/*
