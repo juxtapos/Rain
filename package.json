@@ -1,5 +1,5 @@
 {
-  "name": "Rain",
+  "name": "rain",
   "description": "An experiment on component-based and distributed web applications",
   "version": "0.3.6",
   "author": "Claus Augusti <claus@formatvorlage.de>",
@@ -7,6 +7,9 @@
     { "name": "Mitko Tschimev", "email": "privat@tschimev.de" },
     { "name": "Radu Cosnita", "email": "radu.cosnita@gmail.com" }
   ],
+  "devDependencies":{
+    "node-inspector": ">=0.1.9"
+  },
   "dependencies": {
     "node-xml": ">= 1.0.0",
     "promised-io": ">= 0.2.3",
@@ -21,17 +24,18 @@
     "csslint": ">= 0.5.0",
     "redback": ">= 0.2.7",
     "requirejs": ">=0.26.0",
-    "node-inspector": ">=0.1.9",
     "gettext": ">= 0.0.1",
     "less": ">= 1.1.4",
     "optimist": ">= 0.2.6",
     "colors": ">= 0.5.1",
-    "wrench": ">= 1.2.0"
+    "wrench": ">= 1.2.0",
+    "commander": "0.2.0"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
+  "main": "./run",
   "bin": { "rain": "./bin/rain" },
-  "engines": { "node": ">= 0.4.12 <= 0.4.12" },
+  "engines": { "node": "0.4.12" },
   "scripts" : {
     "postinstall" : "./patches/run_patches.sh"
   }
