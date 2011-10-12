@@ -24,7 +24,7 @@ not too distant time in the future ;-)
 you want to test Rain and play with it, use the latest tagged version. See the "Switch Tags" menu at the top of this page. 
 You can select a tag by cloning the repository as usual and then checkout the version: 
 
-    $ git clone git@github.com:juxtapos/Rain.git
+    $ git clone https://github.com/juxtapos/Rain.git
     $ git checkout <version>
 
 ## Requirements
@@ -134,7 +134,7 @@ Copy the supplied default configuration files once you start adding your own stu
 
 Getting around: 
 
-Call the example page using http://localhost:1337/modules/app/index.html to see a few web components being aggregated on a single page. 'app' is 
+Call the example page using http://localhost:1337/modules/app/htdocs/index.html to see a few web components being aggregated on a single page. 'app' is 
 a web component itself. You can of course call the each of the embedded web components individually: http://localhost:1337/modules/weather/main.html
 or http://localhost:1337/modules/scrollabletable/main.html. Check the view template source files to get an idea how things work. The mapping between 
 elements and web components is currently resided in the server config (which breaks decoupling). You can easily add web components by yourself

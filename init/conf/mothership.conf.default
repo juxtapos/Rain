@@ -1,0 +1,10 @@
+{
+  "server": {
+    "port" : 31337
+  },
+  
+  "datastore": {
+    "host" : "localhost",
+    "port" : "6379"
+  }
+}

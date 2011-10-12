@@ -5,52 +5,137 @@ var fs = require('fs')
   , color = require('colors')
   , exec = require('child_process').exec
   , optimist = require('optimist')
-  , wrench = require('wrench');
+  , wrench = require('wrench')
+  , program = require('commander');
 
-var argv = optimist
-   .usage('rain [options] PATH')
-   .options('c', { alias : 'create-app', describe: 'Create application: --create-app=/path/to/'})
-   .options('a', { alias : 'app-name', describe: 'Application name: --app-name=NewAppName'})
-   .options('h', { alias : 'help', describe: 'Show the help' })
-   .options('s', { alias : 'start', describe: 'Start Server as deamon' })
-   .options('q', { alias : 'quit', describe: 'Stop deamon Server' })
-   .options('r', { alias : 'restart', describe: 'Restart deamon Server' })
-   .options('m', { alias : 'mothership', describe: 'Start with mothership' })
-   .boolean(['start', 's', 'quit', 'q', 'restart', 'r', 'mothership', 'm'])
-   .check(checkOptions)
-   .argv;
+program
+    .usage("<options> <command>")
+    .option("-d, --debug", "debugging")
+    .option("-c, --conf <path_to_conf>", "start server with custom configuration")
+    .option("-m, --nothership-conf <path_to_conf>", "start server with custom mothership configuration");
 
-//================= only for development
-if(argv.d)
-  console.log(argv)
-//========================
+program
+    .command("create-app <path> <app-name>")
+    .description("create an application project")
+    .action(createApplication);
+
+program
+    .command("start [#pid]")
+    .description([
+       "1. on project root the command starts the server and creates an pid file"
+    ].join('\n'))
+    .action(start);
+
+program
+    .command("stop [#pid]")
+    .description([
+       "1. on project root the command stops the associated server",
+       "2. with [#pid] stops the server with the associated process id"
+    ].join('\n'))
+    .action(stop);
+
+program
+    .command("restart [#pid]")
+    .description([
+       "1. on project root the command restarts the associated server",
+       "2. with [#pid] restarts the server with the associated process id"
+    ].join('\n'))
+    .action(restart);
+
+program
+    .command("list [server|mothership]")
+    .description("lists all running server/motherships, with [type] only 1 of both will be displayed")
+    .action(list);
+
+program
+    .command("stopall")
+    .description("shutting down all server and motherships")
+    .action(stopall);
+
+
+var extendedHelp = [
+    '  Examples:'
+    ,''
+    ,'    $ rain create-app /home/username/workspace newProject'
+    ,''
+    ,'    $ rain start'
+    ,'    $ rain start -c /home/username/workspace/custom_confs/server.conf'
+    ,'    $ rain start -m /home/username/workspace/custom_confs/mothership.conf'
+    ,''
+    ,'    $ cd /home/username/workspace/newProject | rain stop'
+    ,'    $ rain stop 5361'
+    ,''
+].join('\n');
+
+program.on('--help', function(){
+  console.log(extendedHelp);
+});
+
+program.parse(process.argv);
+if(!program.mothership && !program.debug && program.rawArgs.length <= 2)
+  console.log(program.helpInformation()+'\n\n\n'+extendedHelp);
 
 /**
  * create new application
  */
-if(argv.c){
-  var app_path = mod_path.join(mod_path.resolve(argv.c), argv.a);
-  wrench.copyDirSyncRecursive(mod_path.resolve('../modules/_skeleton'), app_path);
-  console.log("Created application :) Let it rain baby!!!".rainbow)
-}
-
-
-
-
-
-function checkOptions(args){
-  /**
-   * check create application rules
-   */
-  if(args.c){
-    if(typeof args.c == 'boolean')
-      throw 'You must set a path';
-    
-    if(!mod_path.existsSync(args.c))
-      throw("Path does not exist".red+": "+args.c);
-    
-    if(!args.a || typeof args.a == 'boolean' || args.a.length == 0)
-      throw "No application name provided! use "+"-a, --app-name".green+" to set it";
+function createApplication(path, app_name){
+  var app_path = mod_path.join(mod_path.resolve(path), app_name);
+  if(!mod_path.existsSync(app_path)){
+    log("Directory "+app_path.blue+" does not exist!");
+    program.confirm('Create Directory?  -  yes/no: ', function(yes){
+      process.stdin.destroy();
+      if(yes){
+        wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../modules/_skeleton')), app_path);
+        log(
+          "Application created".green
+          ,""
+          ,"Go to the root directory of the project and start the server."
+          ,"  $ cd "+app_path+" | rain start"
+          ,""
+          ,"Happy developing ;-)".rainbow
+          ,""
+        );
+      }
+    });
   }
-  return true;
-}
+};
+
+function debug(){
+  console.log(program);
+};
+
+function start(){
+  console.log("server started!".green);
+};
+
+function stop(){
+  console.log("server stopped!".green);
+};
+
+function restart(){
+  console.log("server restarted!".green);
+};
+
+function list(type){
+
+  if(!type || type == 'mothership'){
+    console.log("mothership list");
+  }
+  
+  if(!type || type == 'server'){
+    console.log("server list");
+  }
+};
+
+function stopall(){
+  console.log("all server shutted down!");
+};
+
+
+function log(){
+  var arr_String = [''];
+  for(var str in arguments){
+    arr_String.push(arguments[str]);
+  }
+  console.log(arr_String.join('\n'));
+};

@@ -1,0 +1,27 @@
+{
+	"server" : {
+		"port" : 1337
+		, "serverRoot"   : "."
+		, "documentRoot" : "./public"
+		, "modulePath" : "{{modules_path}}"
+	},
+	
+	"mothership" : {
+	  "port" : 31337,
+	  "host" : "localhost",
+	  "connect" : true
+	},
+
+	"loglevel" : 10,
+
+	"remotecontrol" : false,
+
+	"websockets" : false,
+	
+	"caching" : {
+		"resources" : false
+		, "ttl"		: 5
+	},
+	
+	"default_language" : "en_US"	
+}

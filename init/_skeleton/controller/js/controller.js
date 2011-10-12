@@ -15,9 +15,9 @@ define(function ()
 	return {
 		init 		: init,
 		load 		: load, 
-		start 		: start, 
-		pause 		: stop, 
-		stop 		: stop
-		dispose 	: dispose
+		start 	: start, 
+		pause 	: stop, 
+		stop 		: stop, 
+		dispose : dispose
 	}
 });
