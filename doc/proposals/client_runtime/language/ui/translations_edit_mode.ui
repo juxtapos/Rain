@@ -113,7 +113,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>30</x>
      <y>230</y>
-     <width>251</width>
+     <width>201</width>
      <height>121</height>
     </rect>
    </property>
@@ -139,6 +139,19 @@ p, li { white-space: pre-wrap; }
    <property name="icon">
     <iconset>
      <normaloff>../../../../../../../../../documents/host.1207/rain_test/rain_v0.4.1/doc/common_icons/modes/translation_mode.png</normaloff>../../../../../../../../../documents/host.1207/rain_test/rain_v0.4.1/doc/common_icons/modes/translation_mode.png</iconset>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>230</y>
+     <width>191</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>You have 3 addresses registered.</string>
    </property>
   </widget>
  </widget>
