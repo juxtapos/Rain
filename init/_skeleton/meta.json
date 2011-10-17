@@ -1,4 +1,4 @@
 {
-	"id"	     	: "app;1.0",
-	"url"         	:  "/modules/app"
+	"id"	     	: "{{application_name}};1.0",
+	"url"      	:  "/modules/{{application_name}}"
 }

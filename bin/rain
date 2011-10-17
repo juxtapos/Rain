@@ -6,13 +6,20 @@ var fs = require('fs')
   , exec = require('child_process').exec
   , optimist = require('optimist')
   , wrench = require('wrench')
-  , program = require('commander');
+  , program = require('commander')
+  , daemon = require('daemon')
+  , platform_list = ["nodejs (default)", "pustefix", "wicket"]
+  , utils   = require('./lib/utils.js')
+  , sys_util = require('util');
 
 program
     .usage("<options> <command>")
     .option("-d, --debug", "debugging")
     .option("-c, --conf <path_to_conf>", "start server with custom configuration")
-    .option("-m, --nothership-conf <path_to_conf>", "start server with custom mothership configuration");
+    .option("-m, --mothership-conf <path_to_conf>", "start server with custom mothership configuration")
+    .option("-p, --platform <platform>", [
+          "choose the platform for the application",
+          "      Available platforms:            "+platform_list.join(', ')].join('\n'));
 
 program
     .command("create-app <path> <app-name>")
@@ -85,19 +92,39 @@ function createApplication(path, app_name){
     program.confirm('Create Directory?  -  yes/no: ', function(yes){
       process.stdin.destroy();
       if(yes){
-        wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../modules/_skeleton')), app_path);
-        log(
-          "Application created".green
-          ,""
-          ,"Go to the root directory of the project and start the server."
-          ,"  $ cd "+app_path+" | rain start"
-          ,""
-          ,"Happy developing ;-)".rainbow
-          ,""
-        );
+        if(setupApplication(program.platform, app_path, app_name)){
+          log(
+              "Application created".green
+              ,""
+              ,"Go to the root directory of the project and start the server."
+              ,"  $ cd "+app_path+" | rain start"
+              ,""
+              ,"Happy developing ;-)".rainbow
+              ,""
+            );
+        } else {
+          log("Error: problem to setup the application".red);
+        }
       }
     });
   }
+};
+
+function setupApplication(platform, app_path, app_name){
+  switch(platform){
+    case "wicket":
+      console.log("wicket skeleton not implemented yet");
+      break;
+      
+    case "nodejs":
+    default:
+      wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/_skeleton')), app_path);
+      var metajs = fs.readFileSync(app_path+'/meta.json', 'utf8').replace(/\{\{application_name\}\}/g, app_name);
+      fs.writeFileSync(app_path+'/meta.json', metajs, 'utf8');
+      break;
+  }
+  
+  return true;
 };
 
 function debug(){
@@ -105,15 +132,104 @@ function debug(){
 };
 
 function start(){
-  console.log("server started!".green);
+  var actPath     = process.cwd()
+      ,server     = require('../lib/server_new')
+      ,child      = require('child_process');
+  
+  if(!utils.checkValidProject(actPath)){
+    console.log("this is not a compatible project!".red);
+    return false;
+  }
+  
+  if(mod_path.existsSync(mod_path.join(actPath, '.server.props'))){
+    console.log("server is still running!");
+    return false;
+  }
+  
+  //===========START MOTHERSHIP===========
+  var ms = child.spawn('node', [__dirname+'/lib/start_mothership.js', program.mothershipConf ? program.mothershipConf : mod_path.join(__dirname, '..', 'init', 'conf', 'mothership.conf.default')]);
+  ms.stdout.on('data', function(data){
+    if(data == "mothership started\n"){
+      startServer();
+    } else {
+      process.stdout.write(data.toString());
+    }
+  })
+  
+  //===========MOTHERSHIP STARTED===========
+
+  function startServer(){
+    //===========START RAIN SERVER===========  
+    var server_conf = fs.readFileSync(
+        program.conf ? program.conf : mod_path.join(__dirname, '..', 'init', 'conf', 'server.conf.default')
+    , 'utf8');
+    server_conf = server_conf.replace('{{modules_path}}', mod_path.join(actPath, '..'));
+    var serverlist = mod_path.join(__dirname, '..', '.process', 'serverlist')
+        ,spid_path = mod_path.join(__dirname, '..', '.process', 's_pid');
+    
+    //start server
+    server({'conf' : JSON.parse(server_conf)}, function(){
+      daemon.daemonize(mod_path.join(actPath, 'server.log'), null, function(err, pid){
+        var daemon_process = this.process;
+        
+        if (err) {
+          return sys_util.puts('Error starting daemon: ' + err);
+        }
+        
+        daemon_process.title = "rain-server";
+        
+        //create configurationfile
+        var server_prop_file = [
+          '{',
+          '  "pid" : '+pid+',',
+          '  "path" : "'+actPath+'",',
+          '  "conf" : '+server_conf,
+          '}'
+        ].join('\n');
+        var conf_spid    = mod_path.join(spid_path, "server.conf."+pid)
+           ,conf_project = mod_path.join(actPath, ".server.props");
+        //write server config
+        fs.writeFileSync(conf_spid, server_prop_file);
+        fs.writeFileSync(conf_project, server_prop_file);
+        //clear conf files if server shutting down
+        daemon_process.on('SIGTERM', function(){
+          fs.unlinkSync(conf_spid);
+          fs.unlinkSync(conf_project);
+          daemon_process.exit(0);
+        });
+        
+        daemon_process.on('uncaughtException', function (err) {
+          console.log('Caught exception: ' + err);
+          daemon_process.kill(pid, 'SIGTERM');
+        });
+      });
+    });
+    //===========RAIN SERVER STARTED===========
+  }
 };
 
-function stop(){
-  console.log("server stopped!".green);
+function stop(pid){
+  if(!pid){
+    var actPath = process.cwd();
+    if(utils.checkValidProject(actPath)){
+      if(mod_path.existsSync(mod_path.join(actPath, '.server.props'))){
+        pid = JSON.parse(fs.readFileSync(mod_path.join(actPath, '.server.props'))).pid;
+      } else {
+        console.log('No running server for this project');
+        process.exit(0);
+      }
+    } else {
+      console.log("this is not a compatible project!".red);
+      process.exit(1);
+    }
+  }
+  process.kill(pid, 'SIGTERM');
+  console.log("Server stopped!".green);
+  process.exit(0);
 };
 
 function restart(){
-  console.log("server restarted!".green);
+  console.log("not implemented yet!".green);
 };
 
 function list(type){
@@ -128,8 +244,28 @@ function list(type){
 };
 
 function stopall(){
-  console.log("all server shutted down!");
+  var server = utils.getServerList(),
+      motherships = utils.getMothershipList(),
+      countServer = 0,
+      countMS = 0;
+  
+  //shutdown all server
+  for(var i = server.length; i--;){
+    process.kill(server[i].substring(12),'SIGTERM');
+    countServer++;
+  }
+  
+  //shutdown all motherships
+  for(var i = motherships.length; i--;){
+    var result = motherships[i].match(/([0-9]+)$/);
+    process.kill(result[1],'SIGTERM');
+    countMS++;
+  }
+  
+  console.log("%s Server shutted down!".green, countServer);
+  console.log("%s Motherships shutted down!".green, countMS);
 };
+
 
 
 function log(){

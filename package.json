@@ -29,7 +29,8 @@
     "optimist": ">= 0.2.6",
     "colors": ">= 0.5.1",
     "wrench": ">= 1.2.0",
-    "commander": "0.2.0"
+    "commander": "0.2.0",
+    "daemon": "0.3.2"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
@@ -37,6 +38,6 @@
   "bin": { "rain": "./bin/rain" },
   "engines": { "node": "0.4.12" },
   "scripts" : {
-    "postinstall" : "./patches/run_patches.sh"
+    "postinstall" : "./make.js"
   }
 }
