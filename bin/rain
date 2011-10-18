@@ -172,16 +172,15 @@ function setupProject(project_path){
 
 function setupComponent(project_path, component_name, callback){
   
-  var components_path = mod_path.join(project_path, 'components');
-  if(utils.componentExists(components_path)){
+  var component_path = mod_path.join(project_path, 'components', component_name);
+  if(utils.componentExists(component_path)){
     console.log("Component already exists".red);
     return false;
   }
   console.log('Choose your platform:');
   program.choose(platform_list, function(i){
     //create component directory
-    var comp_path = mod_path.join(components_path, component_name);
-    fs.mkdirSync(comp_path, 0755);
+    fs.mkdirSync(component_path, 0755);
     switch(platform_list[i]){
       case "wicket":
         console.log("wicket not implemented yet");
@@ -195,7 +194,7 @@ function setupComponent(project_path, component_name, callback){
       default:
         require('./lib/components/nodejs')({
           name : component_name,
-          path : comp_path
+          path : component_path
         });
         break;
     }
@@ -204,7 +203,7 @@ function setupComponent(project_path, component_name, callback){
       "Component created".green
       ,""
       ,"You can find your component in"
-      ,comp_path.blue
+      ,component_path.blue
     );
     if(callback)
       callback();
