@@ -3,6 +3,7 @@
 var fs          = require('fs')
     ,mod_path   = require('path')
     ,colors     = require('colors')
+    ,os         = require('os')
     ,content    = ''
     ,root       = mod_path.resolve(mod_path.join(__dirname));
 
@@ -19,11 +20,3 @@ console.log('patched node-xml');
 fs.writeFileSync(mod_path.resolve(__dirname+'/node_modules/mu/lib/mu/renderer.js'), content, 'utf8');
 console.log('patched mu');
 console.log("3/3 modules patched");
-
-//create process directories
-console.log(mod_path.join(root, '.process'));
-fs.mkdirSync(mod_path.join(root, '.process'), '755');
-fs.mkdirSync(mod_path.join(root, '.process', 's_pid'), '755');
-fs.mkdirSync(mod_path.join(root, '.process', 'm_pid'), '755');
-fs.writeFileSync(mod_path.join(root, '.process', 'mothershiplist.json'), '', 'utf8');
-console.log("created process structure".green);

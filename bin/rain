@@ -8,9 +8,11 @@ var fs = require('fs')
   , wrench = require('wrench')
   , program = require('commander')
   , daemon = require('daemon')
-  , platform_list = ["nodejs (default)", "pustefix", "wicket"]
+  , platform_list = ["nodejs"]
   , utils   = require('./lib/utils.js')
   , sys_util = require('util');
+
+process.title = "rain";
 
 program
     .usage("<options> <command>")
@@ -22,9 +24,14 @@ program
           "      Available platforms:            "+platform_list.join(', ')].join('\n'));
 
 program
-    .command("create-app <path> <app-name>")
-    .description("create an application project")
-    .action(createApplication);
+    .command("create-project <path> <project-name>")
+    .description("create a project")
+    .action(createProject);
+
+program
+    .command("create-component <component-name>")
+    .description("create a component")
+    .action(createComponent);
 
 program
     .command("start [#pid]")
@@ -63,13 +70,13 @@ program
 var extendedHelp = [
     '  Examples:'
     ,''
-    ,'    $ rain create-app /home/username/workspace newProject'
+    ,'    $ rain create-project /home/username/workspace newProject'
     ,''
     ,'    $ rain start'
     ,'    $ rain start -c /home/username/workspace/custom_confs/server.conf'
     ,'    $ rain start -m /home/username/workspace/custom_confs/mothership.conf'
     ,''
-    ,'    $ cd /home/username/workspace/newProject | rain stop'
+    ,'    $ rain stop'
     ,'    $ rain stop 5361'
     ,''
 ].join('\n');
@@ -85,46 +92,123 @@ if(!program.mothership && !program.debug && program.rawArgs.length <= 2)
 /**
  * create new application
  */
-function createApplication(path, app_name){
-  var app_path = mod_path.join(mod_path.resolve(path), app_name);
-  if(!mod_path.existsSync(app_path)){
-    log("Directory "+app_path.blue+" does not exist!");
+function createProject(path, project_name){
+  var project_path = mod_path.join(mod_path.resolve(path), project_name);
+  if(!mod_path.existsSync(project_path) && !utils.checkValidProject(project_path)){
+    log("Directory "+project_path.blue+" does not exist!");
     program.confirm('Create Directory?  -  yes/no: ', function(yes){
-      process.stdin.destroy();
-      if(yes){
-        if(setupApplication(program.platform, app_path, app_name)){
-          log(
-              "Application created".green
-              ,""
-              ,"Go to the root directory of the project and start the server."
-              ,"  $ cd "+app_path+" | rain start"
-              ,""
-              ,"Happy developing ;-)".rainbow
-              ,""
-            );
-        } else {
-          log("Error: problem to setup the application".red);
-        }
+      if(yes && setupProject(project_path)){
+        program.confirm('Do you want to create a component?  -  yes/no: ', function(yes){
+          if(yes){
+            program.prompt('Componentname: ', function(name){
+              //remove lineEnd
+              name = name.replace(/\n$/, '');
+              if(yes && name){
+                setupComponent(project_path, name, function(){
+                  projectCreated();
+                });
+              } else {
+                log("Error: problem to setup component".red)
+                projectCreated();
+              }
+            });
+          } else {
+            projectCreated();
+          }
+        });
+      } else {
+        log("Error: problem to setup the project".red);
       }
     });
+  } else {
+    log("Project exists!".red);
+  }
+  
+  var projectCreated = function(){
+    process.stdin.destroy();
+    log(
+        "Project created".green
+        ,""
+        ,"Go to the root directory of the project and start the server."
+        ,"  $ cd "+project_path+" | rain start"
+        ,""
+        ,"Happy developing ;-)".rainbow
+        ,""
+      );
   }
 };
 
-function setupApplication(platform, app_path, app_name){
-  switch(platform){
-    case "wicket":
-      console.log("wicket skeleton not implemented yet");
-      break;
-      
-    case "nodejs":
-    default:
-      wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/_skeleton')), app_path);
-      var metajs = fs.readFileSync(app_path+'/meta.json', 'utf8').replace(/\{\{application_name\}\}/g, app_name);
-      fs.writeFileSync(app_path+'/meta.json', metajs, 'utf8');
-      break;
-  }
+
+function createComponent(component_name){
+  var actPath = process.cwd();
+  if(utils.checkValidProject(actPath)){
+    setupComponent(actPath, component_name, function(){
+      process.stdin.destroy();
+    });
+  } else {
+    log(
+        "This is not a rain project!".red
+       ,"Please go to your project root and try it again!"
+    )
+  }  
+};
+
+
+function setupProject(project_path){
+  //create project directory
+  fs.mkdirSync(project_path, 0755);
+  //create components directory
+  fs.mkdirSync(mod_path.join(project_path, 'components'), 0755);
+  //create conf directory
+  fs.mkdirSync(mod_path.join(project_path, 'conf'), 0755);
+  //copy default configurations
+  wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), mod_path.join(project_path, 'conf'));
+  wrench.chmodSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), 0755);
   
+  //write ghostfile to know that is a rain project
+  fs.writeFileSync(project_path+'/.rain', '');
   return true;
+}
+
+function setupComponent(project_path, component_name, callback){
+  
+  var components_path = mod_path.join(project_path, 'components');
+  if(utils.componentExists(components_path)){
+    console.log("Component already exists".red);
+    return false;
+  }
+  console.log('Choose your platform:');
+  program.choose(platform_list, function(i){
+    //create component directory
+    var comp_path = mod_path.join(components_path, component_name);
+    fs.mkdirSync(comp_path, 0755);
+    switch(platform_list[i]){
+      case "wicket":
+        console.log("wicket not implemented yet");
+        break;
+        
+      case "pustefix":
+        console.log("pustefix not implemented yet");
+        break;
+        
+      case "nodejs":
+      default:
+        require('./lib/components/nodejs')({
+          name : component_name,
+          path : comp_path
+        });
+        break;
+    }
+    
+    log(
+      "Component created".green
+      ,""
+      ,"You can find your component in"
+      ,comp_path.blue
+    );
+    if(callback)
+      callback();
+  });
 };
 
 function debug(){
@@ -136,23 +220,26 @@ function start(){
       ,server     = require('../lib/server_new')
       ,child      = require('child_process');
   
+  if(!utils.checkPidDirectory())
+    utils.createPidDirectory();
+  
   if(!utils.checkValidProject(actPath)){
-    console.log("this is not a compatible project!".red);
+    console.log("this is not a rain project!".red);
     return false;
   }
   
-  if(mod_path.existsSync(mod_path.join(actPath, '.server.props'))){
+  if(utils.serverIsUp(actPath)){
     console.log("server is still running!");
     return false;
   }
   
   //===========START MOTHERSHIP===========
-  var ms = child.spawn('node', [__dirname+'/lib/start_mothership.js', program.mothershipConf ? program.mothershipConf : mod_path.join(__dirname, '..', 'init', 'conf', 'mothership.conf.default')]);
+  var ms = child.spawn('node', [__dirname+'/lib/start_mothership.js', program.mothershipConf ? program.mothershipConf : mod_path.join(actPath, 'conf', 'mothership.conf.default')]);
   ms.stdout.on('data', function(data){
-    if(data == "mothership started\n"){
+    var data = data.toString();
+    process.stdout.write(data);
+    if(~data.search(/mothership started/i) || ~data.search("mothership is still running")){
       startServer();
-    } else {
-      process.stdout.write(data.toString());
     }
   })
   
@@ -160,12 +247,9 @@ function start(){
 
   function startServer(){
     //===========START RAIN SERVER===========  
-    var server_conf = fs.readFileSync(
-        program.conf ? program.conf : mod_path.join(__dirname, '..', 'init', 'conf', 'server.conf.default')
-    , 'utf8');
-    server_conf = server_conf.replace('{{modules_path}}', mod_path.join(actPath, '..'));
-    var serverlist = mod_path.join(__dirname, '..', '.process', 'serverlist')
-        ,spid_path = mod_path.join(__dirname, '..', '.process', 's_pid');
+    var conf_path = program.conf ? program.conf : mod_path.join(actPath, 'conf', 'server.conf.default')
+        ,server_conf = fs.readFileSync(conf_path, 'utf8')
+        ,pid_path = utils.getPidDir();
     
     //start server
     server({'conf' : JSON.parse(server_conf)}, function(){
@@ -179,15 +263,9 @@ function start(){
         daemon_process.title = "rain-server";
         
         //create configurationfile
-        var server_prop_file = [
-          '{',
-          '  "pid" : '+pid+',',
-          '  "path" : "'+actPath+'",',
-          '  "conf" : '+server_conf,
-          '}'
-        ].join('\n');
-        var conf_spid    = mod_path.join(spid_path, "server.conf."+pid)
-           ,conf_project = mod_path.join(actPath, ".server.props");
+        var server_prop_file = pid+' '+conf_path
+           ,conf_spid    = mod_path.join(pid_path, "rain.server."+pid)
+           ,conf_project = mod_path.join(actPath, ".server");
         //write server config
         fs.writeFileSync(conf_spid, server_prop_file);
         fs.writeFileSync(conf_project, server_prop_file);
@@ -212,8 +290,9 @@ function stop(pid){
   if(!pid){
     var actPath = process.cwd();
     if(utils.checkValidProject(actPath)){
-      if(mod_path.existsSync(mod_path.join(actPath, '.server.props'))){
-        pid = JSON.parse(fs.readFileSync(mod_path.join(actPath, '.server.props'))).pid;
+      if(utils.serverIsUp(actPath)){
+        var result = fs.readFileSync(mod_path.join(actPath, '.server')).toString().match(/^([0-9]+)/);
+        pid = result[1];
       } else {
         console.log('No running server for this project');
         process.exit(0);
