@@ -156,15 +156,24 @@ function createComponent(component_name){
 
 
 function setupProject(project_path){
+  var paths = {
+    conf        : mod_path.join(project_path, 'conf')
+    ,components  : mod_path.join(project_path, 'components')
+    ,'public'    : mod_path.join(project_path, 'public')
+  };
   //create project directory
   fs.mkdirSync(project_path, 0755);
   //create components directory
-  fs.mkdirSync(mod_path.join(project_path, 'components'), 0755);
+  fs.mkdirSync(paths.components, 0755);
   //create conf directory
-  fs.mkdirSync(mod_path.join(project_path, 'conf'), 0755);
+  fs.mkdirSync(paths.conf, 0755);
+  //create public folder
+  fs.mkdirSync(paths.public, 0755);
+  wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/public')), paths.public);
+  fs.symlinkSync(paths.components, mod_path.join(paths.public, 'components'));
   //copy default configurations
-  wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), mod_path.join(project_path, 'conf'));
-  wrench.chmodSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), 0755);
+  wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), paths.conf);
+  
   
   //write ghostfile to know that is a rain project
   fs.writeFileSync(project_path+'/.rain', '');
@@ -377,7 +386,11 @@ function stopall(){
   }
   
   console.log("%s Server shutted down!".green, countServer);
-  console.log("%s Motherships shutted down!".green, countMS);
+  if(countMS == 1){
+    console.log("%s Mothership shutted down!".green, countMS);
+  } else {
+    console.log("%s Motherships shutted down!".green, countMS);
+  }
 };
 
 
