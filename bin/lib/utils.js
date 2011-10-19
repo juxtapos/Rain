@@ -44,6 +44,11 @@ exports.serverIsUp = function(project_path){
   return false;
 };
 
+exports.getServerPIDContent = function(path){
+  var result = fs.readFileSync(path).toString().match(/^([0-9]+) (.+)/);
+  return [result[1], result[2]];
+};
+
 exports.getServerList = function(){
   var files = fs.readdirSync(this.getPidDir()),
       serverfiles = [];

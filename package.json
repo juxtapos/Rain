@@ -30,7 +30,8 @@
     "colors": ">= 0.5.1",
     "wrench": ">= 1.2.0",
     "commander": "0.2.0",
-    "daemon": "0.3.2"
+    "daemon": "0.3.2",
+    "cli-table": "0.0.1"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",

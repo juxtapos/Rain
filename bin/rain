@@ -10,7 +10,8 @@ var fs = require('fs')
   , daemon = require('daemon')
   , platform_list = ["nodejs"]
   , utils   = require('./lib/utils.js')
-  , sys_util = require('util');
+  , sys_util = require('util')
+  , Table = require('cli-table');
 
 process.title = "rain";
 
@@ -227,61 +228,67 @@ function start(){
     return false;
   }
   
-  if(utils.serverIsUp(actPath)){
-    console.log("server is still running!");
-    return false;
+  var ms_conf = program.mothershipConf ? program.mothershipConf : mod_path.join(actPath, 'conf', 'mothership.conf.default');
+  
+  if(!utils.mothershipIsUp(JSON.parse(fs.readFileSync(ms_conf)).server.port)){
+    //===========START MOTHERSHIP===========
+    var ms = child.spawn('node', [__dirname+'/lib/start_mothership.js', ms_conf]);
+    ms.stdout.on('data', function(data){
+      var data = data.toString();
+      process.stdout.write(data);
+      if(~data.search(/mothership started/i) || ~data.search("mothership is still running")){
+        return startServer();
+      }
+    })
+    //===========MOTHERSHIP STARTED===========
+  } else {
+    return startServer();
   }
-  
-  //===========START MOTHERSHIP===========
-  var ms = child.spawn('node', [__dirname+'/lib/start_mothership.js', program.mothershipConf ? program.mothershipConf : mod_path.join(actPath, 'conf', 'mothership.conf.default')]);
-  ms.stdout.on('data', function(data){
-    var data = data.toString();
-    process.stdout.write(data);
-    if(~data.search(/mothership started/i) || ~data.search("mothership is still running")){
-      startServer();
-    }
-  })
-  
-  //===========MOTHERSHIP STARTED===========
 
   function startServer(){
-    //===========START RAIN SERVER===========  
-    var conf_path = program.conf ? program.conf : mod_path.join(actPath, 'conf', 'server.conf.default')
-        ,server_conf = fs.readFileSync(conf_path, 'utf8')
-        ,pid_path = utils.getPidDir();
-    
-    //start server
-    server({'conf' : JSON.parse(server_conf)}, function(){
-      daemon.daemonize(mod_path.join(actPath, 'server.log'), null, function(err, pid){
-        var daemon_process = this.process;
-        
-        if (err) {
-          return sys_util.puts('Error starting daemon: ' + err);
-        }
-        
-        daemon_process.title = "rain-server";
-        
-        //create configurationfile
-        var server_prop_file = pid+' '+conf_path
-           ,conf_spid    = mod_path.join(pid_path, "rain.server."+pid)
-           ,conf_project = mod_path.join(actPath, ".server");
-        //write server config
-        fs.writeFileSync(conf_spid, server_prop_file);
-        fs.writeFileSync(conf_project, server_prop_file);
-        //clear conf files if server shutting down
-        daemon_process.on('SIGTERM', function(){
-          fs.unlinkSync(conf_spid);
-          fs.unlinkSync(conf_project);
-          daemon_process.exit(0);
-        });
-        
-        daemon_process.on('uncaughtException', function (err) {
-          console.log('Caught exception: ' + err);
-          daemon_process.kill(pid, 'SIGTERM');
+    if(utils.serverIsUp(actPath)){
+      console.log("server is still running!");
+      return false;
+    } else {
+      //===========START RAIN SERVER===========  
+      var conf_path = program.conf ? program.conf : mod_path.join(actPath, 'conf', 'server.conf.default')
+          ,server_conf = fs.readFileSync(conf_path, 'utf8')
+          ,pid_path = utils.getPidDir();
+      
+      //start server
+      server({'conf' : JSON.parse(server_conf)}, function(){
+        daemon.daemonize(mod_path.join(actPath, 'server.log'), null, function(err, pid){
+          var daemon_process = this.process;
+          
+          if (err) {
+            return sys_util.puts('Error starting daemon: ' + err);
+          }
+          
+          daemon_process.title = "rain-server";
+          
+          //create configurationfile
+          var server_prop_file = pid+' '+conf_path
+             ,conf_spid    = mod_path.join(pid_path, "rain.server."+pid)
+             ,conf_project = mod_path.join(actPath, ".server");
+          //write server config
+          fs.writeFileSync(conf_spid, server_prop_file);
+          fs.writeFileSync(conf_project, server_prop_file);
+          //clear conf files if server shutting down
+          daemon_process.on('SIGTERM', function(){
+            fs.unlinkSync(conf_spid);
+            fs.unlinkSync(conf_project);
+            daemon_process.exit(0);
+          });
+          
+          daemon_process.on('uncaughtException', function (err) {
+            console.log('Caught exception: ' + err);
+            daemon_process.kill(pid, 'SIGTERM');
+          });
         });
       });
-    });
-    //===========RAIN SERVER STARTED===========
+      //===========RAIN SERVER STARTED===========
+      return true;
+    }
   }
 };
 
@@ -290,8 +297,8 @@ function stop(pid){
     var actPath = process.cwd();
     if(utils.checkValidProject(actPath)){
       if(utils.serverIsUp(actPath)){
-        var result = fs.readFileSync(mod_path.join(actPath, '.server')).toString().match(/^([0-9]+)/);
-        pid = result[1];
+        var result = utils.getServerPIDContent(mod_path.join(actPath, '.server'));
+        pid = result[0];
       } else {
         console.log('No running server for this project');
         process.exit(0);
@@ -313,11 +320,40 @@ function restart(){
 function list(type){
 
   if(!type || type == 'mothership'){
-    console.log("mothership list");
+    var table_ms = new Table({
+      head : ['PID', 'Config Path', 'Port']
+    , colWidths : [ 10, 45, 10 ]
+    });
+    
+    var files = utils.getMothershipList();
+    for(var i = files.length; i--;){
+      var ms_file = JSON.parse(fs.readFileSync(mod_path.join(utils.getPidDir() ,files[i])));
+      table_ms.push([ms_file.pid, ms_file.path, ms_file.conf.server.port]);
+    }
+    
+    log(
+        ' Mothership List:'.cyan,
+        table_ms.toString()
+    );
   }
   
   if(!type || type == 'server'){
-    console.log("server list");
+    var table_s = new Table({
+      head : ['PID', 'Config Path', 'Port']
+    , colWidths : [ 10, 45, 10 ]
+    });
+    
+    var files = utils.getServerList();
+    for(var i = files.length; i--;){
+      var s_file = utils.getServerPIDContent(mod_path.join(utils.getPidDir() ,files[i]));
+      var server_conf = JSON.parse(fs.readFileSync(s_file[1]));
+      table_s.push([s_file[0], s_file[1], server_conf.server.port]);
+    }
+    
+    log(
+        ' Server List:'.cyan,
+        table_s.toString()
+    );
   }
 };
 
