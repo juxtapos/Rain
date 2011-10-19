@@ -1,7 +1,7 @@
 {
   "name": "rain",
   "description": "An experiment on component-based and distributed web applications",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "author": "Claus Augusti <claus@formatvorlage.de>",
   "contributors": [
     { "name": "Mitko Tschimev", "email": "privat@tschimev.de" },
