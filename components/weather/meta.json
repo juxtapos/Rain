@@ -1,0 +1,4 @@
+{
+	"id"	     	: "weather;1.0",
+	"url"         	:  "/components/weather"
+}

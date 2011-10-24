@@ -1,0 +1,16 @@
+{
+	"id"	     	: "toolbar;1.0",
+	"url"         	:  "/components/toolbar",
+	"views"       	: [
+		{
+			"viewid" 		: "main",
+		 	"view" 			: "/htdocs/main.html",
+		 	"controller" 	: "/htdocs/controller/client.js"
+		},
+		{
+			"viewid" 		: "main_full_screen",
+		 	"view" 			: "/htdocs/main_full_screen.html",
+		 	"controller" 	: "/htdocs/controller/client_full.js"
+		}
+	]
+}

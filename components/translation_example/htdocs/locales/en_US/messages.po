@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-24 09:42+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "weather"
+msgstr "Weather"
+
+msgid "city"
+msgstr "City"
+
+msgid "testwithmustache"
+msgstr "This is a translation with mustache tags: {{name}}"
+
+msgid "singular"
+msgid_plural "plural"
+msgstr[0] "singular"
+msgstr[1] "plural"
+
+msgid "tag_in_tag.outer.right"
+msgstr "tag in tag - outter right"
+
+msgid "tag_in_tag.outer.left"
+msgstr "tag in tag - outter left"
+
+msgid "tag_in_tag.inner"
+msgstr "tag in tag - inner"
+
+msgid "translation1"
+msgstr "first translation"
+
+msgid "translation2"
+msgstr "second translation"
+
+msgid "test.fallback_to_english"
+msgstr "test fallback if a language dosn't exist"
+
+msgid "only_en_US"
+msgstr "this translation is only in en_US available"
+
+msgid "weather.picture"
+msgstr "picture of weather"
+
+msgid "nasty"
+msgstr ":()_ very very NASTY *hust*"

@@ -1,0 +1,22 @@
+@import url('include.css');
+
+
+.content {
+	background-color : #8E8;
+}
+
+#translationInfo {
+	display: none;
+	position: absolute;
+	border: 2px dashed #F00;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	-o-border-radius: 7px;
+	border-radius: 7px;
+	background: #FFF;
+	padding: 5px;
+}
+
+.reeeeeed {
+	color : #F00;
+}

@@ -1,0 +1,9 @@
+domains {
+	display:block;
+	height:400px;
+	width:100%;
+}
+
+* {
+	xbackground-color:red;
+}
