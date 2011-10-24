@@ -2,8 +2,8 @@
 	"server" : {
 		"port" : 1337
 		, "serverRoot"   : "."
-		, "documentRoot" : "./public"
-		, "modulePath" : "./modules"
+		, "documentRoot" : "/home/mtschimev/git/rain/"
+		, "componentPath" : "./components"
 	},
 	
 	"mothership" : {

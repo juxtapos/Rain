@@ -264,6 +264,8 @@ function start(){
           ,server_conf = fs.readFileSync(conf_path, 'utf8')
           ,pid_path = utils.getPidDir();
       
+      var parsed_conf = JSON.parse(server_conf);
+      
       //start server
       server({'conf' : JSON.parse(server_conf)}, function(){
         daemon.daemonize(mod_path.join(actPath, 'server.log'), null, function(err, pid){

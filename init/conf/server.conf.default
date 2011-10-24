@@ -3,7 +3,7 @@
 		"port" : 1337
 		, "serverRoot"   : "."
 		, "documentRoot" : "./public"
-		, "modulePath" : "./components"
+		, "componentPath" : "./components"
 	},
 	
 	"mothership" : {
