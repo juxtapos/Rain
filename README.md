@@ -49,10 +49,6 @@ node_modules in the project folder.
 **PLEASE NOTE:**
 
 * **Only expected to work on unixoid machines (because of path handling)**
-* **You need a symlink to from ./public/modules to ./modules, and from ./public/instances to ./instances. In the project root execute:** 
-
-        $ ln -s ../modules public/modules
-        $ ln -s ../instances public/instances
 
 * **node-xml unfortunately doesn't allow configuration of entity resolution. Entities should not be resolved in 
 the parser, which is why I patched my local node-xml module.**
@@ -218,7 +214,7 @@ Example:
 
 **TO BE DONE:**
 
-* parameter to gettext, ngettext, getmedia to force a language
+* parameter to gettext, ngettext to force a language
 
 # Documentation 
 

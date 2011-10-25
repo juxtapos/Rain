@@ -4,7 +4,6 @@ var fs = require('fs')
   , mod_path = require('path')
   , color = require('colors')
   , exec = require('child_process').exec
-  , optimist = require('optimist')
   , wrench = require('wrench')
   , program = require('commander')
   , daemon = require('daemon')
@@ -170,7 +169,6 @@ function setupProject(project_path){
   //create public folder
   fs.mkdirSync(paths.public, 0755);
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/public')), paths.public);
-  fs.symlinkSync(paths.components, mod_path.join(paths.public, 'components'));
   //copy default configurations
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), paths.conf);
   
