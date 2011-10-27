@@ -1,4 +1,11 @@
 {
 	"id"	     	: "{{application_name}};1.0",
-	"url"      	:  "/modules/{{application_name}}"
+	"url"      	:  "/components/{{application_name}}",
+	"views"        : [
+    {
+      "viewid"    : "index",
+      "view"      : "/htdocs/index.html",
+      "controller"  : "/controller/index.js"
+    }
+  ]
 }

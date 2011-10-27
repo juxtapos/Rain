@@ -1,7 +1,7 @@
 {
   "name": "rain",
   "description": "An experiment on component-based and distributed web applications",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "author": "Claus Augusti <claus@formatvorlage.de>",
   "contributors": [
     { "name": "Mitko Tschimev", "email": "privat@tschimev.de" },
@@ -39,6 +39,6 @@
   "bin": { "rain": "./bin/rain" },
   "engines": { "node": "0.4.12" },
   "scripts" : {
-    "postinstall" : "./make.js"
+    "install" : "./make.js"
   }
 }
