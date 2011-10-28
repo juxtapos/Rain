@@ -1,7 +1,7 @@
 {
   "name": "rain",
   "description": "An experiment on component-based and distributed web applications",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "author": "Claus Augusti <claus@formatvorlage.de>",
   "contributors": [
     { "name": "Mitko Tschimev", "email": "privat@tschimev.de" },
@@ -11,6 +11,7 @@
     "node-inspector": ">=0.1.9"
   },
   "dependencies": {
+    "rain-mothership": "0.0.1",
     "node-xml": ">= 1.0.0",
     "promised-io": ">= 0.2.3",
     "jsdom": ">= 0.2.0",
@@ -26,7 +27,6 @@
     "requirejs": ">=0.26.0",
     "gettext": ">= 0.0.1",
     "less": ">= 1.1.4",
-    "optimist": ">= 0.2.6",
     "colors": ">= 0.5.1",
     "wrench": ">= 1.2.0",
     "commander": "0.2.0",
@@ -39,6 +39,6 @@
   "bin": { "rain": "./bin/rain" },
   "engines": { "node": "0.4.12" },
   "scripts" : {
-    "postinstall" : "./make.js"
+    "install" : "./make.js"
   }
 }

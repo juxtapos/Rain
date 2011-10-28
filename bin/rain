@@ -4,7 +4,6 @@ var fs = require('fs')
   , mod_path = require('path')
   , color = require('colors')
   , exec = require('child_process').exec
-  , optimist = require('optimist')
   , wrench = require('wrench')
   , program = require('commander')
   , daemon = require('daemon')
@@ -170,7 +169,6 @@ function setupProject(project_path){
   //create public folder
   fs.mkdirSync(paths.public, 0755);
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/public')), paths.public);
-  fs.symlinkSync(paths.components, mod_path.join(paths.public, 'components'));
   //copy default configurations
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), paths.conf);
   
@@ -224,7 +222,7 @@ function debug(){
   console.log(program);
 };
 
-function start(){
+function start(confpath){
   var actPath     = process.cwd()
       ,server     = require('../lib/server_new')
       ,child      = require('child_process');
@@ -260,7 +258,7 @@ function start(){
       return false;
     } else {
       //===========START RAIN SERVER===========  
-      var conf_path = program.conf ? program.conf : mod_path.join(actPath, 'conf', 'server.conf.default')
+      var conf_path = confpath ? confpath : program.conf ? program.conf : mod_path.join(actPath, 'conf', 'server.conf.default')
           ,server_conf = fs.readFileSync(conf_path, 'utf8')
           ,pid_path = utils.getPidDir();
       
@@ -284,6 +282,9 @@ function start(){
           //write server config
           fs.writeFileSync(conf_spid, server_prop_file);
           fs.writeFileSync(conf_project, server_prop_file);
+          
+          if(program.debug)
+            daemon_process.kill(pid, 'SIGUSR1');
           //clear conf files if server shutting down
           daemon_process.on('SIGTERM', function(){
             fs.unlinkSync(conf_spid);
@@ -324,8 +325,52 @@ function stop(pid){
   process.exit(0);
 };
 
-function restart(){
-  console.log("not implemented yet!".green);
+function stopall(){
+  var server = utils.getServerList(),
+      motherships = utils.getMothershipList(),
+      countServer = 0,
+      countMS = 0;
+  
+  //shutdown all server
+  for(var i = server.length; i--;){
+    process.kill(server[i].substring(12),'SIGTERM');
+    countServer++;
+  }
+  
+  //shutdown all motherships
+  for(var i = motherships.length; i--;){
+    var result = motherships[i].match(/([0-9]+)$/);
+    process.kill(result[1],'SIGTERM');
+    countMS++;
+  }
+  
+  console.log("%s Server shutted down!".green, countServer);
+  if(countMS == 1){
+    console.log("%s Mothership shutted down!".green, countMS);
+  } else {
+    console.log("%s Motherships shutted down!".green, countMS);
+  }
+};
+
+function restart(pid){
+  var conf = null;
+  if(!pid){
+    var actPath = process.cwd();
+    if(utils.checkValidProject(actPath)){
+      if(utils.serverIsUp(actPath)){
+        var result = utils.getServerPIDContent(mod_path.join(actPath, '.server'));
+        pid = result[0];
+        conf = result[1];
+      }
+    }
+  }
+  if(pid)
+    process.kill(pid, 'SIGTERM');
+  
+  if(!conf)
+    console.log('No running server! Starting server with default config');
+  
+  start(conf);
 };
 
 function list(type){
@@ -367,34 +412,6 @@ function list(type){
     );
   }
 };
-
-function stopall(){
-  var server = utils.getServerList(),
-      motherships = utils.getMothershipList(),
-      countServer = 0,
-      countMS = 0;
-  
-  //shutdown all server
-  for(var i = server.length; i--;){
-    process.kill(server[i].substring(12),'SIGTERM');
-    countServer++;
-  }
-  
-  //shutdown all motherships
-  for(var i = motherships.length; i--;){
-    var result = motherships[i].match(/([0-9]+)$/);
-    process.kill(result[1],'SIGTERM');
-    countMS++;
-  }
-  
-  console.log("%s Server shutted down!".green, countServer);
-  if(countMS == 1){
-    console.log("%s Mothership shutted down!".green, countMS);
-  } else {
-    console.log("%s Motherships shutted down!".green, countMS);
-  }
-};
-
 
 
 function log(){

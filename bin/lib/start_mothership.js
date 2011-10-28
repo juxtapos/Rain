@@ -1,4 +1,4 @@
-var ms_server = require('../../lib/mothership/server')
+var ms_server = require('rain-mothership')
     ,fs       = require('fs')
     ,mod_path = require('path')
     ,daemon   = require('daemon')
