@@ -2,7 +2,7 @@
 	"server" : {
 		"port" : 1337
 		, "serverRoot"   : "."
-		, "documentRoot" : "./public"
+		, "documentRoot" : "."
 		, "componentPath" : "./components"
 	},
 	

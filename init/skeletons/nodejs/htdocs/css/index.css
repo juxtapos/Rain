@@ -1,0 +1,6 @@
+body {
+  background:-moz-linear-gradient(top, #88F, #FFF) no-repeat;
+  background:-webkit-linear-gradient(top, #88F, #FFF) no-repeat;
+  padding: 50px;
+  font-size: 3em;
+}

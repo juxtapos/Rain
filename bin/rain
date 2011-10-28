@@ -258,7 +258,7 @@ function start(confpath){
       return false;
     } else {
       //===========START RAIN SERVER===========  
-      var conf_path = confpath ? confpath : program.conf ? program.conf : mod_path.join(actPath, 'conf', 'server.conf.default')
+      var conf_path = confpath ? confpath : program.conf ? mod_path.resolve(program.conf) : mod_path.join(actPath, 'conf', 'server.conf.default')
           ,server_conf = fs.readFileSync(conf_path, 'utf8')
           ,pid_path = utils.getPidDir();
       

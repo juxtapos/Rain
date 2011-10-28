@@ -5,7 +5,7 @@
     {
       "viewid"    : "index",
       "view"      : "/htdocs/index.html",
-      "controller"  : "/controller/index.js"
+      "controller"  : "/htdocs/controller/index.js"
     }
   ]
 }
