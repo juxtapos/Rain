@@ -2,7 +2,6 @@
 	"server" : {
 		"port" : 1337
 		, "serverRoot"   : "."
-		, "documentRoot" : "/home/mtschimev/git/rain/"
 		, "componentPath" : "./components"
 	},
 	
