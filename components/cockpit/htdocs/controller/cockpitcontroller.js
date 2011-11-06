@@ -1,5 +1,5 @@
 function init () {
-	console.log('cockpitcontroller init');	
+	console.log('cockpitcontroller init');
 }
 
 define(function () {

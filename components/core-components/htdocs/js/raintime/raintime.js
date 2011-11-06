@@ -32,7 +32,7 @@ var Raintime = (function () {
 		this.postRender = function (id) {
 			console.log('postRender ' + id);	
 		};
-
+ 
 		this.init = function (id) {
 			console.log('init component ' + id);	
 		};
@@ -41,11 +41,11 @@ var Raintime = (function () {
 	function ComponentRegistry () {
 		var components = {};
 
-		this.register = function (id, controllerpath) {
+		this.register = function (id, domselector, controllerpath) {
 			console.log('register component ' + id);
 			if (components[id]) {
 				return;
-			}
+			} 
 			return (function () {
 				var comp = createComponent(id);
 				components[id] = comp;

@@ -14,5 +14,11 @@
 	    	, "module" : "toolbar;1.0"
 	    	, "view" : "/htdocs/toolbarbutton.html"
 	  	}
+	  	,{
+	    	"namespace" : ""
+	    	, "selector" : "remote"
+	    	, "module" : "remote;1.0"
+	    	, "view" : "/htdocs/main.html"
+	  	}
 	]
 }
