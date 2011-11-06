@@ -11,19 +11,19 @@ var url3 = 'http://127.0.0.1:1337/modules/weather/main.html';
 var url4 = 'http://127.0.0.1:1337/modules/weather/htdocs/css/main.css';
 
 for (var i=0; i < 1000; i++) {
-	var r1 = mod_resmanager.loadResourceByUrl(url1);
+	var r1 = mod_resmanager.getResourceByUrl(url1).load();
 	r1.once('load', function (resource) {
 		c(resource.url + ',' + resource.data.length);
 	});
-	var r2 = mod_resmanager.loadResourceByUrl(url2);
+	var r2 = mod_resmanager.getResourceByUrl(url2).load();
 	r2.once('load', function (resource) {
 		c(resource.url + ',' + resource.data.length);
 	});
-	var r3 = mod_resmanager.loadResourceByUrl(url3);
+	var r3 = mod_resmanager.getResourceByUrl(url3).load();
 	r3.once('load', function (resource) {
 		c(resource.url + ',' + resource.data.length);
 	});
-	var r4 = mod_resmanager.loadResourceByUrl(url4);
+	var r4 = mod_resmanager.getResourceByUrl(url4).load();
 	r4.once('load', function (resource) {
 		c(resource.url + ',' + resource.data.length);
 	});

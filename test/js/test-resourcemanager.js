@@ -51,7 +51,7 @@ module.exports = nodeunit.testCase({
     */
 
     testStateChange : function (test) {
-        var r = mod_resmanager.loadResourceByUrl('file://' + mod_path.join(__dirname, '..', 'lib', 'server.js'));
+        var r = mod_resmanager.getResourceByUrl('file://' + mod_path.join(__dirname, '..', 'lib', 'server.js').load());
         r.addListener('stateChanged', function (resource) {
             test.equal(resource, r);
             test.ok(resource.state >= Resource.STATES.INIT && resource.state <= Resource.STATES.COMPLETE);
@@ -60,7 +60,7 @@ module.exports = nodeunit.testCase({
     },
 
     loadEvent : function (test) {
-        var r = mod_resmanager.loadResourceByUrl('file://' + mod_path.join(__dirname, '..', 'lib', 'server.js'));    
+        var r = mod_resmanager.getResourceByUrl('file://' + mod_path.join(__dirname, '..', 'lib', 'server.js').load());    
         r.addListener('load', function (resource) {
             test.equal(resource, r);
             test.ok(resource.state > 0);
