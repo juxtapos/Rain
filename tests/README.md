@@ -9,8 +9,8 @@ For server side tests, all unit tests are placed by following the same structure
 
 * tests
  * server
-  * <folder that holds the module>
-   * test_<module_name>
+  * folder that holds the module
+   * test_module_name
 
 For instance we want to tests intents_registry module. The structure in lib is like:
 
