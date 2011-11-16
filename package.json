@@ -31,7 +31,8 @@
     "wrench": ">= 1.2.0",
     "commander": "0.2.0",
     "daemon": "0.3.2",
-    "cli-table": "0.0.1"
+    "cli-table": "0.0.1",
+	"jinjs": "0.3.2"
   },
   "keywords": ["framework", "rain"],
   "repository": "git://github.com/juxtapos/Rain",
