@@ -1,5 +1,6 @@
 {
-	"id"	:	"dynamic-aggregations;1.0",
+	"id"		:	"dynamic-aggregations",
+	"version"	: "1.0",
 	"url"		:	"/components/dynamic-aggregation",
 	"views"		:	[
 		{"viewId"	:	"widget1",

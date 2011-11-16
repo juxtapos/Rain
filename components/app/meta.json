@@ -1,5 +1,6 @@
 {
-	"id"		  	: "app;1.0",
+	"id"		  	: "app",
+	"version"		: "1.0",
 	"url"         	:  "/components/app",
 	"taglib" : [
 		{

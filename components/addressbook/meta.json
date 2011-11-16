@@ -1,4 +1,5 @@
 {
-	"id"	     	: "addressbook;1.0",
+	"id"	     	: "addressbook",
+	"version"		: "1.0",
 	"url"       :  "/components/addressbook"
 }

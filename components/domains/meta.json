@@ -1,5 +1,6 @@
 {
-	"id"	     	: "domains;1.0",
+	"id"	     	: "domains",
+	"version"		: "1.0",
 	"url"         	:  "/components/domains",
 	"name"			: "Domains",
 	"description"   : "",

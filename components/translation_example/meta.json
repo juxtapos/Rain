@@ -1,4 +1,5 @@
 {
-	"id"	     	: "translation_example;1.0",
+	"id"	     	: "translation_example",
+	"version"		: "1.0",
 	"url"         	:  "/components/translation_example"
 }

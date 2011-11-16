@@ -1,5 +1,6 @@
 {
-	"id"	:	"navigation-flow;1.0",
+	"id"		:	"navigation-flow",
+	"version"	:   "1.0",
 	"url"		:	"/components/navigation-flow",
 	"views"		:	[
 		{"viewId"	:	"source_nav",
