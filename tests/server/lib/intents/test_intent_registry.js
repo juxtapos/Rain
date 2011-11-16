@@ -27,9 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 libDir = __dirname + "/../../../../lib/";
 
-require.paths.push(libDir);
-
-var modIntentsRegistry      = require("intents/intents_registry")
+var modIntentsRegistry      = require("/../../../../lib/intents/intents_registry")
     , testCase              = require("nodeunit").testCase;
 
 var moduleConfig = {"id": "test-module",

@@ -25,6 +25,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+require.paths = require.paths.unshift(__dirname + "/lib");
+
 var mod_fs 			= require('fs')
    	, spawn 		= require('child_process').spawn
 	, serverfile 	= __dirname + '/lib/server.js'
@@ -32,8 +34,7 @@ var mod_fs 			= require('fs')
 	, currentDebugger = null
 	, logger 		= require('./lib/logger.js').getLogger()
 	, watchingFiles = [__dirname+'/run.js']
-  , dirs        = [__dirname+'/lib', __dirname+'/playground', __dirname+"/lib/tagparsing"]; // directories to be watched
-
+  , dirs        = [__dirname+'/lib', __dirname+'/playground', __dirname+"/lib/tagparsing", __dirname + "/lib/intents"]; // directories to be watched
 
 for(var i = dirs.length; i--;){
   var files = mod_fs.readdirSync(dirs[i]);
