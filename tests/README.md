@@ -8,23 +8,23 @@ is why we advise every developer to write as much unit tests as possible.
 For server side tests, all unit tests are placed by following the same structure:
 
 * tests
- * server
-  * folder that holds the module
-   * test_module_name
+    * server
+        * folder that holds the module
+            * test_module_name
 
 For instance we want to tests intents_registry module. The structure in lib is like:
 
 * lib
- * intents
-  *intents_registry.js
+    * intents
+        * intents_registry.js
 
 The test module associated to intents_registry module is placed in:
 
 * tests
- * server
-  * lib
-   * intents
-    * test_intent_registry.js
+    * server
+        * lib
+            * intents
+                * test_intent_registry.js
 
 Because we keep the modules separated from their unit tests a helper module has been created to ease the way you include modules in your unit tests.
 
