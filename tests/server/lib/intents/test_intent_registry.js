@@ -25,10 +25,9 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-libDir = __dirname + "/../../../../lib/";
-
-var modIntentsRegistry      = require("/../../../../lib/intents/intents_registry")
-    , testCase              = require("nodeunit").testCase;
+var testsHelper             = require("../../util_loader")
+    , modIntentsRegistry    = testsHelper.loadModule("intents/intents_registry")
+    , testCase              = testsHelper.loadModule("nodeunit").testCase;
 
 var moduleConfig = {"id": "test-module",
         "version": "1.0"}    
