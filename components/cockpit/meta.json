@@ -1,5 +1,6 @@
 {
-	"id"	     	: "cockpit;1.0",
+	"id"	     	: "cockpit",
+	"version"		: "1.0",
 	"url"         	:  "/components/cockpit",
 	"taglib"		: [
 		{

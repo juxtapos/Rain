@@ -1,5 +1,6 @@
 {
-	"id"	     	: "toolbar;1.0",
+	"id"	     	: "toolbar",
+	"version"		: "1.0",
 	"url"         	:  "/components/toolbar",
 	"views"       	: [
 		{

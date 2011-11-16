@@ -1,4 +1,5 @@
 {
-	"id"	     	: "scrollabletable;1.0",
+	"id"	     	: "scrollabletable",
+	"version"		: "1.0",
 	"url"         	:  "/components/scrollabletable"
 }
