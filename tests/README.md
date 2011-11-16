@@ -22,9 +22,8 @@ The test module associated to intents_registry module is placed in:
 
 * tests
     * server
-        * lib
-            * intents
-                * test_intent_registry.js
+        * intents
+            * test_intent_registry.js
 
 Because we keep the modules separated from their unit tests a helper module has been created to ease the way you include modules in your unit tests.
 
