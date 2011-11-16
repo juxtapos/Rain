@@ -68,7 +68,7 @@ var Raintime = (function () {
 	return {
 		createComponent : createComponent,
 		ComponentRegistry : new ComponentRegistry(),
-		ComponentController : new ComponentController()
+		ComponentController : new ComponentController(),
 		//Logger : new Logger(),
 	}
 })();
