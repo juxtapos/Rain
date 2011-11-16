@@ -4,7 +4,7 @@ var Raintime = (function () {
 		this.id = id;
 		this.controller;
 		this.parent = null;
-		this.childs = [];
+		this.children = [];
 	}
 
 	Component.prototype = {
@@ -12,8 +12,8 @@ var Raintime = (function () {
 			this.parent = o;
 		},
 		addChild : function (o) {
-			this.childs.push(o);
-		},
+			this.children.push(o);
+		}
 
 	}
 
@@ -26,15 +26,15 @@ var Raintime = (function () {
 	function ComponentController () {
 
 		this.preRender = function (id) {
-			console.log('preRender ' + id);	
+			console.log('preRender ' + id);
 		}
-			
+
 		this.postRender = function (id) {
-			console.log('postRender ' + id);	
+			console.log('postRender ' + id);
 		};
- 
+
 		this.init = function (id) {
-			console.log('init component ' + id);	
+			console.log('init component ' + id);
 		};
 	}
 
@@ -42,33 +42,39 @@ var Raintime = (function () {
 		var components = {};
 
 		this.register = function (id, domselector, controllerpath) {
-			console.log('register component ' + id);
+			console.log('registering component ' + id);
 			if (components[id]) {
 				return;
-			} 
+			}
 			return (function () {
 				var comp = createComponent(id);
 				components[id] = comp;
 				require([controllerpath], function (obj) {
 					comp.controller = obj;
-					console.log('registered component ' + id);
+                    Raintime.addViewContext(obj, id);
+					console.log('rsegistered component ' + id);
 					if (obj.init) {
 						obj.init();
 					}
 				});
 				return comp;
 			})();
-		}
+		};
+
+        this.getComponents = function () {
+            return components;
+        }
 
 		this.deregister = function () {
 			delete components[id];
-		}
+		};
 	}
 
 	return {
 		createComponent : createComponent,
 		ComponentRegistry : new ComponentRegistry(),
 		ComponentController : new ComponentController(),
+        addViewContext: null
 		//Logger : new Logger(),
 	}
 })();
