@@ -13,8 +13,7 @@ var Raintime = (function () {
 		},
 		addChild : function (o) {
 			this.childs.push(o);
-		},
-
+		}
 	}
 
 	var _id = 0;
