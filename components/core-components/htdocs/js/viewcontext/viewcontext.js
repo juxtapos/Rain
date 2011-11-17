@@ -96,7 +96,6 @@
         this.moduleId = id;
         this.instanceId = id;
         this.storage = new ClientStorage(this);
-        this.storage.set()
     }
 
     exports.addViewContext = function (controller, id) {
