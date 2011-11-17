@@ -41,7 +41,17 @@ var Raintime = (function () {
 	function ComponentRegistry () {
 		var components = {};
 
-		this.register = function (id, domselector, controllerpath) {
+		/**
+		 * @param props object = renderer_id
+		 *                       domId
+		 *                       instanceId
+		 *                       domselector???
+		 *                       clientcontroller
+		 */
+		this.register = function (props) {
+		    var id = props.renderer_id
+		        , domselector = props.domselector
+		        , controllerpath = props.clientcontroller
 			console.log('register component ' + id);
 			if (components[id]) {
 				return;
@@ -51,6 +61,7 @@ var Raintime = (function () {
 				components[id] = comp;
 				require([controllerpath], function (obj) {
 					comp.controller = obj;
+                    comp.controller.viewContext = Raintime.addViewContext(id);
 					console.log('registered component ' + id);
 					if (obj.init) {
 						obj.init();

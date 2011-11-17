@@ -6,7 +6,7 @@ load:
     - ../../../components/core-components/htdocs/js/viewcontext/viewcontext.js
 
 test:
-    - ../tests/*.js
+    - ../tests/*.spec.js
 
 proxy:
     - {matcher: "*", server: "http://localhost:1337"}
