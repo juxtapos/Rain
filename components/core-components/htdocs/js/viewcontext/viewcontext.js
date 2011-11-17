@@ -1,13 +1,20 @@
 (function (exports) {
     function ClientStorage (viewContext) {
         this.context = viewContext.instanceId;
+        var adapter = null;
+
+        require(['/components/core-components/htdocs/js/lib/amplify.store.js'], function (obj) {
+            adapter = obj;
+            console.log(adapter)
+            window.amplify = obj;
+        });
     }
 
     /**
      * Set the value of key (add it if key doesn't exist) into storage
      *
      * @param {String} key
-     * @param {String} value
+     * @param {Mixed} value
      * @param {Boolean} isTransient whether to use persistent storage or transient storage (defaults to false)
      * @throws {Error} if client storage is not supported
      */
