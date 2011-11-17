@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
 Copyright (c) 2011, Claus Augusti <claus@formatvorlage.de>
 All rights reserved.
