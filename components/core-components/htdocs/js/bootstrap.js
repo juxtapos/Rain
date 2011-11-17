@@ -7,4 +7,4 @@ require({
     locale:"en-us"
 });
 
-require(['core-components/test']);
+require(['core-components/raintime/raintime']);

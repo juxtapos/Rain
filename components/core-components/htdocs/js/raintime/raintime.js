@@ -44,14 +44,14 @@ define([
         function ComponentRegistry () {
             var components = {};
 
-            this.register = function (id, domselector, controllerpath) {
-                console.log('register component ' + id);
-                if (components[id]) {
+            this.register = function (conf) {
+                console.log('register component ' + conf.id);
+                if (components[conf.id]) {
                     return;
                 }
                 return (function () {
-                    var comp = createComponent(id);
-                    components[id] = comp;
+                    var comp = createComponent(conf.id);
+                    components[conf.id] = comp;
                     require([controllerpath], function (obj) {
                         comp.controller = obj;
                         comp.controller.viewContext = Raintime.addViewContext(id);
