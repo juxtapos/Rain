@@ -1,4 +1,4 @@
-(function (exports) {
+define(function () {
     function ClientStorage (viewContext) {
         this.context = viewContext.instanceId;
         var adapter = null;
@@ -105,9 +105,11 @@
         this.storage = new ClientStorage(this);
     }
 
-    exports.addViewContext = function (controller, id) {
-        if (!controller.viewContext) {
-            controller.viewContext = new ViewContext(id);
+    return {
+        addViewContext:function (controller, id) {
+            if (!controller.viewContext) {
+                controller.viewContext = new ViewContext(id);
+            }
         }
     }
-}) (Raintime);
+});

@@ -1,9 +1,5 @@
-define([
-        'core-components/viewcontext/viewcontext'
-    ],
-    function () {
+define(['core-components/viewcontext/viewcontext'], function (ViewContext) {
     var Raintime = (function () {
-
         function Component (id) {
             this.id = id;
             this.controller;
@@ -12,16 +8,17 @@ define([
         }
 
         Component.prototype = {
-            addParent : function (o) {
+            addParent:function (o) {
                 this.parent = o;
             },
-            addChild : function (o) {
+            addChild:function (o) {
                 this.childs.push(o);
             }
         }
 
         var _id = 0;
-        function createComponent(id) {
+
+        function createComponent (id) {
             var id = id ? id : 'id' + (++_id);
             return new Component(id);
         }
@@ -44,17 +41,27 @@ define([
         function ComponentRegistry () {
             var components = {};
 
-            this.register = function (conf) {
-                console.log('register component ' + conf.id);
-                if (components[conf.id]) {
+            /**
+             * @param props object = renderer_id
+             *                       domId
+             *                       instanceId
+             *                       domselector???
+             *                       clientcontroller
+             */
+            this.register = function (props) {
+                var id = props.renderer_id
+                    , domselector = props.domselector
+                    , controllerpath = props.clientcontroller
+                console.log('register component ' + id);
+                if (components[id]) {
                     return;
                 }
                 return (function () {
-                    var comp = createComponent(conf.id);
-                    components[conf.id] = comp;
+                    var comp = createComponent(id);
+                    components[id] = comp;
                     require([controllerpath], function (obj) {
                         comp.controller = obj;
-                        comp.controller.viewContext = Raintime.addViewContext(id);
+                        comp.controller.viewContext = ViewContext.addViewContext(id);
                         console.log('registered component ' + id);
                         if (obj.init) {
                             obj.init();
@@ -70,9 +77,9 @@ define([
         }
 
         return {
-            createComponent : createComponent,
-            ComponentRegistry : new ComponentRegistry(),
-            ComponentController : new ComponentController()
+            createComponent:createComponent,
+            ComponentRegistry:new ComponentRegistry(),
+            ComponentController:new ComponentController()
             //Logger : new Logger(),
         }
     })();
