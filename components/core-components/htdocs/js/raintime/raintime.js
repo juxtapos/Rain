@@ -41,7 +41,17 @@ var Raintime = (function () {
 	function ComponentRegistry () {
 		var components = {};
 
-		this.register = function (id, domselector, controllerpath) {
+		/**
+		 * @param props object = renderer_id
+		 *                       domId
+		 *                       instanceId
+		 *                       domselector???
+		 *                       clientcontroller
+		 */
+		this.register = function (props) {
+		    var id = props.renderer_id
+		        , domselector = props.domselector
+		        , controllerpath = props.clientcontroller
 			console.log('register component ' + id);
 			if (components[id]) {
 				return;
