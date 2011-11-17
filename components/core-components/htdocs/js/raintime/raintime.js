@@ -54,6 +54,10 @@ var Raintime = (function () {
             var components = {};
 
             return {
+                /**
+                 * @param props Properties of the component: renderer_id, domid,
+                 * instanceid, domselector, clientcontroller
+                 */
                 register: function (props) {
                     var id = props.renderer_id
                       , domselector = props.domselector
