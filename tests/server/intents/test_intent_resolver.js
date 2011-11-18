@@ -159,12 +159,26 @@ exports.tcGetPreferredHandler = testCase(tcGetPreferredHandler);
 
 var tcGetIntentProviders = {};
 
-tcGetIntentProviders.intents = {"categ1" : {"action1": {"intent1": {"type": "view",
-                                                       "provider": "view1"},
-                                                  "intent2": {"type": "view",
-                                                              "provider": "view2"}}}};
+tcGetIntentProviders.intents = {"categ1": 
+                                    {"action1": 
+                                        {"intent1": 
+                                            {"type": "view",
+                                             "provider": "view1"},
+                                         "intent2": 
+                                            {"type": "view",
+                                             "provider": "view2"}
+                                         }
+                                    },
+                                "categ2": 
+                                    {"action2": 
+                                        {"intent3": 
+                                            {"type": "view",
+                                             "provider": "view3"}
+                                        }
+                                    }                                    
+                               };
                                                        
-tcGetIntentProviders.intentsRegistry = {"intents": tcGetPreferredHandler.intents};
+tcGetIntentProviders.intentsRegistry = {"intents": tcGetIntentProviders.intents};
 
 /**
  * Method used to test get intent providers algorithm for multiple handlers.
@@ -178,6 +192,63 @@ tcGetIntentProviders.testGetIntentProviders = function(test) {
     
     test.equals(handlers.length, 2)
     
+    test.done();
+}
+
+/**
+ * Method that tests get intent providers when a single match is found.
+ */
+tcGetIntentProviders.testGetIntentProvidersSingle = function(test) {
+    var intentsRegistry = tcGetIntentProviders.intentsRegistry;    
+    
+    var intentsResolver = new modResolver.IntentsResolver({}, intentsRegistry);
+    
+    var handlers = intentsResolver._getIntentProviders("categ2", "action2");
+    
+    test.equals(handlers.length, 1);
+    
+    test.done();
+}
+
+/**
+ * Method used to test get intent providers algorithm when intents handlers are 
+ * missing. Various types of exceptions are thrown.
+ */
+tcGetIntentProviders.testGetIntentProvidersMissing = function(test) {
+    var intentsRegistry = tcGetIntentProviders.intentsRegistry;    
+    
+    var intentsResolver = new modResolver.IntentsResolver({}, intentsRegistry);
+
+    // missing category test
+    try {
+        intentsResolver._getIntentProviders("categ3", "action1");
+        
+        test.ok(false);
+    }
+    catch(err) {
+        if(err instanceof exceptions.IntentCategoryNotFound) {
+            test.ok(true)
+        }
+        else {
+            test.ok(false);
+        }
+    }
+    
+    // missing action test
+    try {
+        intentsResolver._getIntentProviders("categ1", "action99");
+        
+        test.ok(false);
+    }
+    catch(err) {
+        if(err instanceof exceptions.IntentActionNotFound) {
+            test.ok(true)
+        }
+        else {
+            test.ok(false);
+        }
+    }
+        
     test.done();
 }
 
