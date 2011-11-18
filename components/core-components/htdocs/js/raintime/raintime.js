@@ -1,87 +1,108 @@
-define(['core-components/viewcontext/viewcontext'], function (ViewContext) {
+define(['core-components/raintime/viewcontext'], function (ViewContext) {
     var Raintime = (function () {
-        function Component (id) {
+
+        function Component(id) {
             this.id = id;
-            this.controller;
+            this.controller = null;
             this.parent = null;
-            this.childs = [];
+            this.children = [];
         }
 
         Component.prototype = {
-            addParent:function (o) {
+            addParent : function (o) {
                 this.parent = o;
             },
-            addChild:function (o) {
-                this.childs.push(o);
+            addChild : function (o) {
+                this.children.push(o);
             }
         }
 
         var _id = 0;
-
-        function createComponent (id) {
-            var id = id ? id : 'id' + (++_id);
-            return new Component(id);
+        function createComponent(id) {
+            return new Component(id || ("id" + (++_id)));
         }
 
-        function ComponentController () {
+        ComponentController = (function () {
+            var _instance;
 
-            this.preRender = function (id) {
-                console.log('preRender ' + id);
+            function init() {
+                return {
+                    preRender: function (id) {
+                        console.log("preRender " + id);
+                    },
+
+                    postRender: function (id) {
+                        console.log("postRender " + id);
+                    },
+
+                    init: function (id) {
+                        console.log('init component ' + id);
+                    }
+                };
             }
 
-            this.postRender = function (id) {
-                console.log('postRender ' + id);
-            };
-
-            this.init = function (id) {
-                console.log('init component ' + id);
-            };
-        }
-
-        function ComponentRegistry () {
-            var components = {};
-
-            /**
-             * @param props object = renderer_id
-             *                       domId
-             *                       instanceId
-             *                       domselector???
-             *                       clientcontroller
-             */
-            this.register = function (props) {
-                var id = props.renderer_id
-                    , domselector = props.domselector
-                    , controllerpath = props.clientcontroller
-                console.log('register component ' + id);
-                if (components[id]) {
-                    return;
+            return {
+                get: function () {
+                    return _instance || (_instance = init());
                 }
-                return (function () {
-                    var comp = createComponent(id);
-                    components[id] = comp;
-                    require([controllerpath], function (obj) {
-                        comp.controller = obj;
-                        comp.controller.viewContext = ViewContext.addViewContext(id);
-                        console.log('registered component ' + id);
-                        if (obj.init) {
-                            obj.init();
+            };
+        })();
+
+        ComponentRegistry = (function () {
+            var _instance;
+
+            function init() {
+                var components = {};
+
+                return {
+                    /**
+                     * @param props Properties of the component: renderer_id, domId,
+                     * instanceId, domselector, clientcontroller
+                     */
+                    register: function (props) {
+                        var id = props.renderer_id
+                          , domselector = props.domselector
+                          , controllerpath = props.clientcontroller;
+
+                        console.log("register component " + id);
+
+                        if (components[id]) {
+                            return;
                         }
-                    });
-                    return comp;
-                })();
+
+                        var component = components[id] = createComponent(id);
+
+                        require([controllerpath], function (controller) {
+                            component.controller = controller;
+                            component.controller.viewContext = ViewContext.addViewContext(id);
+                            console.log("registered component " + id);
+
+                            if (controller.init) {
+                                controller.init();
+                            }
+                        });
+
+                        return component;
+                    },
+
+                    deregister: function () {
+                        delete components[id];
+                    }
+                };
             }
 
-            this.deregister = function () {
-                delete components[id];
-            }
-        }
+            return {
+                get: function () {
+                    return _instance || (_instance = init());
+                }
+            };
+        })();
 
         return {
-            createComponent:createComponent,
-            ComponentRegistry:new ComponentRegistry(),
-            ComponentController:new ComponentController()
-            //Logger : new Logger(),
-        }
+            createComponent : createComponent,
+            ComponentRegistry : ComponentRegistry.get(),
+            ComponentController : ComponentController.get()
+        };
     })();
 
     if (typeof exports != 'undefined') {

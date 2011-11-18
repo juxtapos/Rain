@@ -1,0 +1,13 @@
+<atlassian-ide-plugin>
+  <project-configuration>
+    <servers>
+      <jira>
+        <server-id>1389035a-0ea3-4a0b-a3a0-2587eb7f60cb</server-id>
+        <name>1&amp;1</name>
+        <url>http://issue.tool.1and1.com</url>
+        <shared>false</shared>
+      </jira>
+    </servers>
+    <default-jira-server>1389035a-0ea3-4a0b-a3a0-2587eb7f60cb</default-jira-server>
+  </project-configuration>
+</atlassian-ide-plugin>
