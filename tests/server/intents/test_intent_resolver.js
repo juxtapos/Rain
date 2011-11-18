@@ -37,7 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 var modHelper       = require("../util_loader")
     , modResolver   = modHelper.loadModule("intents/intents_resolver")
     , exceptions    = modHelper.loadModule("intents/intents_exceptions")     
-    , testCase      = require("nodeunit");
+    , testCase      = require("nodeunit").testCase;
 
 /**
  * Test case used for resolveIntent when multiple handlers are found.
@@ -57,3 +57,128 @@ exports.testResolveIntentNHandlers = function(test) {
     
     test.done();
 }
+
+/**
+ * Test case used for resolvedIntent when one handler is found.
+ */
+exports.testResolveIntentHandler = function(test) {
+    var intentsResolver = new modResolver.IntentsResolver({}, {});
+    
+    intentsResolver._getIntentProviders = function(category, action, preferences) {
+        return [{"intent1" : ""}];        
+    }
+    
+    intentsResolver._renderIntent = function(intent) {
+        return "Good boy"; 
+    }
+    
+    var result = intentsResolver.resolveIntent("categ1", "test1", {});
+    
+    test.equals(result, "Good boy");
+    
+    test.done();
+}
+
+/**
+ * Test case used for resolveIntent when no handler is found.
+ */
+exports.testResolveIntentMissing = function(test) {
+    var intentsResolver = new modResolver.IntentsResolver({}, {});
+    
+    intentsResolver._getIntentProviders = function(category, action, preferences) {
+        return [];        
+    }
+    
+    var result = intentsResolver.resolveIntent("", "", {});
+    
+    test.equals(result.length, 0);
+    
+    test.done();
+}
+
+var tcGetPreferredHandler = {};
+
+tcGetPreferredHandler.intents = {"categ1" : {"action1": {"intent1": {"type": "view",
+                                                       "provider": "view1"},
+                                             "intent2": {"type": "view",
+                                                       "provider": "view2"}}}};
+                                                       
+tcGetPreferredHandler.intentsRegistry = {"intents": tcGetPreferredHandler.intents};
+
+/**
+ * Test case for getPreferredHandler method - normal flow.
+ */
+tcGetPreferredHandler.testGetPreferredHandler = function(test) {
+    var intentsRegistry =tcGetPreferredHandler.intentsRegistry;
+    
+    var preferences = {"categ1": {"action1": "intent1"}};
+    
+    var intentsResolver = new modResolver.IntentsResolver({}, intentsRegistry);
+    
+    var intent = intentsResolver._getPreferredHandler("categ1", "action1", preferences);
+    
+    test.equals(intent.type, "view");
+    test.equals(intent.provider, "view1");
+    
+    test.done();
+}
+
+/**
+ * Test case for getPreferredHandler method - missing preferences, missing category,
+ * missing action.
+ */
+tcGetPreferredHandler.testGetPreferredHandlerMissing = function(test) {
+    var intentsRegistry =tcGetPreferredHandler.intentsRegistry;
+    var intentsResolver = new modResolver.IntentsResolver({}, intentsRegistry);
+    
+    var preferences = {"categ1": {"action1": "intent3"}};
+
+    /**
+     * Intent category missing from preferences.
+     */
+    var intent = intentsResolver._getPreferredHandler("categ2", "action1", preferences);    
+    
+    test.ok(!intent);
+    
+    /**
+     * Intent action missing from preferences.
+     */
+    intent = intentsResolver._getPreferredHandler("categ1", "action2", preferences);
+    
+    /**
+     * Intent set in preferences but missing from registry.
+     */   
+    intent = intentsResolver._getPreferredHandler("categ1", "action1", preferences);
+    
+    test.ok(!intent);
+    
+    test.done();
+}
+
+exports.tcGetPreferredHandler = testCase(tcGetPreferredHandler);
+
+var tcGetIntentProviders = {};
+
+tcGetIntentProviders.intents = {"categ1" : {"action1": {"intent1": {"type": "view",
+                                                       "provider": "view1"},
+                                                  "intent2": {"type": "view",
+                                                              "provider": "view2"}}}};
+                                                       
+tcGetIntentProviders.intentsRegistry = {"intents": tcGetPreferredHandler.intents};
+
+/**
+ * Method used to test get intent providers algorithm for multiple handlers.
+ */
+tcGetIntentProviders.testGetIntentProviders = function(test) {
+    var intentsRegistry = tcGetIntentProviders.intentsRegistry;
+    
+    var intentsResolver = new modResolver.IntentsResolver({}, intentsRegistry);
+    
+    var handlers = intentsResolver._getIntentProviders("categ1", "action1");
+    
+    test.equals(handlers.length, 2)
+    
+    test.done();
+}
+
+exports.tcGetIntentProviders = testCase(tcGetIntentProviders);
