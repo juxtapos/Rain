@@ -1,10 +1,10 @@
 var Raintime = (function () {
 
-	function Component (id) {
+	function Component(id) {
 		this.id = id;
-		this.controller;
+		this.controller = null;
 		this.parent = null;
-		this.childs = [];
+		this.children = [];
 	}
 
 	Component.prototype = {
@@ -12,76 +12,96 @@ var Raintime = (function () {
 			this.parent = o;
 		},
 		addChild : function (o) {
-			this.childs.push(o);
-		},
-
+			this.children.push(o);
+		}
 	}
 
 	var _id = 0;
 	function createComponent(id) {
-		var id = id ? id : 'id' + (++_id);
-		return new Component(id);
+		return new Component(id || ("id" + (++_id)));
 	}
 
-	function ComponentController () {
+	ComponentController = (function () { 
+        var _instance;
 
-		this.preRender = function (id) {
-			console.log('preRender ' + id);	
-		}
-			
-		this.postRender = function (id) {
-			console.log('postRender ' + id);	
-		};
- 
-		this.init = function (id) {
-			console.log('init component ' + id);	
-		};
-	}
+        function init() {
+            return {
+                preRender: function (id) {
+                    console.log("preRender " + id);	
+                },
 
-	function ComponentRegistry () {
-		var components = {};
+                postRender: function (id) {
+                    console.log("postRender " + id);	
+                },
 
-		/**
-		 * @param props object = renderer_id
-		 *                       domId
-		 *                       instanceId
-		 *                       domselector???
-		 *                       clientcontroller
-		 */
-		this.register = function (props) {
-		    var id = props.renderer_id
-		        , domselector = props.domselector
-		        , controllerpath = props.clientcontroller
-			console.log('register component ' + id);
-			if (components[id]) {
-				return;
-			} 
-			return (function () {
-				var comp = createComponent(id);
-				components[id] = comp;
-				require([controllerpath], function (obj) {
-					comp.controller = obj;
-                    comp.controller.viewContext = Raintime.addViewContext(id);
-					console.log('registered component ' + id);
-					if (obj.init) {
-						obj.init();
-					}
-				});
-				return comp;
-			})();
-		}
+                init: function (id) {
+                    console.log('init component ' + id);	
+                }
+            };
+        }
 
-		this.deregister = function () {
-			delete components[id];
-		}
-	}
+        return {
+            get: function () {
+                return _instance || (_instance = init());
+            }
+        };
+	})();
+
+    ComponentRegistry = (function () {
+        var _instance;
+
+        function init() {
+            var components = {};
+
+            return {
+                /**
+                 * @param props Properties of the component: renderer_id, domId,
+                 * instanceId, domselector, clientcontroller
+                 */
+                register: function (props) {
+                    var id = props.renderer_id
+                      , domselector = props.domselector
+                      , controllerpath = props.clientcontroller;
+
+                    console.log("register component " + id);
+
+                    if (components[id]) {
+                        return;
+                    }
+
+                    var component = components[id] = createComponent(id);
+
+                    require([controllerpath], function (controller) {
+                        component.controller = controller;
+                        component.controller.viewContext = Raintime.addViewContext(id);
+                        console.log("registered component " + id);
+
+                        if (controller.init) {
+                            controller.init();
+                        }
+                    });
+
+                    return component;
+                },
+
+                deregister: function () {
+                    delete components[id];
+                }
+            };
+        }
+
+        return {
+            get: function () {
+                return _instance || (_instance = init());
+            }
+        };
+    })();
 
 	return {
 		createComponent : createComponent,
-		ComponentRegistry : new ComponentRegistry(),
-		ComponentController : new ComponentController(),
-		//Logger : new Logger(),
-	}
+		ComponentRegistry : ComponentRegistry.get(),
+		ComponentController : ComponentController.get()
+	};
 })();
 
 if (typeof exports != 'undefined') {
