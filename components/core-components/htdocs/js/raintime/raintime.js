@@ -73,6 +73,7 @@ var Raintime = (function () {
 
                     require([controllerPath], function (controller) {
                         component.controller = controller;
+                        component.controller.viewContext = Raintime.addViewContext(id);
                         console.log("registered component " + id);
 
                         if (controller.init) {
