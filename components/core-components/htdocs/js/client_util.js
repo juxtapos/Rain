@@ -21,6 +21,5 @@ define(function(require) {
 	
 	var clientUtil = new ClientUtil();
 	
-	return {"_create": clientUtil._create,
-			"inherits": clientUtil.inherits};
+	return {"inherits": clientUtil.inherits};
 });
