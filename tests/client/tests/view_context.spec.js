@@ -30,7 +30,7 @@ describe("ViewContext tests", function () {
     var component = null;
     var _raintimeLoaded = false;
 
-    it('should setup the enviroment', function () {
+    beforeEach(function () {
         require(["core-components/raintime/raintime"], function (obj) {
             Raintime = obj;
             _raintimeLoaded = true;
@@ -59,6 +59,13 @@ describe("ViewContext tests", function () {
         });
     });
 
+    afterEach(function () {
+        Raintime.ComponentRegistry.deregister(component.id);
+        Raintime = null;
+        component = null;
+        _raintimeLoaded = false;
+    });
+
     it('shoud have Raintime', function () {
         expect(Raintime).not.toBe(null);
     });
@@ -80,8 +87,4 @@ describe("ViewContext tests", function () {
         var viewContext = component.controller.viewContext;
         expect(viewContext.instanceId).toBe(component.id);
     });*/
-
-    it('should clean up after myself', function () {
-        Raintime.ComponentRegistry.deregister(component.id);
-    });
 });

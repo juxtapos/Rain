@@ -30,7 +30,7 @@ describe("ClientStorage tests", function () {
     var component = null;
     var _raintimeLoaded = false;
 
-    it('should setup the enviroment', function () {
+    beforeEach(function () {
         require(["core-components/raintime/raintime"], function (obj) {
             Raintime = obj;
             _raintimeLoaded = true;
@@ -57,6 +57,13 @@ describe("ClientStorage tests", function () {
 
             require.reset();
         });
+    });
+
+    afterEach(function () {
+        Raintime.ComponentRegistry.deregister(component.id);
+        Raintime = null;
+        component = null;
+        _raintimeLoaded = false;
     });
 
     it('shoud have Raintime', function () {
@@ -93,10 +100,6 @@ describe("ClientStorage tests", function () {
 
         storage.remove('test');
         expect(storage.get('test')).toBeUndefined();
-    });
-
-    it('shpuld cleanup after myself', function () {
-        Raintime.ComponentRegistry.deregister(component.id);
     });
 });
 

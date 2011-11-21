@@ -62,17 +62,17 @@ The structure of a client side test should look something like this:
 
 
     describe('name of the suite', function () {
-        it('should setup the enviroment', function () {
+        beforeEach(function () {
             // Setup code here
         });
+
+       afterEach(function () {
+           // Cleanup code here
+       });
 
         it('should do something', function () {
             expect(yourCode).toBe(better); // test code goes here
         });
-
-        it('should cleanup after myself', function () {
-            // Cleanup code here
-        });
-    }
+    });
 
 
