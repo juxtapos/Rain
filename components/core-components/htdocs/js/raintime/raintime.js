@@ -25,18 +25,22 @@ var Raintime = (function () {
         var _instance;
 
         function init() {
+            function preRender(id) {
+                console.log("preRender " + id);
+            }
+
+            function postRender(id) {
+                console.log("postRender " + id);
+            }
+
+            function init(id) {
+                console.log("init component " + id);	
+            }
+
             return {
-                preRender: function (id) {
-                    console.log("preRender " + id);	
-                },
-
-                postRender: function (id) {
-                    console.log("postRender " + id);	
-                },
-
-                init: function (id) {
-                    console.log('init component ' + id);	
-                }
+                preRender: preRender,
+                postRender: postRender,
+                init: init
             };
         }
 
@@ -53,40 +57,44 @@ var Raintime = (function () {
         function init() {
             var components = {};
 
-            return {
-                /**
-                 * @param props Properties of the component: renderer_id, domId,
-                 * instanceId, domselector, clientcontroller
-                 */
-                register: function (props) {
-                    var id = props.renderer_id
-                      , domselector = props.domselector
-                      , controllerpath = props.clientcontroller;
+            /**
+             * @param props Properties of the component: renderer_id, domId,
+             * instanceId, domselector, clientcontroller
+             */
+            function register(props) {
+                var id = props.renderer_id
+                  , domselector = props.domselector
+                  , controllerpath = props.clientcontroller;
 
-                    console.log("register component " + id);
+                console.log("register component " + id);
 
-                    if (components[id]) {
-                        return;
-                    }
-
-                    var component = components[id] = createComponent(id);
-
-                    require([controllerpath], function (controller) {
-                        component.controller = controller;
-                        component.controller.viewContext = Raintime.addViewContext(id);
-                        console.log("registered component " + id);
-
-                        if (controller.init) {
-                            controller.init();
-                        }
-                    });
-
-                    return component;
-                },
-
-                deregister: function () {
-                    delete components[id];
+                if (components[id]) {
+                    return;
                 }
+
+                var component = components[id] = createComponent(id);
+
+                require([controllerpath], function (controller) {
+                    component.controller = controller;
+                    component.controller.viewContext = Raintime.addViewContext(id);
+                    console.log("registered component " + id);
+
+                    if (controller.init) {
+                        controller.init();
+                    }
+                });
+
+                return component;
+            }
+
+            function deregister() {
+                delete components[id];
+            }
+
+            return {
+                components: components,
+                register: register,
+                deregister: deregister
             };
         }
 
