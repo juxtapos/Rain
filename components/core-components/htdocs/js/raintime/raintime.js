@@ -91,7 +91,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext'], 
                     return component;
                 }
 
-                function deregister () {
+                function deregister (id) {
                     delete components[id];
                 }
 
