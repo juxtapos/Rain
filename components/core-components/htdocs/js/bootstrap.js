@@ -1,7 +1,8 @@
 require({
+    debug: true,
     baseUrl:"/components",
     paths:{
-        "core-components": "core-components/htdocs/js/",
+        "core-components": "core-components/htdocs/js",
         "cockpit": "cockpit/htdocs/js/"
     },
     locale:"en-us"

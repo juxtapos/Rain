@@ -25,7 +25,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-describe("ViewContext tests", function () {
+describe("ClientStorage tests", function () {
     var Raintime = null;
     var component = null;
     var _raintimeLoaded = false;
@@ -76,12 +76,27 @@ describe("ViewContext tests", function () {
         expect(controller.viewContext).toBeDefined();
     });
 
-    /*it('should have the same instanceId as the component', function () {
+    it('should have a ClientStorage', function () {
         var viewContext = component.controller.viewContext;
-        expect(viewContext.instanceId).toBe(component.id);
-    });*/
+        expect(viewContext.storage).toBeDefined();
+    });
 
-    it('should clean up after myself', function () {
+    it('should store and retrive a key', function () {
+        var storage = component.controller.viewContext.storage;
+
+        storage.set('test', 'testing');
+        expect(storage.get('test')).toBe('testing');
+    });
+
+    it('should be able to remove a key', function () {
+        var storage = component.controller.viewContext.storage;
+
+        storage.remove('test');
+        expect(storage.get('test')).toBeUndefined();
+    });
+
+    it('shpuld cleanup after myself', function () {
         Raintime.ComponentRegistry.deregister(component.id);
     });
 });
+

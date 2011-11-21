@@ -76,7 +76,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext'], 
 
                         require([controllerpath], function (controller) {
                             component.controller = controller;
-                            component.controller.viewContext = Raintime.addViewContext(id);
+                            component.controller.viewContext = Raintime.addViewContext(component.id);
                             console.log("registered component " + id);
 
                             if (controller.init) {
@@ -87,7 +87,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext'], 
                         return component;
                     },
 
-                    deregister: function () {
+                    deregister: function (id) {
                         delete components[id];
                     }
                 };

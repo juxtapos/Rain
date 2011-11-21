@@ -25,7 +25,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-define(['/components/core-components/htdocs/js/lib/amplify.store.js'], function (driver) {
+define(['core-components/lib/amplify.store'], function (driver) {
     var storageTypes = {
         'persistent': [
             'localStorage',
@@ -78,25 +78,11 @@ define(['/components/core-components/htdocs/js/lib/amplify.store.js'], function 
      * @throws {Error} if client storage is not supported
      */
     ClientStorage.prototype.get = function (key, isTransient) {
-        var storage = null
-            , value = '';
+        var storage = getStorage(isTransient);
 
-        if (window.localStorage) {
-            storage = window.localStorage;
-        }
+        value = storage(key);
 
-        if (isTransient && window.sessionStorage) {
-            storage = window.sessionStorage;
-        }
-
-        if (!storage) {
-            throw new Error('Your browser doesn\'t support client storage');
-        }
-
-        value = storage.getItem(key);
-
-        return (value || null);
-
+        return value;
     };
 
     /**
@@ -107,21 +93,9 @@ define(['/components/core-components/htdocs/js/lib/amplify.store.js'], function 
      * @throws {Error} if client storage is not supported
      */
     ClientStorage.prototype.remove = function (key, isTransient) {
-        var storage = null;
+        var storage = getStorage(isTransient);
 
-        if (window.localStorage) {
-            storage = window.localStorage;
-        }
-
-        if (isTransient && window.sessionStorage) {
-            storage = window.sessionStorage;
-        }
-
-        if (!storage) {
-            throw new Error('Your browser doesn\'t support client storage');
-        }
-
-        storage.removeItem(key);
+        storage(key, null);
     };
 
     ClientStorage.prototype.addListener = function (callback) {
