@@ -1,0 +1,12 @@
+load:
+    - ../lib/jasmine/lib/jasmine-core/jasmine.js
+    - ../lib/jasmine-jstd-adapter/src/*.js
+    - ../../../components/core-components/htdocs/js/require-jquery.js
+    - ../../../components/core-components/htdocs/js/bootstrap.js
+
+test:
+    - ../tests/*.spec.js
+
+proxy:
+    - {matcher: "*", server: "http://localhost:1337"}
+
