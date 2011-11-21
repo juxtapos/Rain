@@ -76,13 +76,11 @@ exports.testResolveIntentHandler = function(test) {
     }
     
     intentsResolver._renderIntent = function(intent) {
-        return "Good boy"; 
+        return {}; 
     }
     
     var result = intentsResolver.resolveIntent("categ1", "test1", {});
-    
-    test.equals(result, "Good boy");
-    
+       
     test.done();
 }
 
