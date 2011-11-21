@@ -39,3 +39,40 @@ If you hadn't used util_loader than you would have been obliged to write somethi
 
     var modIntentsRegistry    = require("../../../../intents/intents_registry")
         , testCase            = testsHelper.loadModule("nodeunit").testCase;
+
+## Client
+
+For the client side tests, all unit tests are placed by following the same structure:
+
+* tests
+    * client
+        * tests
+            * <module_name>.spec.js
+
+The test module associated to the ViewContext module should be placed in:
+
+* tests
+    * client
+        * tests
+            * view_context.spec.js
+
+If you need any external libraries loaded, feel free to add them to the load section in conf/ClientTests.jstd
+
+The structure of a client side test should look something like this:
+
+
+    describe('name of the suite', function () {
+        it('should setup the enviroment', function () {
+            // Setup code here
+        });
+
+        it('should do something', function () {
+            expect(yourCode).toBe(better); // test code goes here
+        });
+
+        it('should cleanup after myself', function () {
+            // Cleanup code here
+        });
+    }
+
+

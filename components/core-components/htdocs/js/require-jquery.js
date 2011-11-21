@@ -11314,4 +11314,3 @@ if (typeof define !== "undefined" && define.amd) {
         jQuery( coll ).remove();
     }
 })( jQuery );
-
