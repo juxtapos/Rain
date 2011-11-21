@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 var modHelper           = require("./util_loader")
     , modPromise        = require("promised-io/promise")
     , modSockets        = modHelper.loadModule("sockets_container")
-    , socketFactory     = new modSockets.SocketsContainer(1337)
+    , socketFactory     = new modSockets.SocketsContainer(modHelper.port)
     , modSocketClient   = modHelper.loadModule("socket.io-client");
 
 /**
@@ -46,13 +46,13 @@ var modHelper           = require("./util_loader")
  */
 function TestHandler(promise) { 
     this._promise = promise;    
-}
+};
     
 TestHandler.prototype.getSocketName = function() {
     promise.resolve({});
     
     return "/chat";
-}
+};
 
 TestHandler.prototype.handle = function(socket) {
     console.log("Handle method invoked.");    
@@ -66,7 +66,7 @@ TestHandler.prototype.handle = function(socket) {
         
         process.exit(0);
     });
-}
+};
 
 var promise = new modPromise.defer();
 
@@ -74,7 +74,7 @@ socketFactory.addSocketHandler(new TestHandler(promise));
 
 promise.promise.then(function(data) {
    function simulateClient() {
-       var client = modSocketClient.connect("http://localhost:1337/chat");
+       var client = modSocketClient.connect("http://localhost:"+modHelper.port+"/chat");
        
        client.on("hello", function(data) {
            console.log(data.message);
