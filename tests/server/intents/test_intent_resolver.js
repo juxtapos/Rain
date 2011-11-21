@@ -34,6 +34,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict";
 
+global.Server = {
+    "conf": {
+        "default_language": "en_US",
+        "server": {"componentPath": "/components"}
+    }
+};
+
 var modHelper       = require("../util_loader")
     , modResolver   = modHelper.loadModule("intents/intents_resolver")
     , exceptions    = modHelper.loadModule("intents/intents_exceptions")     
@@ -62,7 +69,7 @@ exports.testResolveIntentNHandlers = function(test) {
  * Test case used for resolvedIntent when one handler is found.
  */
 exports.testResolveIntentHandler = function(test) {
-    var intentsResolver = new modResolver.IntentsResolver({}, {});
+    var intentsResolver = new modResolver.IntentsResolver({}, {});    
     
     intentsResolver._getIntentProviders = function(category, action, preferences) {
         return [{"intent1" : ""}];        
@@ -253,3 +260,68 @@ tcGetIntentProviders.testGetIntentProvidersMissing = function(test) {
 }
 
 exports.tcGetIntentProviders = testCase(tcGetIntentProviders);
+
+
+/**
+ * Test case for getIntentComponentView method.
+ */
+var tcGetIntentComponentView = {"intent": {"type": "view",
+                                           "provider": {"viewid": "view1",
+                                                        "view": "/htdocs/test.html",
+                                                        "module": {
+                                                            "id": "test-module",
+                                                            "version": "1.0",
+                                                            "url": "/comps/test"
+                                                        }
+                                            } 
+                                        }
+                                };
+    
+/**
+ * Method used to test getIntentComponentView method on normal flow: a component
+ * is returned.
+ */
+tcGetIntentComponentView.testGetIntentComponentViewNormal = function(test) {
+    var intentsRegistry = tcGetIntentComponentView.intentsRegistry;    
+    var intent = tcGetIntentComponentView.intent;
+    
+    var mockTagFactory = {}
+    mockTagFactory.TagFactory = function(compcontainer) { }
+    
+    var expectedResult = {"renderer": {"renderresult":
+                                            {"content": ["<body>hahahaha</body>"],
+                                             "dependencies": {"script": [],
+                                                              "css": []}
+                                            }
+                                        }
+                        };
+    
+    var mockCompCont = {};
+    mockCompCont.createComponent = function(componentId) {        
+        var comp = expectedResult;
+        
+        comp.once = function(phase, callback) {
+            callback(comp);
+        }
+        
+        comp.initialize = function(viewpath, outputMode, data, req, res, element, tagfactory) { }
+        
+        return comp;
+    }
+    
+    var intentsResolver = new modResolver.IntentsResolver(mockCompCont, {});
+    
+    var result = intentsResolver._getIntentComponentView(intent, mockTagFactory);
+    
+    result.then(function(comp) {
+        var renderResult = expectedResult.renderer.renderresult; 
+        
+        test.equals(comp.markup, renderResult.content.join(""));
+        test.equals(comp.scriptresource, renderResult.dependencies.script);
+        test.equals(comp.cssresource, renderResult.dependencies.css);
+    });
+    
+    test.done();
+}
+
+exports.tcGetIntentComponentView = testCase(tcGetIntentComponentView);
