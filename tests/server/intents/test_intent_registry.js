@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2011, Cosnita Radu Viorel <radu.cosnita@gmail.com>
+Copyright (c) 2011, Cosnita Radu Viorel <radu.cosnita@1and1.ro>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,11 +30,19 @@ var testsHelper             = require("../util_loader")
     , testCase              = testsHelper.loadModule("nodeunit").testCase;
 
 var moduleConfig = {"id": "test-module",
-        "version": "1.0"}    
+                    "version": "1.0",
+                    "views": [
+                        {"viewid": "view1",
+                         "view": "/htdocs/view1.html" 
+                        },
+                        {"viewid": "view2",
+                         "view": "/htdocs/view2.html" 
+                        }
+                    ]}    
     , intentConfig = {"action": "com.1and1.intents.general.SEND_MAIL",
-           "category": "com.1and1.controlpanel.mail",
-           "type": "view",
-           "provider": "test-view"
+                      "category": "com.1and1.controlpanel.mail",
+                      "type": "view",
+                      "provider": "view1"
     };
 
 var tcRegisterIntent = {};
@@ -44,7 +52,15 @@ var tcRegisterIntent = {};
  */
 tcRegisterIntent.registerIntentNormal = function(test) {   
     intentsRegistry = new modIntentsRegistry.IntentsRegistry();
+    
+    intentsRegistry._getIntentView = function(moduleConfig, intentConfig) {
+        var viewCtx = moduleConfig.views[0];
         
+        viewCtx.module = moduleConfig;
+        
+        return viewCtx;
+    }
+    
     intentsRegistry._registerIntent(moduleConfig, intentConfig);
     
     // Test for correct registration of the intent.
@@ -54,9 +70,13 @@ tcRegisterIntent.registerIntentNormal = function(test) {
     
     var intentCtx = intentsRegistry.intents[category][action][intentId]; 
     
+    var expectedView = moduleConfig.views[0];
+    
     test.ok(intentCtx);
     test.equals(intentCtx.type, intentConfig.type);
-    test.equals(intentCtx.provider, intentConfig.provider);           
+    test.equals(intentCtx.provider.viewid, expectedView.viewid)
+    test.equals(intentCtx.provider.view, expectedView.view)
+    test.equals(intentCtx.provider.module, moduleConfig);           
     
     test.done();
 }
