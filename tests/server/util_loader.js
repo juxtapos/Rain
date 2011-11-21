@@ -76,3 +76,8 @@ exports.loadModule = function(name) {
     
     return loadedModule;
 };
+
+/**
+ * port for server in the integration test
+ */
+exports.port = 9999;
