@@ -35,7 +35,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict";
 
-var libDir = __dirname + "/../../lib/";
+var libDir  = __dirname + "/../../lib/"
+  , modPath = require("path");
+
+/**
+ * 
+ * @description simulates the global Server settings of a rain server
+ */
+global.Server = {
+    conf : {
+        server : {
+            port : 1337
+            , serverRoot    : modPath.resolve(__dirname, "/..")
+            , componentPath : modPath.resolve(__dirname, "../components")
+        }
+    },
+    UUID : "SERVER-UUID",
+    root : modPath.resolve(".")
+};
 
 /**
  * Method used to load a specified module.
