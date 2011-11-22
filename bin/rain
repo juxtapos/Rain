@@ -171,7 +171,8 @@ function setupProject(project_path){
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/public')), paths.public);
   //copy default configurations
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), paths.conf);
-  
+  //copy core-component
+  wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../components/core-components')), paths.components);
   
   //write ghostfile to know that is a rain project
   fs.writeFileSync(project_path+'/.rain', '');
