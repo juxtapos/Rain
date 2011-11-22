@@ -32,76 +32,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @description This is the messaging layer of Raintime. It contains useful methods for working
  * with intents and pub / sub mechanism.
  */
-define(["core-components/raintime/raintime_config"], function(RaintimeConfig) {
+define(["core-components/raintime/raintime_config",
+        "core-components/raintime/messaging_intents"], function(RaintimeConfig, Intents) {
     /**
      * Class used to build the messaging layer.
      */
     function Messaging(config) {
         this._config = config;
         
-        var webSocketsCfg = config.rain_websockets;
+        this._intents = new Intents.intents(config);
         
-        var intentsUrl = this._getIntentsSocketUrl(webSocketsCfg);
-               
-        this._intentsSocket = io.connect(intentsUrl);
+        var self = this;
+        
+        var sendIntent = this._intents.sendIntent;
+        
+        this.sendIntent = function(request) {
+            sendIntent.apply(self, [request]);
+        };
     }
     
-    Messaging.INTENT_SOCKET = "/intents";
+    var messaging = new Messaging(RaintimeConfig.raintimeConfig);
     
-    Messaging.prototype._getIntentsSocketUrl = function(webSocketsCfg) {                
-        var intentsUrl = [];
-        
-        intentsUrl.push(webSocketsCfg.rain_websockets_url);
-        intentsUrl.push(":");
-        intentsUrl.push(webSocketsCfg.rain_websockets_port);
-        intentsUrl.push(webSocketsCfg.rain_websockets_namespace);
-        intentsUrl.push(Messaging.INTENT_SOCKET);
-        
-        return intentsUrl.join("");        
-    }
-    
-    /**
-     * Method used to send an intent request.
-     * 
-     * @param {Dictionary} request: This is the request object for this intent.
-     * @throws Error: if request object is incomplete then sendIntent raises an error.
-     * 
-     * @example:
-     * var request = {"viewContext": <viewcontext instance>,
-     *                "category": "....",
-     *                "action": "....",
-     *                "intentContext": {....},
-     *                "success": function(data) {.....},
-     *                "error": function(error) {....}};
-     * 
-     * clientRuntime.messaging.sendIntent(request);
-     */
-    Messaging.prototype.sendIntent = function(request) {
-        this._validateIntentRequest(request);
-    }
-    
-    /**
-     * Method used to validate the requests object.
-     */
-    Messaging.prototype._validateIntentRequest = function(request) {
-        var ex;
-
-        var errorHandler = request.error || function(error) { throw error; };
-        
-        if(!request.viewContext) {
-            ex = new Error("View context not specified.");            
-        }
-        else if(!request.category) {
-            ex = new Error("Intent category not specified.");
-        }
-        else if(!request.action) {
-            ex = new Error("Intent action not specified.");
-        }
-        
-        if(ex) {
-            errorHandler(ex);
-        }
-    }
-    
-    return {"messaging": new Messaging(RaintimeConfig.raintimeConfig)}
+    return {"messaging": messaging}
 });
