@@ -54,8 +54,19 @@ TestHandler.prototype.getSocketName = function() {
     return "/chat";
 };
 
+/**
+ * This is a private method.
+ */
+TestHandler.prototype._sayHello = function(msg) {
+    console.log(msg);
+}
+
+/**
+ * This method proves that this scope is safely kept so in handle you can invoke
+ * internal methods..
+ */
 TestHandler.prototype.handle = function(socket) {
-    console.log("Handle method invoked.");    
+    this._sayHello("Handle method invoked");    
     
     socket.emit("hello", {
         "message" : "Good bye lady"

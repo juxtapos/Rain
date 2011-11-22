@@ -1,0 +1,10 @@
+{
+    "id"        : "intents-example",
+    "version"   : "1.0",
+    "url"       : "/components/intents_example",
+    "views": [
+        {"viewid": "missing_intent",
+         "view": "/htdocs/missing_intent_example.html",
+         "controller": "/htdocs/scripts/missing_intent_example.js"}
+    ]
+}

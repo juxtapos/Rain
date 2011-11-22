@@ -1,4 +1,5 @@
-define(['core-components/client_util', 'core-components/raintime/viewcontext'], function (ClientUtil) {
+define(['core-components/client_util', 'core-components/raintime/viewcontext',
+        "core-components/raintime/messaging"], function (ClientUtil) {	
     var modules = Array.prototype.splice.call(arguments, 1);
 
     var Raintime = (function () {
@@ -81,6 +82,8 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext'], 
                     require([controllerpath], function (controller) {
                         component.controller = controller;
                         component.controller.viewContext = Raintime.addViewContext(id);
+                        component.controller.clientRuntime = Raintime;
+
                         console.log("registered component " + id);
 
                         if (controller.init) {
@@ -127,6 +130,6 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext'], 
 
         ClientUtil.inject(Raintime, module);
     }
-
+    
     return Raintime;
 });
