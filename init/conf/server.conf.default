@@ -4,6 +4,7 @@
 		, "serverRoot"   : "."
 		, "documentRoot" : "."
 		, "componentPath" : "./components"
+		, "socketsPort"   : 1338
 	},
 	
 	"mothership" : {

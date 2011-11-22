@@ -156,10 +156,11 @@ function createComponent(component_name){
 
 function setupProject(project_path){
   var paths = {
-    conf        : mod_path.join(project_path, 'conf')
-    ,components  : mod_path.join(project_path, 'components')
-    ,'public'    : mod_path.join(project_path, 'public')
-  };
+	    conf        : mod_path.join(project_path, 'conf')
+	    ,components  : mod_path.join(project_path, 'components')
+	    ,'public'    : mod_path.join(project_path, 'public')
+	  },
+  	  coreComponentsName = "core-components";
   //create project directory
   fs.mkdirSync(project_path, 0755);
   //create components directory
@@ -171,7 +172,8 @@ function setupProject(project_path){
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/public')), paths.public);
   //copy default configurations
   wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../init/conf')), paths.conf);
-  
+  //copy core-component
+  wrench.copyDirSyncRecursive(mod_path.resolve(mod_path.join(__dirname, '../components/'+coreComponentsName)), mod_path.join(paths.components, coreComponentsName));
   
   //write ghostfile to know that is a rain project
   fs.writeFileSync(project_path+'/.rain', '');
