@@ -34,13 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict";
 
-global.Server = {
-    "conf": {
-        "default_language": "en_US",
-        "server": {"componentPath": "/components"}
-    }
-};
-
 var modHelper       = require("../util_loader")
     , modResolver   = modHelper.loadModule("intents/intents_resolver")
     , exceptions    = modHelper.loadModule("intents/intents_exceptions")     

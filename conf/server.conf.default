@@ -3,7 +3,7 @@
 		"port" : 1337
 		, "serverRoot"   : "."
 		, "componentPath" : "./components"
-		, "socketsPort"   : 1337
+		, "socketsPort"   : 1338
 	},
 	
 	"mothership" : {
