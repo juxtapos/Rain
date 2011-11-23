@@ -9,6 +9,9 @@
 define(function() {
     /** @private */
     var queue = {};
+
+    /** @private */
+    var orphans = {};
 	
 	/**
 	 * This is the method that will publish an event
@@ -21,7 +24,13 @@ define(function() {
 		/**
 		 * Nobody is registered for this event so we simply exit this method.
 		 */
-		if(!this.queue[eventName]) {
+		if(!queue[eventName]) {
+            // take care of published events that no one subscribed to
+            if(!orphans[eventName]) {
+                orphans[eventName] = [];
+            }
+            orphans[eventName].push(data);
+
 			return;
 		}
 		
@@ -40,6 +49,15 @@ define(function() {
 	 * 			Ex: function(data)
 	 */
 	function subscribe(eventName, callback) {
+        // take care of the orphaned events
+        if(orphans[eventName]) {
+            for (var i = 0, len = orphans[eventName].length; i < len; i++) {
+                callback(orphans[eventName][i]);
+            }
+
+            delete orphans[eventName];
+        }
+
 		if(!queue[eventName]) {
 			queue[eventName] = [];
 		}
@@ -59,7 +77,7 @@ define(function() {
 		
 		var foundIndex = -1;
 		
-		for(i = 0; i < this.queue[eventName].length; i++) {
+		for(i = 0; i < queue[eventName].length; i++) {
 			if(queue[eventName][i] == callback) {
 				foundIndex = i;
 				break;
