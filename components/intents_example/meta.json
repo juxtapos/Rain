@@ -6,5 +6,11 @@
         {"viewid": "missing_intent",
          "view": "/htdocs/missing_intent_example.html",
          "controller": "/htdocs/scripts/missing_intent_example.js"}
-    ]
+    ],
+    "intents": [{
+        "action": "com.rain.test.general.SHOW_CHAT",
+        "category": "com.rain.test.general",
+        "type": "view",
+        "provider": "missing_intent" 
+    }]
 }

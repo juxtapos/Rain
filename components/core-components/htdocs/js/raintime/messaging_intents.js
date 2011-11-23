@@ -33,11 +33,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * binded to messaging layer.
  */
 
-define(function() {
+define(["core-components/client_util", 
+        "core-components/jquery-cookie"], function(ClientUtil) {
     /**
      * Class used to implement client intents object.
      */
-    function ClientIntents(config) {
+    function ClientIntents(config) {                
         this._config = config;
 
         var webSocketsCfg = config.rain_websockets;
@@ -81,7 +82,13 @@ define(function() {
      * clientRuntime.messaging.sendIntent(request);
      */
     ClientIntents.prototype.sendIntent = function(request) {
-        this._validateIntentRequest(request);
+        if(!this._validateIntentRequest(request)) {
+            return;
+        }
+        
+        this._requestIntent(request);
+        this._handleError(request);
+        this._handleIntentLoaded(request);
     }
     
     /**
@@ -90,10 +97,7 @@ define(function() {
     ClientIntents.prototype._validateIntentRequest = function(request) {
         var ex;
 
-        var errorHandler = request.error ||
-        function(error) {
-            throw error;
-        };
+        var errorHandler = request.error || this._errorHandlerDefault
 
         if(!request.viewContext) {
             ex = new Error("View context not specified.");
@@ -105,8 +109,63 @@ define(function() {
 
         if(ex) {
             errorHandler(ex);
+            
+            return false;
         }
+        
+        return true;
     }
     
+    /**
+     * This is the default error handler if request did not register one.
+     */
+    ClientIntents.prototype._errorHandlerDefault = function(errMessage) {
+        throw errMessage;
+    }
+    
+    ClientIntents.prototype._successHandlerDefault = function(data) {
+        alert(data);
+    }
+    
+    /**
+     * Method used to emit an request intent event.
+     */
+    ClientIntents.prototype._requestIntent = function(request) {
+        var viewContext = {"moduleId": request.viewContext.moduleId,
+                           "instanceId": request.viewContext.instanceId};
+                
+        this._intentsSocket.emit("request_intent", 
+                {
+                    intentCategory: request.category,
+                    intentAction: request.action,
+                    intentContext: request.intentContext || {},
+                    session: ClientUtil.getSession()
+                });
+    }
+    
+    /**
+     * Method used to handle intent_loaded event.
+     */
+    ClientIntents.prototype._handleIntentLoaded = function(request) {
+        var successHandler = request.success || this._successHandlerDefault;
+        
+        this._intentsSocket.on("intent_loaded", function(data) {
+            successHandler(data);
+        });
+    }
+    
+    /**
+     * Method used to handle error received from the intents socket. 
+     */
+    ClientIntents.prototype._handleError = function(request) {
+        var self = this;
+        
+        this._intentsSocket.on("intent_exception", function(data) {
+           var errorHandler = request.error || self._errorHandlerDefault; 
+           
+           errorHandler(data.message); 
+        });
+    }
+        
     return {"intents": ClientIntents};
 });

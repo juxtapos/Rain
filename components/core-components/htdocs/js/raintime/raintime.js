@@ -67,7 +67,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                  * instanceId, domselector, clientcontroller
                  */
                 function register (props) {
-                    var id = props.renderer_id
+                    var id = props.domId
                         , domselector = props.domselector
                         , controllerpath = props.clientcontroller;
 
@@ -76,12 +76,13 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                     if (components[id]) {
                         return;
                     }
-
+                                        
                     var component = components[id] = createComponent(id);
-
+                    
                     require([controllerpath], function (controller) {
                         component.controller = controller;
-                        component.controller.viewContext = Raintime.addViewContext(id);
+                        component.controller.viewContext = Raintime.addViewContext(id);                        
+                        component.controller.viewContext.getSession = ClientUtil.getSession;
                         component.controller.clientRuntime = Raintime;
 
                         console.log("registered component " + id);
@@ -97,11 +98,11 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                 function deregister (id) {
                     delete components[id];
                 }
-
+                
                 return {
                     components:components,
                     register:register,
-                    deregister:deregister
+                    deregister:deregister                    
                 };
             }
 
@@ -129,7 +130,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
         var module = modules[i];
 
         ClientUtil.inject(Raintime, module);
-    }
-    
+    }   
+        
     return Raintime;
 });
