@@ -77,7 +77,7 @@ define(function() {
 		
 		var foundIndex = -1;
 		
-		for(i = 0; i < this.queue[eventName].length; i++) {
+		for(i = 0; i < queue[eventName].length; i++) {
 			if(queue[eventName][i] == callback) {
 				foundIndex = i;
 				break;
