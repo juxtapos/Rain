@@ -24,7 +24,7 @@ define(function() {
 		/**
 		 * Nobody is registered for this event so we simply exit this method.
 		 */
-		if(!this.queue[eventName]) {
+		if(!queue[eventName]) {
             // take care of published events that no one subscribed to
             if(!orphans[eventName]) {
                 orphans[eventName] = [];
