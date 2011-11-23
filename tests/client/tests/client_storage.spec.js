@@ -72,6 +72,7 @@ describe("ClientStorage tests", function () {
 
     it('should have a component', function () {
         expect(component).not.toBeNull();
+        expect(component).not.toBeUndefined();
     });
 
     it('should have contain a controller', function () {

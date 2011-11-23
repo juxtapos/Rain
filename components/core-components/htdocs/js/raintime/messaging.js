@@ -33,7 +33,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * with intents and pub / sub mechanism.
  */
 define(["core-components/raintime/raintime_config",
-        "core-components/raintime/messaging_intents"], function(RaintimeConfig, Intents) {
+        "core-components/raintime/messaging_intents",
+        "core-components/raintime/messaging_observer"], function(RaintimeConfig, Intents, Observer) {
     /**
      * Class used to build the messaging layer.
      */
@@ -49,6 +50,7 @@ define(["core-components/raintime/raintime_config",
         this.sendIntent = function(request) {
             sendIntent.apply(self._intents, [request]);
         };
+        this.observer = Observer;
     }
     
     var messaging = new Messaging(RaintimeConfig.raintimeConfig);

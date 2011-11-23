@@ -32,14 +32,14 @@ define(['core-components/lib/amplify.store'], function (driver) {
             'globalStorage',
             'userData'
         ],
-        transient: [
+        'transient': [
             'sessionStorage',
             'memory'
         ]
     };
 
     function getStorage(type) {
-        var type = (type) ? 'transient' : 'persistent';
+        type = (type) ? 'transient' : 'persistent';
 
         for (var i in storageTypes[type]) {
             var storage = storageTypes[type][i];
@@ -72,6 +72,7 @@ define(['core-components/lib/amplify.store'], function (driver) {
 
     /**
      * Retrieves the value of key from storage
+     *
      * @param {String} key
      * @param {Boolean} isTransient whether to use persistent storage or transient storage (defaults to false)
      * @returns {String|Boolean} the value of key or null on failure
