@@ -50,7 +50,9 @@ define(["core-components/raintime/raintime_config",
         this.sendIntent = function(request) {
             sendIntent.apply(self._intents, [request]);
         };
-        this.observer = Observer;
+        this.publish = Observer.publish;
+        this.subscribe = Observer.subscribe;
+        this.unsubscribe = Observer.unsubscribe;
     }
     
     var messaging = new Messaging(RaintimeConfig.raintimeConfig);

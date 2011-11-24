@@ -6,7 +6,7 @@
  * @version 1.0
  * @since 27.08.2011 
  */
-define(function() {
+define(['core-components/client_util'], function(ClientUtil) {
     /** @private */
     var queue = {};
 
@@ -20,22 +20,39 @@ define(function() {
 	 * @param eventName
 	 * @param data
 	 */
-	function publish(eventName, data) {
-		/**
-		 * Nobody is registered for this event so we simply exit this method.
-		 */
-		if(!queue[eventName]) {
-            // take care of published events that no one subscribed to
-            if(!orphans[eventName]) {
-                orphans[eventName] = [];
-            }
-            orphans[eventName].push(data);
+	function publish(eventName, data, viewContext) {
+        var hierarchy = eventName.split('::');
+        var parent = queue;
 
-			return;
-		}
+        if (hierarchy[0] && viewContext && viewContext.parent) {
+            // prepend parent
+            hierarchy.splice(0, 0, viewContext.parent);
+        } else {
+            hierarchy.slice(1);
+        }
+
+        for (var i = 0, len = hierarchy.length; i < len; i++) {
+            var child = hierarchy[i];
+
+            if (!parent) {
+                break;
+            }
+
+            parent = parent[child];
+        }
+
+        /**
+         * Nobody is registered for this event so we simply exit this method.
+         */
+        if (!parent) {
+            // take care of published events that no one subscribed to
+            orphans[eventName] = data;
+
+            return;
+        }
 		
-		for(i = 0; i < queue[eventName].length; i++) {
-			queue[eventName][i](data);
+		for(i = 0; i < parent.callbacks.length; i++) {
+            ClientUtil.callAsync(parent.callbacks[i], data);
 		}
 	}
 	
@@ -48,44 +65,67 @@ define(function() {
 	 * 					a single parameter called data. 
 	 * 			Ex: function(data)
 	 */
-	function subscribe(eventName, callback) {
+	function subscribe(eventName, callback, viewContext) {
+        var hierarchy = eventName.split('::');
+        var parent = queue;
+
         // take care of the orphaned events
-        if(orphans[eventName]) {
-            for (var i = 0, len = orphans[eventName].length; i < len; i++) {
-                callback(orphans[eventName][i]);
-            }
+        if(orphans.hasOwnProperty(eventName)) {
+            callback(orphans[eventName]);
 
             delete orphans[eventName];
         }
 
-		if(!queue[eventName]) {
-			queue[eventName] = [];
-		}
-		
-		if(~queue[eventName].indexOf(callback)) {
-			queue[eventName].push(callback);
-		}
+        if (hierarchy[0] && viewContext && viewContext.parent) {
+            // prepend parent
+            hierarchy.splice(0, 0, viewContext.parent);
+        } else {
+            hierarchy.slice(1);
+        }
+
+        for (var i = 0, len = hierarchy.length; i < len; i++) {
+            var child = hierarchy[i];
+            if (!parent[child]) {
+                parent[child] = {
+                    callbacks: []
+                }
+            }
+
+            parent = parent[child];
+        }
+
+        if (parent.callbacks.indexOf(callback) === -1) {
+            parent.callbacks.push(callback);
+        }
 	}
 	
 	/**
 	 * Method used to unsubscribe a listener from an event.
 	 */
-	function unsubscribe(eventName, callback) {
-		if(!queue[eventName]) {
-			return;
-		}
-		
-		var foundIndex = -1;
-		
-		for(i = 0; i < queue[eventName].length; i++) {
-			if(queue[eventName][i] == callback) {
-				foundIndex = i;
-				break;
-			}
-		}
+	function unsubscribe(eventName, callback, viewContext) {
+        var hierarchy = eventName.split('::');
+        var parent = queue;
+
+        if (hierarchy[0] && viewContext && viewContext.parent) {
+            // prepend parent
+            hierarchy.splice(0, 0, viewContext.parent);
+        } else {
+            hierarchy.slice(1);
+        }
+
+        for (var i = 0, len = hierarchy.length; i < len; i++) {
+            var child = hierarchy[i];
+            if (!parent[child]) {
+                return;
+            }
+
+            parent = parent[child];
+        }
+
+		var foundIndex = parent.callbacks.indexOf(callback);
 		
 		if(foundIndex > -1) {			
-			queue[eventName].splice(foundIndex, 1);
+			parent.callbacks.splice(foundIndex, 1);
 		}
 	}
 
