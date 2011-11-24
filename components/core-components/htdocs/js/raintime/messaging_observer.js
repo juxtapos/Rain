@@ -19,6 +19,7 @@ define(['core-components/client_util'], function(ClientUtil) {
 	 * 
 	 * @param eventName
 	 * @param data
+     * @param viewContext the ViewContext of the component publishing the event
 	 */
 	function publish(eventName, data, viewContext) {
         var hierarchy = eventName.split('::');
@@ -64,6 +65,7 @@ define(['core-components/client_util'], function(ClientUtil) {
 	 * @param callback This is the callback method that will get executed. It must have
 	 * 					a single parameter called data. 
 	 * 			Ex: function(data)
+     * @param viewContext the ViewContext of the component publishing the event
 	 */
 	function subscribe(eventName, callback, viewContext) {
         var hierarchy = eventName.split('::');
@@ -98,10 +100,16 @@ define(['core-components/client_util'], function(ClientUtil) {
             parent.callbacks.push(callback);
         }
 	}
-	
-	/**
-	 * Method used to unsubscribe a listener from an event.
-	 */
+
+    /**
+     * Unsubscribe from an event
+     *
+     * @param eventName Event name we want to subscribe to. Can be any string value.
+     * @param callback This is the callback method that will get executed. It must have
+     *                     a single parameter called data.
+     *             Ex: function(data)
+     * @param viewContext the ViewContext of the component publishing the event
+     */
 	function unsubscribe(eventName, callback, viewContext) {
         var hierarchy = eventName.split('::');
         var parent = queue;
