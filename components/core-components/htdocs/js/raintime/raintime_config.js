@@ -40,6 +40,6 @@ define(function() {
             "rain_websockets_namespace": "/rain_sockets/rain_core"
         }
     };
-    
+        
     return {"raintimeConfig": clientConfig}
 });

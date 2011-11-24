@@ -1,11 +1,14 @@
-define(['core-components/client_util', 'core-components/raintime/viewcontext',
-        "core-components/raintime/messaging"], function (ClientUtil) {	
+define(['core-components/client_util',
+        'core-components/raintime/raintime_config', 
+        'core-components/raintime/viewcontext',
+        "core-components/raintime/messaging"], function (ClientUtil, RaintimeConfig) {	
     var modules = Array.prototype.splice.call(arguments, 1);
 
     var Raintime = (function () {
 
-        function Component (id) {
+        function Component (id, moduleId) {
             this.id = id;
+            this.moduleId = moduleId;
             this.controller = null;
             this.parent = null;
             this.children = [];
@@ -22,8 +25,10 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
 
         var _id = 0;
 
-        function createComponent (id) {
-            return new Component(id || ("id" + (++_id)));
+        function createComponent (id, moduleId) {
+            id = id || ("id" + (++_id));
+            
+            return new Component(id, moduleId);
         }
 
         ComponentController = (function () {
@@ -68,6 +73,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                  */
                 function register (props) {
                     var id = props.domId
+                        , moduleId = props.moduleId
                         , domselector = props.domselector
                         , controllerpath = props.clientcontroller;
 
@@ -77,7 +83,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                         return;
                     }
                                         
-                    var component = components[id] = createComponent(id);
+                    var component = components[id] = createComponent(id, moduleId);
                     
                     require([controllerpath], function (controller) {
                         component.controller = controller;
@@ -94,7 +100,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
 
                     return component;
                 }
-
+                
                 function deregister (id) {
                     delete components[id];
                 }
@@ -130,7 +136,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
         var module = modules[i];
 
         ClientUtil.inject(Raintime, module);
-    }   
-        
+    }
+
     return Raintime;
 });

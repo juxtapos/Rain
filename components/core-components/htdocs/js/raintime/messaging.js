@@ -34,12 +34,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 define(["core-components/raintime/raintime_config",
         "core-components/raintime/messaging_intents",
-        "core-components/raintime/messaging_observer"], function(RaintimeConfig, Intents, Observer) {
+        "core-components/raintime/messaging_observer",
+        "core-components/socket.io/socket.io"], function(RaintimeConfig, Intents, Observer, SocketIO) {
     /**
      * Class used to build the messaging layer.
      */
     function Messaging(config) {
         this._config = config;
+        
+        _addWebSocketsBaseUrl();
         
         this._intents = new Intents.intents(config);
         
@@ -53,6 +56,42 @@ define(["core-components/raintime/raintime_config",
         this.publish = Observer.publish;
         this.subscribe = Observer.subscribe;
         this.unsubscribe = Observer.unsubscribe;
+    }
+    
+    /**
+     * Method used to obtain a websocket for a specified module and a relative url.
+     * 
+     * @param {String} moduleId: This is the module identifier.
+     * @param {String} url: This is the relative url of the web socket.
+     * 
+     * @example
+     * Imagine you have a web sockets structure like: 
+     * comp
+     *    websockets
+     *      chat
+     *          dummy_handler
+     * 
+     * Let's assume module is named chat and it has version 1.0.
+     * 
+     * This mean the socket can be accessed at: http://[configured base url]/chat-1.0/chat/[handler name]
+     */
+    Messaging.prototype._getWebSocket = function(moduleId, url) {
+        if(url.charAt(0) != "/") {
+            url = "/" + url;
+        }
+        
+        var socketUrl = RaintimeConfig.raintimeConfig.rain_websockets.baseUrl + "/" + moduleId + url;
+        
+        return SocketIO.io.connect(socketUrl);    
+    }
+    
+    /**
+     * Method used to add the base url for websockets.
+     */
+    function _addWebSocketsBaseUrl() {
+        var config = RaintimeConfig.raintimeConfig.rain_websockets;
+               
+        config.baseUrl = config.rain_websockets_url + ":" + config.rain_websockets_port;  
     }
     
     var messaging = new Messaging(RaintimeConfig.raintimeConfig);
