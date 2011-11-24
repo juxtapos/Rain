@@ -82,7 +82,7 @@ define(["core-components/raintime/raintime_config",
         
         var socketUrl = RaintimeConfig.raintimeConfig.rain_websockets.baseUrl + "/" + moduleId + url;
         
-        return SocketIO.io.connect(socketUrl);    
+        return SocketIO.io.connect(socketUrl);
     }
     
     /**
