@@ -14,12 +14,12 @@ define(function (require) {
         F.prototype = proto;
 
         return new F();
-    }
+    };
 
     ClientUtil.prototype.inherits = function (ctor, superCtor) {
         ctor.super_ = superCtor;
         ctor.prototype = this._create(superCtor.prototype);
-    }
+    };
 
     ClientUtil.prototype.inject = function (destination, source) {
         for (var key in source) {
@@ -29,11 +29,17 @@ define(function (require) {
         }
 
         return destination;
-    }
+    };
     
     ClientUtil.prototype.getSession = function () {        
         return $.cookie("rain.sid");
-    }
+    };
+
+    ClientUtil.prototype.callAsync = function (callback, data) {
+        setTimeout(function () {
+            callback(data);
+        }, 0);
+    };
 
     /*var clientUtil = new ClientUtil();
 

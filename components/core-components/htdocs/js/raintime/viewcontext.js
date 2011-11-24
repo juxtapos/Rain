@@ -1,7 +1,10 @@
-define(['core-components/client_util', 'core-components/raintime/client_storage'], function (ClientUtil, ClientStorage) {
-    function ViewContext (id) {
-        this.moduleId = id;
-        this.instanceId = id;
+define(['core-components/client_util',
+        'core-components/raintime/client_storage',
+        'core-components/raintime/messaging_observer'],  function (ClientUtil, ClientStorage, Observer) {
+    function ViewContext (comp) {
+        this.moduleId = comp.id;
+        this.instanceId = comp.id;
+        this.parent = comp.parent;
         this.storage = new ClientStorage(this);
     }
     
@@ -18,9 +21,21 @@ define(['core-components/client_util', 'core-components/raintime/client_storage'
        return dom ? el.get() : el;
     };
 
+    ViewContext.prototype.subscribe = function (eventName, callback) {
+        Observer.subscribe(eventName, callback, this);
+    };
+
+    ViewContext.prototype.unsubscribe = function (eventName, callback) {
+        Observer.unsubscribe(eventName, callback, this);
+    };
+
+    ViewContext.prototype.publish = function (eventName, data) {
+        Observer.publish(eventName, data, this);
+    };
+
     return {
-        addViewContext:function (id) {
-            return new ViewContext(id);
+        addViewContext:function (component) {
+            return new ViewContext(component);
         }
     }
 });

@@ -81,7 +81,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                     
                     require([controllerpath], function (controller) {
                         component.controller = controller;
-                        component.controller.viewContext = Raintime.addViewContext(id);                        
+                        component.controller.viewContext = Raintime.addViewContext(component);
                         component.controller.viewContext.getSession = ClientUtil.getSession;
                         component.controller.clientRuntime = Raintime;
 
