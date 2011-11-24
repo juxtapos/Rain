@@ -1,5 +1,5 @@
-define(function() {
-  function init(eid, params) {
+define(["{{application_name}}/custom_lib"], function() {
+  function init() {
     alert("Component initilized");
   }
   
