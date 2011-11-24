@@ -46,6 +46,8 @@ define(["core-components/client_util",
         var intentsUrl = this._getIntentsSocketUrl(webSocketsCfg);
 
         this._intentsSocket = io.connect(intentsUrl);
+        
+        this._requestCounter = 0;
     }
 
     ClientIntents.INTENT_SOCKET = "/intents";
@@ -85,6 +87,14 @@ define(["core-components/client_util",
         if(!this._validateIntentRequest(request)) {
             return;
         }
+
+        this._requestCounter++;
+        
+        var session = ClientUtil.getSession();
+        var requestId = session + this._requestCounter;
+
+        request.session = session;
+        request.requestId = requestId;
         
         this._requestIntent(request);
         this._handleError(request);
@@ -132,14 +142,14 @@ define(["core-components/client_util",
      */
     ClientIntents.prototype._requestIntent = function(request) {
         var viewContext = {"moduleId": request.viewContext.moduleId,
-                           "instanceId": request.viewContext.instanceId};
-                
+                           "instanceId": request.viewContext.instanceId};        
         this._intentsSocket.emit("request_intent", 
                 {
                     intentCategory: request.category,
                     intentAction: request.action,
                     intentContext: request.intentContext || {},
-                    session: ClientUtil.getSession()
+                    session: request.session,
+                    requestId: request.requestId
                 });
     }
     
@@ -149,8 +159,12 @@ define(["core-components/client_util",
     ClientIntents.prototype._handleIntentLoaded = function(request) {
         var successHandler = request.success || this._successHandlerDefault;
         
-        this._intentsSocket.on("intent_loaded", function(data) {
-            successHandler(data);
+        var self = this;
+        
+        this._intentsSocket.on("intent_loaded", function(intentResponse) {
+            if(request.requestId == intentResponse.requestId) {
+                successHandler(intentResponse.data);
+            }
         });
     }
     
@@ -160,10 +174,12 @@ define(["core-components/client_util",
     ClientIntents.prototype._handleError = function(request) {
         var self = this;
         
-        this._intentsSocket.on("intent_exception", function(data) {
+        this._intentsSocket.on("intent_exception", function(intentResponse) {
            var errorHandler = request.error || self._errorHandlerDefault; 
            
-           errorHandler(data.message); 
+           if(request.requestId == intentResponse.requestId) {
+                errorHandler(intentResponse.message);
+           } 
         });
     }
         
