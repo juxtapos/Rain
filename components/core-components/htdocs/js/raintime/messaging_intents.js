@@ -34,18 +34,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 define(["core-components/client_util", 
-        "core-components/jquery-cookie"], function(ClientUtil) {
+        "core-components/socket.io/socket.io",
+        "core-components/jquery-cookie"], function(ClientUtil, SocketIO) {
     /**
      * Class used to implement client intents object.
      */
-    function ClientIntents(config) {                
+    function ClientIntents(config) {
         this._config = config;
 
         var webSocketsCfg = config.rain_websockets;
 
         var intentsUrl = this._getIntentsSocketUrl(webSocketsCfg);
 
-        this._intentsSocket = io.connect(intentsUrl);
+        this._intentsSocket = SocketIO.io.connect(intentsUrl);
         
         this._requestCounter = 0;
     }
