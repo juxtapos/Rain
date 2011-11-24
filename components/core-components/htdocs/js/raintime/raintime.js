@@ -1,5 +1,8 @@
-define(['core-components/client_util', 'core-components/raintime/viewcontext',
-        "core-components/raintime/messaging"], function (ClientUtil) {  
+define(['core-components/client_util',
+        'core-components/raintime/raintime_config', 
+        'core-components/raintime/viewcontext',
+        "core-components/raintime/messaging"], function (ClientUtil, RaintimeConfig) {	
+
     var modules = Array.prototype.splice.call(arguments, 1);
 
     var Raintime = (function () {
@@ -8,6 +11,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
             this.id = ids.domId;
             this.instanceId = ids.instanceId;
             this.staticId = ids.staticId;
+            this.moduleId = ids.moduleId;
             this.controller = null;
             this.state = this.STATE_LOAD;
             this.parent = null;
@@ -87,6 +91,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                  */
                 function register (props) {
                     var id = props.domId
+                        , moduleId = props.moduleId
                         , domselector = props.domselector
                         , controllerpath = props.clientcontroller
                         , instanceId = props.instanceId
@@ -102,6 +107,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                           domId      : id
                         , instanceId : instanceId
                         , staticId   : staticId
+                        , moduleId   : moduleId
                     });
                     
                     require([controllerpath], function (controller) {
@@ -121,7 +127,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
 
                     return component;
                 }
-
+                
                 function deregister (id) {
                     delete components[id];
                 };
@@ -166,7 +172,7 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
         var module = modules[i];
 
         ClientUtil.inject(Raintime, module);
-    }   
-        
+    }
+
     return Raintime;
 });

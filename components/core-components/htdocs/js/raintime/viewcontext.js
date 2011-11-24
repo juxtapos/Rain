@@ -1,11 +1,20 @@
 define(['core-components/client_util',
         'core-components/raintime/client_storage',
-        'core-components/raintime/messaging_observer'],  function (ClientUtil, ClientStorage, Observer) {
+        'core-components/raintime/messaging_observer',
+        'core-components/raintime/messaging'],  function (ClientUtil, ClientStorage, Observer, Messaging) {
     function ViewContext (comp) {
-        this.moduleId = comp.id;
+        this.moduleId = comp.moduleId;
         this.instanceId = comp.id;
         this.parent = comp.parent;
         this.storage = new ClientStorage(this);
+    }
+    
+    /**
+     * Method used to obtain a web socket for which a handler was defined into this
+     * component.
+     */
+    ViewContext.prototype.getWebSocket = function(url) {
+    	return Messaging.messaging._getWebSocket(this.moduleId, url);
     }
     
     /**

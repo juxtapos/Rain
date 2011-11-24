@@ -29,15 +29,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @author Radu Viorel Cosnita
  * @version 1.0
  * @since 22.11.2011
- * @description Module used to provide a simple controller for showcasing how to use intents. 
+ * @description Module used to provide a simple controller for showcasing how to use intents and auto discovered sockets.. 
  */
-define(function() {
+define(function(SocketIO) {
     function init() {
+        this._socket = this.viewContext.getWebSocket("chat/dummy socket");
+                
+        this.configureSocketDummy();
+        this.start();
+    }
+    
+    function start() {
         var messaging = this.clientRuntime.messaging;
         
         var root = this.viewContext.getRoot();
         var btnMissing = root.find("input[data-itemid='btnRequestMissing']");
         var btnExisting = root.find("input[data-itemid='btnRequestExisting']");
+        var btnDummyTalk = root.find("input[data-itemid='btnCustomHandler']");
         
         var self = this;
                                                
@@ -68,8 +76,23 @@ define(function() {
             };
             
             messaging.sendIntent(request);
+        });        
+        
+        btnDummyTalk.click(function() {
+            self._socket.emit("hello", {"ignored": true});
         });
     }
     
-    return {init: init}
+    /**
+     * Method used to communicate with the dummy server side handler.
+     */
+    function configureSocketDummy() {
+        this._socket.on("bye", function(data) {
+            alert(JSON.stringify(data));
+        });
+    }
+    
+    return {init: init,
+            start: start,
+            configureSocketDummy: configureSocketDummy}
 });
