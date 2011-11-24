@@ -1,5 +1,7 @@
-define(['core-components/client_util', 'core-components/raintime/viewcontext',
-        "core-components/raintime/messaging"], function (ClientUtil) {	
+define(["core-components/client_util",
+        "core-components/raintime/viewcontext",
+        "core-components/raintime/messaging"], function (clientUtil) {
+
     var modules = Array.prototype.splice.call(arguments, 1);
 
     var Raintime = (function () {
@@ -81,8 +83,8 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                     
                     require([controllerpath], function (controller) {
                         component.controller = controller;
-                        component.controller.viewContext = Raintime.addViewContext(component);
-                        component.controller.viewContext.getSession = ClientUtil.getSession;
+                        component.controller.viewContext = Raintime.addViewContext(component);                        
+                        component.controller.viewContext.getSession = clientUtil.getSession;
                         component.controller.clientRuntime = Raintime;
 
                         console.log("registered component " + id);
@@ -100,9 +102,9 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
                 }
                 
                 return {
-                    components:components,
-                    register:register,
-                    deregister:deregister                    
+                    components: components,
+                    register: register,
+                    deregister: deregister                    
                 };
             }
 
@@ -120,17 +122,11 @@ define(['core-components/client_util', 'core-components/raintime/viewcontext',
         };
     })();
 
-    if (typeof exports != 'undefined') {
-        var c = Raintime.createComponent();
-        c.addParent('foo');
-        console.log(c);
-    }
+    for (var m in modules) {
+        var module = modules[m];
 
-    for (var i in modules) {
-        var module = modules[i];
-
-        ClientUtil.inject(Raintime, module);
+        clientUtil.inject(Raintime, module);
     }   
-        
+
     return Raintime;
 });

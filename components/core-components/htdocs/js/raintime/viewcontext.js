@@ -1,24 +1,32 @@
-define(['core-components/client_util',
-        'core-components/raintime/client_storage',
-        'core-components/raintime/messaging_observer'],  function (ClientUtil, ClientStorage, Observer) {
-    function ViewContext (comp) {
-        this.moduleId = comp.id;
-        this.instanceId = comp.id;
-        this.parent = comp.parent;
-        this.storage = new ClientStorage(this);
-    }
-    
+define(["core-components/client_util",
+        "core-components/raintime/client_storage",
+        "core-components/raintime/messaging_observer",
+        "core-components/raintime/subsequent_views"], function (ClientUtil, ClientStorage, Observer, SubsequentViewHandler) {
     /**
-     * Returns the DOM container element for the component associated with this
-     * view context.
-     * 
-     * @param {Boolean} dom True to return the DOM element
-     * @returns {HtmlElement} The component's container element
+     * A view context reflects a components client-side state.
+     * @constructor
+     * @property moduleId The component's module id
+     * @property instanceId The component's instance id
+     * @property {ClientStorage} storage The local storage manager
+     * @property {SubsequentViewHandler} viewHandler The handler for subsequent view requests
+     * @param component
+     * @param component.id
+     * @param component.parent
+     */
+    function ViewContext(component) {
+        this.moduleId = component.id;
+        this.instanceId = componentid;
+        this.parent = component.parent;
+        this.storage = new ClientStorage(this);
+        this.viewHandler = new SubsequentViewHandler(this);
+    }
+
+    /**
+     * Returns the DOM container element for the component associated with this view context.
+     * @returns The component's container element
      */
     ViewContext.prototype.getRoot = function (dom) {
-       var el = $("*[data-instanceid='" + this.instanceId + "']"); 
-
-       return dom ? el.get() : el;
+       return $("[data-instanceid='" + this.instanceId + "']"); 
     };
 
     ViewContext.prototype.subscribe = function (eventName, callback) {
@@ -34,7 +42,7 @@ define(['core-components/client_util',
     };
 
     return {
-        addViewContext:function (component) {
+        addViewContext: function (component) {
             return new ViewContext(component);
         }
     }
