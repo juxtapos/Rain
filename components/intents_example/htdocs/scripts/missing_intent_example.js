@@ -35,13 +35,40 @@ define(function() {
     function init() {
         var messaging = this.clientRuntime.messaging;
         
-        var request = {
-            "viewContext": this.viewContext,
-            "category": "local_test_intent",
-            "action": "local_action"
-        };
+        var root = this.viewContext.getRoot();
+        var btnMissing = root.find("input[data-itemid='btnRequestMissing']");
+        var btnExisting = root.find("input[data-itemid='btnRequestExisting']");
         
-        messaging.sendIntent(request);
+        var self = this;
+                                               
+        btnMissing.click(function() {
+            var request = {
+                "viewContext": self.viewContext,
+                "category": "local_test_intent",
+                "action": "local_action",
+                "error": function(err) {
+                    alert("Intent message: " + err)
+                }
+            };
+            
+            messaging.sendIntent(request);            
+        });
+        
+        btnExisting.click(function() {
+            var request = {
+                "viewContext": self.viewContext,
+                "category": "com.rain.test.general",
+                "action": "com.rain.test.general.SHOW_CHAT",
+                "success": function(data) {
+                    alert(JSON.stringify(data));
+                },
+                "error": function(err) {
+                    alert("Intent message: " + err)
+                }
+            };
+            
+            messaging.sendIntent(request);
+        });
     }
     
     return {init: init}

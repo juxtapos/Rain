@@ -30,6 +30,10 @@ define(function (require) {
 
         return destination;
     }
+    
+    ClientUtil.prototype.getSession = function () {        
+        return $.cookie("rain.sid");
+    }
 
     /*var clientUtil = new ClientUtil();
 

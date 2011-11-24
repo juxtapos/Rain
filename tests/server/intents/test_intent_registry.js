@@ -76,7 +76,8 @@ tcRegisterIntent.registerIntentNormal = function(test) {
     test.equals(intentCtx.type, intentConfig.type);
     test.equals(intentCtx.provider.viewid, expectedView.viewid)
     test.equals(intentCtx.provider.view, expectedView.view)
-    test.equals(intentCtx.provider.module, moduleConfig);           
+    test.equals(intentCtx.provider.module.id, moduleConfig.id);
+    test.equals(intentCtx.provider.module.version, moduleConfig.version);
     
     test.done();
 }
