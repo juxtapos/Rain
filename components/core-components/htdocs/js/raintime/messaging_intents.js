@@ -45,7 +45,7 @@ define(["core-components/client_util",
         var webSocketsCfg = config.rain_websockets;
 
         var intentsUrl = this._getIntentsSocketUrl(webSocketsCfg);
-
+        
         this._intentsSocket = SocketIO.io.connect(intentsUrl);
         
         this._requestCounter = 0;
