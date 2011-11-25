@@ -1,0 +1,14 @@
+.. _view_context:
+
+View Context
+============
+
+The ViewContext is an object containing information about the current view and methods that allow manipulation of it's properties.
+
+.. class:: ViewContext(id)
+
+    :param string id: the instanceId of the component
+
+.. attribute:: ViewContext.storage
+
+   an instance of the ClienStorage class sandboxed for the curent ViewContext

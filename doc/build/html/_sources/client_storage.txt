@@ -1,0 +1,4 @@
+.. _client_storage:
+
+Client Storage
+==============
