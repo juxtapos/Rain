@@ -25,21 +25,32 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+"use strict";
+
 /**
  * @author Radu Viorel Cosnita
  * @version 1.0
- * @since 22.11.2011
- * @description Module used to provide the configuration mechanism for RAIN client runtime. 
+ * @since 24.11.2011
+ * @description This is a test socket handler automatically registered by RAIN platform.
  */
 
-define(function() {
-    var clientConfig = {
-        "rain_websockets": {
-            "rain_websockets_url": "http://localhost",
-            "rain_websockets_port": 1338,
-            "rain_websockets_namespace": "/rain_sockets/rain_core"
-        }
-    };
+module.exports = DummySocketHandler;
+
+/**
+ * This is just an example handler that is automatically registered.
+ */
+function DummySocketHandler() {
+    console.log("Dummy socket instantiated.");
+}
+    
+DummySocketHandler.prototype.getSocketName = function() {
+    return "dummy socket";
+}
+
+DummySocketHandler.prototype.handle = function(socket) {
+    socket.on("hello", function(data) {
+        console.log("Here I am");
         
-    return {"raintimeConfig": clientConfig}
-});
+        socket.emit("bye", {"message": "Hello sir"})
+    });
+}
