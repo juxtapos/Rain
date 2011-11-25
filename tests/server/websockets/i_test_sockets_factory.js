@@ -35,7 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 "use strict";
 
-var modHelper           = require("./util_loader")
+var modHelper           = require("../util_loader")
     , modPromise        = require("promised-io/promise")
     , modSockets        = modHelper.loadModule("sockets_container")
     , socketFactory     = new modSockets.SocketsContainer(modHelper.port)
