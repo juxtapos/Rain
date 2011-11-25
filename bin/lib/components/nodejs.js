@@ -10,6 +10,6 @@ module.exports = function(options){
   fs.writeFileSync(options.path+'/meta.json', metajs, 'utf8');
   
   //manipulate client-controller.js
-  var metajs = fs.readFileSync(options.path+'/htdocs/controller/index.json', 'utf8').replace(/\{\{application_name\}\}/g, options.name);
-  fs.writeFileSync(options.path+'/htdocs/controller/index.json', metajs, 'utf8');
+  var metajs = fs.readFileSync(options.path+'/htdocs/controller/index.js', 'utf8').replace(/\{\{application_name\}\}/g, options.name);
+  fs.writeFileSync(options.path+'/htdocs/controller/index.js', metajs, 'utf8');
 };
