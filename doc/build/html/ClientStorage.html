@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Class ClientStorage &mdash; Rain v0.4.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Rain v0.4.1 documentation" href="index.html" />
+    <link rel="prev" title="View Context" href="view_context.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="view_context.html" title="View Context"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Rain v0.4.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="class-clientstorage">
+<h1>Class ClientStorage<a class="headerlink" href="#class-clientstorage" title="Permalink to this headline">¶</a></h1>
+<p>Client storage implementation</p>
+<div class="section" id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ClientStorage">
+<em class="property">class </em><tt class="descname">ClientStorage</tt><big>(</big><big>)</big><a class="headerlink" href="#ClientStorage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="addlistener">
+<h3>addListener<a class="headerlink" href="#addlistener" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ClientStorage#addListener">
+<tt class="descname">ClientStorage#addListener</tt><big>(</big><em>callback</em><big>)</big><a class="headerlink" href="#ClientStorage#addListener" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>callback</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="get">
+<h3>get<a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ClientStorage#get">
+<tt class="descname">ClientStorage#get</tt><big>(</big><em>key</em><span class="optional">[</span>, <em>isTransient</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#ClientStorage#get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> (<em>String</em>) &#8211; </li>
+<li><strong>isTransient</strong> (<em>Boolean</em>) &#8211; whether to use persistent storage or transient storage (defaults to false)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Throws Error:</th><td class="field-body"><p class="first">: if client storage is not supported</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Returns String|Boolean:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">the value of key or null on failure</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Retrieves the value of key from storage</p>
+</div>
+<div class="section" id="remove">
+<h3>remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ClientStorage#remove">
+<tt class="descname">ClientStorage#remove</tt><big>(</big><em>key</em><span class="optional">[</span>, <em>isTransient</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#ClientStorage#remove" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> (<em>String</em>) &#8211; </li>
+<li><strong>isTransient</strong> (<em>Boolean</em>) &#8211; whether to use persistent storage or transient storage (defaults to false)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Throws Error:</th><td class="field-body"><p class="first last">: if client storage is not supported</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Remove the key from storage</p>
+</div>
+<div class="section" id="removelistener">
+<h3>removeListener<a class="headerlink" href="#removelistener" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ClientStorage#removeListener">
+<tt class="descname">ClientStorage#removeListener</tt><big>(</big><em>callback</em><big>)</big><a class="headerlink" href="#ClientStorage#removeListener" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>callback</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="set">
+<h3>set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ClientStorage#set">
+<tt class="descname">ClientStorage#set</tt><big>(</big><em>key</em>, <em>value</em><span class="optional">[</span>, <em>isTransient</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#ClientStorage#set" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> (<em>String</em>) &#8211; </li>
+<li><strong>value</strong> (<em>Object</em>) &#8211; </li>
+<li><strong>isTransient</strong> (<em>Boolean</em>) &#8211; whether to use persistent storage or transient storage (defaults to false)</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Throws Error:</th><td class="field-body"><p class="first last">: if client storage is not supported</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the value of key (add it if key doesn&#8217;t exist) into storage</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Class ClientStorage</a><ul>
+<li><a class="reference internal" href="#constructor">Constructor</a></li>
+<li><a class="reference internal" href="#methods">Methods</a><ul>
+<li><a class="reference internal" href="#addlistener">addListener</a></li>
+<li><a class="reference internal" href="#get">get</a></li>
+<li><a class="reference internal" href="#remove">remove</a></li>
+<li><a class="reference internal" href="#removelistener">removeListener</a></li>
+<li><a class="reference internal" href="#set">set</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="view_context.html"
+                        title="previous chapter">View Context</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ClientStorage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="view_context.html" title="View Context"
+             >previous</a> |</li>
+        <li><a href="index.html">Rain v0.4.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Rain Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>
