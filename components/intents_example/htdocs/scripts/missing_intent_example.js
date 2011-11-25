@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 define(function(SocketIO) {
     function init() {
         this._socket = this.viewContext.getWebSocket("chat/dummy socket");
+        this._socket = this.clientRuntime.messaging._getWebSocket("chat-1.0", "chat/dummy socket");
                 
         this.configureSocketDummy();
         this.start();
