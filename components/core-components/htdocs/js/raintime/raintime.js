@@ -1,6 +1,6 @@
 define(["core-components/client_util",
         "core-components/raintime/viewcontext",
-        "core-components/raintime/messaging"], function (clientUtil) {
+        "core-components/raintime/messaging"], function (ClientUtil) {
 
     var modules = Array.prototype.splice.call(arguments, 1);
 
@@ -84,7 +84,7 @@ define(["core-components/client_util",
                     require([controllerpath], function (controller) {
                         component.controller = controller;
                         component.controller.viewContext = Raintime.addViewContext(component);                        
-                        component.controller.viewContext.getSession = clientUtil.getSession;
+                        component.controller.viewContext.getSession = ClientUtil.getSession;
                         component.controller.clientRuntime = Raintime;
 
                         console.log("registered component " + id);
@@ -125,7 +125,7 @@ define(["core-components/client_util",
     for (var m in modules) {
         var module = modules[m];
 
-        clientUtil.inject(Raintime, module);
+        ClientUtil.inject(Raintime, module);
     }   
 
     return Raintime;

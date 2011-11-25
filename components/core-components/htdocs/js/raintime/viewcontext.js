@@ -15,7 +15,7 @@ define(["core-components/client_util",
      */
     function ViewContext(component) {
         this.moduleId = component.id;
-        this.instanceId = componentid;
+        this.instanceId = component.id;
         this.parent = component.parent;
         this.storage = new ClientStorage(this);
         this.viewHandler = new SubsequentViewHandler(this);

@@ -1,8 +1,8 @@
-define(["core-components/client_util"], function (clientUtil) {
+define(["core-components/client_util"], function (ClientUtil) {
     function SubsequentViewHandler(viewContext) {
         this.root = viewContext.getRoot();
 
-        $(root).on("click", "a", _handleViewRequest);
+        $(this.root).on("click", "a", _handleViewRequest);
     }
 
     function _handleViewRequest(event) {
@@ -12,7 +12,9 @@ define(["core-components/client_util"], function (clientUtil) {
 
         if (localRequest.test(url)) {
             $.ajax({
-                accepts:    "text/json",
+                headers:    {
+                    Accept: "text/json"
+                },
                 dataType:   "json",
                 url:        url
             }).done(_onLocalRequestDone);
