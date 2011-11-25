@@ -25,30 +25,21 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-"use strict";
-
 /**
  * @author Radu Viorel Cosnita
  * @version 1.0
- * @since 24.11.2011
- * @description This is a test socket handler automatically registered by RAIN platform.
+ * @since 25.11.2011
+ * @description This is a test handler.
  */
 
-module.exports = DummySocketHandler;
+module.exports = TestHandler;
 
-/**
- * This is just an example handler that is automatically registered.
- */
-function DummySocketHandler() {
-    console.log("Dummy socket instantiated.");
-}
-    
-DummySocketHandler.prototype.getSocketName = function() {
-    return "dummy socket";
+function TestHandler() { }
+
+TestHandler.prototype.getSocketName = function() {
+    return "socket2";
 }
 
-DummySocketHandler.prototype.handle = function(socket) {
-    socket.on("hello", function(data) {        
-        socket.emit("bye", {"message": "Hello sir"})
-    });
+TestHandler.prototype.handle = function(socket) {
+    console.log("TestHandler2");
 }
