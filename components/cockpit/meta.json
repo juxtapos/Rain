@@ -2,6 +2,13 @@
 	"id"	     	: "cockpit",
 	"version"		: "1.0",
 	"url"         	:  "/components/cockpit",
+    "views"         : [
+        {
+            "viewId": "main",
+            "view": "/htdocs/main.html",
+            "controller": "/htdocs/controller/cockpitcontroller.js"
+        }
+    ],
 	"taglib"		: [
 		{
 	    	"namespace" : ""

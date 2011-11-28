@@ -6,7 +6,7 @@ define(["core-components/client_util",
 
     var Raintime = (function () {
 
-        function Component (id) {
+        function Component(id) {
             this.id = id;
             this.controller = null;
             this.parent = null;
@@ -14,17 +14,17 @@ define(["core-components/client_util",
         }
 
         Component.prototype = {
-            addParent:function (o) {
+            addParent: function (o) {
                 this.parent = o;
             },
-            addChild:function (o) {
+            addChild: function(o) {
                 this.children.push(o);
             }
         }
 
         var _id = 0;
 
-        function createComponent (id) {
+        function createComponent(id) {
             return new Component(id || ("id" + (++_id)));
         }
 
@@ -32,15 +32,15 @@ define(["core-components/client_util",
             var _instance;
 
             function init () {
-                function preRender (id) {
+                function preRender(id) {
                     console.log("preRender " + id);
                 }
 
-                function postRender (id) {
+                function postRender(id) {
                     console.log("postRender " + id);
                 }
 
-                function init (id) {
+                function init(id) {
                     console.log("init component " + id);
                 }
 
@@ -52,7 +52,7 @@ define(["core-components/client_util",
             }
 
             return {
-                get:function () {
+                get: function() {
                     return _instance || (_instance = init());
                 }
             };
@@ -61,26 +61,25 @@ define(["core-components/client_util",
         ComponentRegistry = (function () {
             var _instance;
 
-            function init () {
+            function init() {
                 var components = {};
 
                 /**
                  * @param props Properties of the component: renderer_id, domId,
                  * instanceId, domselector, clientcontroller
                  */
-                function register (props) {
-                    var id = props.domId
-                        , domselector = props.domselector
-                        , controllerpath = props.clientcontroller;
+                function register(props) {
+                    var id = props.domId,
+                        controllerpath = props.clientcontroller;
 
                     console.log("register component " + id);
 
                     if (components[id]) {
                         return;
                     }
-                                        
+
                     var component = components[id] = createComponent(id);
-                    
+
                     require([controllerpath], function (controller) {
                         component.controller = controller;
                         component.controller.viewContext = Raintime.addViewContext(component);                        
@@ -97,7 +96,7 @@ define(["core-components/client_util",
                     return component;
                 }
 
-                function deregister (id) {
+                function deregister(id) {
                     delete components[id];
                 }
                 
@@ -109,16 +108,16 @@ define(["core-components/client_util",
             }
 
             return {
-                get:function () {
+                get: function() {
                     return _instance || (_instance = init());
                 }
             };
         })();
 
         return {
-            createComponent:createComponent,
-            ComponentRegistry:ComponentRegistry.get(),
-            ComponentController:ComponentController.get()
+            createComponent: createComponent,
+            ComponentRegistry: ComponentRegistry.get(),
+            ComponentController: ComponentController.get()
         };
     })();
 
@@ -126,7 +125,7 @@ define(["core-components/client_util",
         var module = modules[m];
 
         ClientUtil.inject(Raintime, module);
-    }   
+    }
 
     return Raintime;
 });
