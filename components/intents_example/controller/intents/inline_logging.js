@@ -25,30 +25,20 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-"use strict";
-
 /**
  * @author Radu Viorel Cosnita
  * @version 1.0
- * @since 24.11.2011
- * @description This is a test socket handler automatically registered by RAIN platform.
+ * @since 28.11.2011
+ * @description Module used to provide an example for server side intents providers.
  */
-
-module.exports = DummySocketHandler;
 
 /**
- * This is just an example handler that is automatically registered.
+ * Method used to log a message sent from intentCtx and return that message.
  */
-function DummySocketHandler() {
-    console.log("Dummy socket instantiated.");
-}
+exports.doLogging = function(intentCtx, session) {
+    var msg = "doLogging method: " + intentCtx.message || "No message specified";
     
-DummySocketHandler.prototype.getSocketName = function() {
-    return "dummy socket";
-}
-
-DummySocketHandler.prototype.handle = function(socket) {
-    socket.on("hello", function(data) {        
-        socket.emit("bye", {"message": "Hello sir"})
-    });
+    console.log(msg);
+    
+    return msg;
 }

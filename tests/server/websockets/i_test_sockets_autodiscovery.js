@@ -25,30 +25,40 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-"use strict";
-
 /**
  * @author Radu Viorel Cosnita
  * @version 1.0
- * @since 24.11.2011
- * @description This is a test socket handler automatically registered by RAIN platform.
+ * @since 25.11.2011
+ * @description Module used to do integration testing for auto discovery websockets
+ * feature of RAIN. 
  */
 
-module.exports = DummySocketHandler;
+"use strict";
 
-/**
- * This is just an example handler that is automatically registered.
- */
-function DummySocketHandler() {
-    console.log("Dummy socket instantiated.");
-}
+var modHelper               = require("../util_loader")
+    , modPromise            = require("promised-io/promise")
+    , modSockets            = modHelper.loadModule("sockets_container")
+    , socketsFactory        = new modSockets.SocketsContainer(modHelper.port)
+    , socketsRegistration   = new modSockets.SocketsRegistration(socketsFactory);
     
-DummySocketHandler.prototype.getSocketName = function() {
-    return "dummy socket";
+var modulePath = __dirname + "/../../components/testComponent";
+
+socketsRegistration.registerModuleSocketHandlers(modulePath, "module-test-1.0");
+
+function checkRegistration() {
+    var registered = socketsFactory._registeredSockets; 
+    
+    if(!registered["module-test-1.0/ns2/socket2"]) {
+        throw new Error("Registration incorrect: socket2 not registered.");
+    }
+    
+    if(!registered["module-test-1.0/ns1/socket1"]) {
+        throw new Error("Registration incorrect: socket1 not registered.");
+    }
+    
+    console.log("Test completed successfully.");
+    
+    process.exit(0);
 }
 
-DummySocketHandler.prototype.handle = function(socket) {
-    socket.on("hello", function(data) {        
-        socket.emit("bye", {"message": "Hello sir"})
-    });
-}
+setTimeout(checkRegistration, 1000);

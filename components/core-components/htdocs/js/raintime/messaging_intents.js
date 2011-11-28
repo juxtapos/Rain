@@ -35,7 +35,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 define(["core-components/client_util", 
         "core-components/socket.io/socket.io",
-        "core-components/jquery-cookie"], function(ClientUtil, SocketIO) {
+        "core-components/promised-io/promise",
+        "core-components/jquery-cookie"], function(ClientUtil, SocketIO, Promise) {
     /**
      * Class used to implement client intents object.
      */
@@ -84,11 +85,13 @@ define(["core-components/client_util",
      *
      * clientRuntime.messaging.sendIntent(request);
      */
-    ClientIntents.prototype.sendIntent = function(request) {
-        if(!this._validateIntentRequest(request)) {
+    ClientIntents.prototype.sendIntent = function(request, defer) {
+        if(!this._validateIntentRequest(request, defer)) {
             return;
         }
 
+        var defer = new Promise.defer();
+                       
         this._requestCounter++;
         
         var session = ClientUtil.getSession();
@@ -97,18 +100,18 @@ define(["core-components/client_util",
         request.session = session;
         request.requestId = requestId;
         
-        this._requestIntent(request);
-        this._handleError(request);
-        this._handleIntentLoaded(request);
+        this._requestIntent(request, defer);
+        this._handleError(request, defer);
+        this._handleIntentLoaded(request, defer);
+                
+        return defer.promise;
     }
     
     /**
      * Method used to validate the requests object.
      */
-    ClientIntents.prototype._validateIntentRequest = function(request) {
+    ClientIntents.prototype._validateIntentRequest = function(request, defer) {
         var ex;
-
-        var errorHandler = request.error || this._errorHandlerDefault
 
         if(!request.viewContext) {
             ex = new Error("View context not specified.");
@@ -119,29 +122,18 @@ define(["core-components/client_util",
         }
 
         if(ex) {
-            errorHandler(ex);
+            defer.reject(ex);
             
             return false;
         }
         
         return true;
     }
-    
-    /**
-     * This is the default error handler if request did not register one.
-     */
-    ClientIntents.prototype._errorHandlerDefault = function(errMessage) {
-        throw errMessage;
-    }
-    
-    ClientIntents.prototype._successHandlerDefault = function(data) {
-        alert(data);
-    }
-    
+        
     /**
      * Method used to emit an request intent event.
      */
-    ClientIntents.prototype._requestIntent = function(request) {
+    ClientIntents.prototype._requestIntent = function(request, defer) {
         var viewContext = {"moduleId": request.viewContext.moduleId,
                            "instanceId": request.viewContext.instanceId};        
         this._intentsSocket.emit("request_intent", 
@@ -157,14 +149,12 @@ define(["core-components/client_util",
     /**
      * Method used to handle intent_loaded event.
      */
-    ClientIntents.prototype._handleIntentLoaded = function(request) {
-        var successHandler = request.success || this._successHandlerDefault;
-        
+    ClientIntents.prototype._handleIntentLoaded = function(request, defer) {
         var self = this;
         
         this._intentsSocket.on("intent_loaded", function(intentResponse) {
             if(request.requestId == intentResponse.requestId) {
-                successHandler(intentResponse.data);
+                defer.resolve(intentResponse.data);
             }
         });
     }
@@ -172,14 +162,12 @@ define(["core-components/client_util",
     /**
      * Method used to handle error received from the intents socket. 
      */
-    ClientIntents.prototype._handleError = function(request) {
+    ClientIntents.prototype._handleError = function(request, defer) {
         var self = this;
         
         this._intentsSocket.on("intent_exception", function(intentResponse) {
-           var errorHandler = request.error || self._errorHandlerDefault; 
-           
            if(request.requestId == intentResponse.requestId) {
-                errorHandler(intentResponse.message);
+                defer.reject(intentResponse.message);
            } 
         });
     }

@@ -45,6 +45,7 @@ define(function(SocketIO) {
         var root = this.viewContext.getRoot();
         var btnMissing = root.find("input[data-itemid='btnRequestMissing']");
         var btnExisting = root.find("input[data-itemid='btnRequestExisting']");
+        var btnServerIntent = root.find("input[data-itemid='btnRequestServerIntent']"); 
         var btnDummyTalk = root.find("input[data-itemid='btnCustomHandler']");
         
         var self = this;
@@ -54,12 +55,16 @@ define(function(SocketIO) {
                 "viewContext": self.viewContext,
                 "category": "local_test_intent",
                 "action": "local_action",
-                "error": function(err) {
-                    alert("Intent message: " + err)
-                }
             };
             
-            messaging.sendIntent(request);            
+            var intent = messaging.sendIntent(request);
+            
+            intent.then(function(data) {
+                console.log("Cool stuff: " + data);
+            },
+            function(data) {
+                alert("ERROR: " + data);
+            });
         });
         
         btnExisting.click(function() {
@@ -67,16 +72,26 @@ define(function(SocketIO) {
                 "viewContext": self.viewContext,
                 "category": "com.rain.test.general",
                 "action": "com.rain.test.general.SHOW_CHAT",
-                "success": function(data) {
-                    alert(JSON.stringify(data));
-                },
-                "error": function(err) {
-                    alert("Intent message: " + err)
-                }
             };
             
-            messaging.sendIntent(request);
-        });        
+            var intent = messaging.sendIntent(request);
+            
+            intent.then(function(data) { alert(JSON.stringify(data)); },
+                        function(data) { alert("Intent message: " + err); });
+        });
+        
+        btnServerIntent.click(function() {
+            var request = {
+                "viewContext": self.viewContext,
+                "category": "com.rain.test.general",
+                "action": "com.rain.test.serverside.INLINE_LOGGING",
+                "intentContext": {"message": "say hello and bye bye."}
+            };
+                        
+            messaging.sendIntent(request).then(function(data) {
+                alert(JSON.stringify(data));
+            });
+        });
         
         btnDummyTalk.click(function() {
             self._socket.emit("hello", {"ignored": true});
