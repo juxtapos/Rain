@@ -110,11 +110,13 @@ tcRegisterIntent.getIntentServer = function(test) {
     
     var intentCtx = intentsRegistry._getIntentServer(moduleConfig, intentServerConfig, pathResolver, fnRequire);
             
+    console.log(Server.conf.server);
+            
     /**
      * Assertion part.
      */
     test.ok(intentCtx)
-    test.equals(intentCtx.path, "/mocked/path/controllers/logging.js");
+    test.equals(intentCtx.path, Server.conf.server.serverRoot + "/mocked/path/controllers/logging.js");
     test.equals(intentCtx.method, "doLogging");
     
     test.done();

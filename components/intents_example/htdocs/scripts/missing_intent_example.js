@@ -45,6 +45,7 @@ define(function(SocketIO) {
         var root = this.viewContext.getRoot();
         var btnMissing = root.find("input[data-itemid='btnRequestMissing']");
         var btnExisting = root.find("input[data-itemid='btnRequestExisting']");
+        var btnServerIntent = root.find("input[data-itemid='btnRequestServerIntent']"); 
         var btnDummyTalk = root.find("input[data-itemid='btnCustomHandler']");
         
         var self = this;
@@ -77,6 +78,23 @@ define(function(SocketIO) {
             
             messaging.sendIntent(request);
         });        
+        
+        btnServerIntent.click(function() {
+            var request = {
+                "viewContext": self.viewContext,
+                "category": "com.rain.test.general",
+                "action": "com.rain.test.serverside.INLINE_LOGGING",
+                "intentContext": {"message": "say hello and bye bye."},
+                "success": function(data) {
+                    alert(JSON.stringify(data));
+                },
+                "error": function(err) {
+                    alert("Intent message: " + err)
+                }
+            };
+            
+            messaging.sendIntent(request);            
+        });
         
         btnDummyTalk.click(function() {
             self._socket.emit("hello", {"ignored": true});
