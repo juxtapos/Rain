@@ -31,6 +31,7 @@ var testsHelper             = require("../util_loader")
 
 var moduleConfig = {"id": "test-module",
                     "version": "1.0",
+                    "url": "/mocked/path",
                     "views": [
                         {"viewid": "view1",
                          "view": "/htdocs/view1.html" 
@@ -42,8 +43,12 @@ var moduleConfig = {"id": "test-module",
     , intentConfig = {"action": "com.1and1.intents.general.SEND_MAIL",
                       "category": "com.1and1.controlpanel.mail",
                       "type": "view",
-                      "provider": "view1"
-    };
+                      "provider": "view1"}
+    , intentServerConfig = {"action": "com.1and1.intents.general.DO_SERVER_LOG",
+                            "category": "com.1and1.controlpanel.logging",
+                            "type": "server",
+                            "provider": "/controllers/logging.js",
+                            "method": "doLogging"};
 
 var tcRegisterIntent = {};
 
@@ -78,6 +83,91 @@ tcRegisterIntent.registerIntentNormal = function(test) {
     test.equals(intentCtx.provider.view, expectedView.view)
     test.equals(intentCtx.provider.module.id, moduleConfig.id);
     test.equals(intentCtx.provider.module.version, moduleConfig.version);
+    
+    test.done();
+}
+
+/**
+ * Method used to test the normal flow for _registerIntent method - server mapped intents.
+ */
+tcRegisterIntent.getIntentServer = function(test) {
+    intentsRegistry = new modIntentsRegistry.IntentsRegistry();
+        
+    pathResolver = new Object();
+    pathResolver.existsSync = function(path) {
+        return true;
+    }
+    
+    var fnRequire = function(path) {
+        var ret = new Object();
+        
+        ret.doLogging = function() {
+            
+        }
+        
+        return ret;
+    }    
+    
+    var intentCtx = intentsRegistry._getIntentServer(moduleConfig, intentServerConfig, pathResolver, fnRequire);
+            
+    /**
+     * Assertion part.
+     */
+    test.ok(intentCtx)
+    test.equals(intentCtx.path, "/mocked/path/controllers/logging.js");
+    test.equals(intentCtx.method, "doLogging");
+    
+    test.done();
+}
+
+/**
+ * Method used to test getIntentServer algorithm when server module is missing.
+ */
+tcRegisterIntent.getIntentServerControllerMissing = function(test) {
+    intentsRegistry = new modIntentsRegistry.IntentsRegistry();
+        
+    pathResolver = new Object();
+    pathResolver.existsSync = function(path) {
+        return false;
+    }
+    
+    try {
+        intentsRegistry._getIntentServer(moduleConfig, intentServerConfig, pathResolver);
+        
+        test.ok(false);
+    }
+    catch(err) {
+        test.ok(true);
+    }
+    
+    test.done();
+}
+
+/**
+ * Method used to test getIntentServer algorithm when method specified is missing.
+ */
+tcRegisterIntent.getIntentServerMethodMissing = function(test) {
+    intentsRegistry = new modIntentsRegistry.IntentsRegistry();
+        
+    pathResolver = new Object();
+    pathResolver.existsSync = function(path) {
+        return true;
+    }
+    
+    fnRequire = function(path) {
+        var ret = new Object();
+        
+        return ret;
+    }
+    
+    try {
+        var intentCtx = intentsRegistry._getIntentServer(moduleConfig, intentServerConfig, pathResolver, fnRequire);
+        
+        test.ok(false);
+    }
+    catch(err) {
+        test.ok(true);
+    }
     
     test.done();
 }

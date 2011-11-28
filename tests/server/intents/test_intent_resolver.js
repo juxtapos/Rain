@@ -263,8 +263,9 @@ var tcGetIntentComponentView = {"intent": {"type": "view",
                                                             "id": "test-module",
                                                             "version": "1.0",
                                                             "url": "/comps/test"
-                                                        }
-                                            } 
+                                                         }
+                                                        },
+                                          "intentContext": {"session": {}}
                                         }
                                 };
     
@@ -307,12 +308,54 @@ tcGetIntentComponentView.testGetIntentComponentViewNormal = function(test) {
     result.then(function(comp) {
         var renderResult = expectedResult.renderer.renderresult; 
         
-        test.equals(comp.markup, renderResult.content.join(""));
-        test.equals(comp.scriptresource, renderResult.dependencies.script);
-        test.equals(comp.cssresource, renderResult.dependencies.css);
+        test.equals(comp.content, renderResult.content.join(""));
+        test.equals(comp.dependencies.script, renderResult.dependencies.script);
+        test.equals(comp.dependencies.css, renderResult.dependencies.css);
     });
     
     test.done();
 }
 
 exports.tcGetIntentComponentView = testCase(tcGetIntentComponentView);
+
+/**
+ * Test case for getIntentComponentServer algorithm.
+ */
+var tcGetIntentComponentServer = {"intent": {"type": "server",
+                                         "provider": {"path": "/mocked/path/controller/intent_1.js",
+                                                      "method": "doIntent",
+                                                      "module": {
+                                                          "id": "dummy-module",
+                                                          "version": "1.0.1"
+                                                      }},
+                                         "intentContext": {"session": {}}
+                                        }
+                                };
+
+/**
+ * Test case for intent component server resolver - normal flow.
+ */
+tcGetIntentComponentServer.getIntentComponentServer = function(test) {
+    var mockedController = new Object();
+    var successMsg = "Intent done. Great job really."; 
+    
+    mockedController.doIntent = function(intentCtx, session) {
+        return successMsg;
+    }
+    
+    var fnRequire = function(path) {
+        return mockedController;
+    }
+    
+    var intentsResolver = new modResolver.IntentsResolver({}, {});
+    
+    var result = intentsResolver._getIntentComponentServer(tcGetIntentComponentServer.intent, fnRequire);
+    
+    result.then(function(msg) {
+        test.equals(msg, successMsg);
+    });
+    
+    test.done(); 
+}
+
+exports.tcGetIntentComponentServer = testCase(tcGetIntentComponentServer);
