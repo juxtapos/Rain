@@ -1,0 +1,13 @@
+{
+	"id"	     	: "chat",
+	"version"		: "1.0",
+	"url"         	:  "/components/chat",
+	"taglib"		: [],
+    "views":[
+        {
+            "viewid":"main",
+            "view":"/htdocs/main.html",
+            "controller":"/htdocs/controller/chat.js"
+        }
+    ]
+}
