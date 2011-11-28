@@ -1,12 +1,23 @@
 define(['core-components/client_util',
         'core-components/raintime/raintime_config', 
         'core-components/raintime/viewcontext',
-        "core-components/raintime/messaging"], function (ClientUtil, RaintimeConfig) {	
-
+        "core-components/raintime/messaging"], function (ClientUtil, RaintimeConfig) {
     var modules = Array.prototype.splice.call(arguments, 1);
 
+    /**
+     * @name Raintime
+     * @class The client runtime
+     */
     var Raintime = (function () {
 
+        /**
+         * Component class
+         *
+         * @param ids
+         *
+         * @name Component
+         * @constructor
+         */
         function Component (ids) {
             this.id = ids.domId;
             this.instanceId = ids.instanceId;
@@ -19,37 +30,62 @@ define(['core-components/client_util',
             $(this).trigger('changeState');
         }
 
-        Component.prototype = {
-            addParent:function (o) {
-                this.parent = o;
-            },
-            addChild:function (o) {
-                this.children.push(o);
-            },
-            
-            bindState : function(state, callback){
-                $(this).bind("changeState", this, function(){
-                    if(state == this.state){
-                        callback.call(this);
-                    }
-                });
-            },
-            
-            STATE_INIT    : 'initialized',
-            STATE_LOAD    : 'loaded',
-            STATE_START   : 'started',
-            STATE_PAUSE   : 'paused',
-            STATE_STOP    : 'stopped',
-            STATE_DISPOSE : 'disposed'
-        }
+
+        /**
+         * Sets the components parent
+         *
+         * @param o
+         */
+        Component.prototype.addParent = function (o) {
+            this.parent = o;
+        };
+
+        /**
+         * Adds a child to the component
+         *
+         * @param o
+         */
+        Component.prototype.addChild = function (o) {
+            this.children.push(o);
+        };
+
+        /**
+         *
+         * @param state
+         * @param callback
+         */
+        Component.prototype.bindState = function(state, callback){
+            $(this).bind("changeState", this, function(){
+                if(state == this.state){
+                    callback.call(this);
+                }
+            });
+        };
+
+        Component.prototype.STATE_INIT    = 'initialized';
+        Component.prototype.STATE_LOAD    = 'loaded';
+        Component.prototype.STATE_START   = 'started';
+        Component.prototype.STATE_PAUSE   = 'paused';
+        Component.prototype.STATE_STOP    = 'stopped';
+        Component.prototype.STATE_DISPOSE = 'disposed';
 
         var _id = 0;
 
+        /**
+         * Creates a new component
+         *
+         * @param ids
+         * @returns Component
+         */
         function createComponent (ids) {
             return new Component(ids);
         }
 
-        ComponentController = (function () {
+        /**
+         * @class The component controller
+         * @memberOf Raintime
+         */
+        var ComponentController = (function () {
             var _instance;
 
             function init () {
@@ -65,6 +101,7 @@ define(['core-components/client_util',
                     console.log("init component " + id);
                 }
 
+                /** @lends ComponentController */
                 return {
                     preRender:preRender,
                     postRender:postRender,
@@ -72,14 +109,10 @@ define(['core-components/client_util',
                 };
             }
 
-            return {
-                get:function () {
-                    return _instance || (_instance = init());
-                }
-            };
+            return _instance || (_instance = init());
         })();
 
-        ComponentRegistry = (function () {
+        var ComponentRegistry = (function () {
             var _instance;
 
             function init () {
@@ -130,7 +163,7 @@ define(['core-components/client_util',
                 
                 function deregister (id) {
                     delete components[id];
-                };
+                }
                 
                 function getComponent (staticId){
                     for(var key in components){
@@ -138,7 +171,7 @@ define(['core-components/client_util',
                             return components[key];
                         }
                     }
-                };
+                }
                 
                 return {
                     components:components,
@@ -148,17 +181,13 @@ define(['core-components/client_util',
                 };
             }
 
-            return {
-                get:function () {
-                    return _instance || (_instance = init());
-                }
-            };
+            return _instance || (_instance = init());
         })();
 
         return {
             createComponent:createComponent,
-            ComponentRegistry:ComponentRegistry.get(),
-            ComponentController:ComponentController.get()
+            ComponentRegistry:ComponentRegistry,
+            ComponentController:ComponentController
         };
     })();
 

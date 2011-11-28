@@ -25,6 +25,11 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * @fileOverview Client side storage implementation
+ * @name Client Storage
+ */
+
 define(['core-components/lib/amplify.store'], function (driver) {
     var storageTypes = {
         'persistent': [
@@ -52,6 +57,12 @@ define(['core-components/lib/amplify.store'], function (driver) {
         return driver.store;
     }
 
+    /**
+     * Client storage implementation
+     *
+     * @name ClientStorage
+     * @constructor
+     */
     function ClientStorage (viewContext) {
         this.context = viewContext.instanceId;
     }
@@ -61,7 +72,7 @@ define(['core-components/lib/amplify.store'], function (driver) {
      *
      * @param {String} key
      * @param {Object} value
-     * @param {Boolean} isTransient whether to use persistent storage or transient storage (defaults to false)
+     * @param {Boolean} [isTransient] whether to use persistent storage or transient storage (defaults to false)
      * @throws {Error} if client storage is not supported
      */
     ClientStorage.prototype.set = function (key, value, isTransient) {
@@ -74,7 +85,7 @@ define(['core-components/lib/amplify.store'], function (driver) {
      * Retrieves the value of key from storage
      *
      * @param {String} key
-     * @param {Boolean} isTransient whether to use persistent storage or transient storage (defaults to false)
+     * @param {Boolean} [isTransient] whether to use persistent storage or transient storage (defaults to false)
      * @returns {String|Boolean} the value of key or null on failure
      * @throws {Error} if client storage is not supported
      */
@@ -90,7 +101,7 @@ define(['core-components/lib/amplify.store'], function (driver) {
      * Remove the key from storage
      *
      * @param {String} key
-     * @param {Boolean} isTransient whether to use persistent storage or transient storage (defaults to false)
+     * @param {Boolean} [isTransient] whether to use persistent storage or transient storage (defaults to false)
      * @throws {Error} if client storage is not supported
      */
     ClientStorage.prototype.remove = function (key, isTransient) {

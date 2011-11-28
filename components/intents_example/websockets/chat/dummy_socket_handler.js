@@ -40,7 +40,7 @@ module.exports = DummySocketHandler;
  * This is just an example handler that is automatically registered.
  */
 function DummySocketHandler() {
-    console.log("Dummy socket instantiated.");
+    console.log("Dummy socket instantiated. ::::::::::::::::::::::::::::::::::::");
 }
     
 DummySocketHandler.prototype.getSocketName = function() {
