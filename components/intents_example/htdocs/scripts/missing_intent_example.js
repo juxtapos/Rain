@@ -63,7 +63,7 @@ define(function(SocketIO) {
                 console.log("Cool stuff: " + data);
             },
             function(data) {
-                alert(data);
+                alert("ERROR: " + data);
             });
         });
         
@@ -85,7 +85,7 @@ define(function(SocketIO) {
                 "viewContext": self.viewContext,
                 "category": "com.rain.test.general",
                 "action": "com.rain.test.serverside.INLINE_LOGGING",
-                "intentContext": {"message": "say hello and bye bye."},
+                "intentContext": {"message": "say hello and bye bye."}
             };
                         
             messaging.sendIntent(request).then(function(data) {
