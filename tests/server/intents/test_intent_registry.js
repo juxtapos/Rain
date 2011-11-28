@@ -106,7 +106,7 @@ tcRegisterIntent.getIntentServer = function(test) {
         }
         
         return ret;
-    }    
+    }
     
     var intentCtx = intentsRegistry._getIntentServer(moduleConfig, intentServerConfig, pathResolver, fnRequire);
             
