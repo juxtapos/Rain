@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>View Context &mdash; Rain v0.4.1 documentation</title>
+    <title>Class ViewContext &mdash; Rain 0.4.1 documentation</title>
+    
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
@@ -22,8 +25,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Rain v0.4.1 documentation" href="index.html" />
-    <link rel="next" title="Client Storage" href="client_storage.html" />
+    <link rel="top" title="Rain 0.4.1 documentation" href="index.html" />
+    <link rel="next" title="Class ClientStorage" href="client_storage.html" />
     <link rel="prev" title="Raintime" href="raintime.html" /> 
   </head>
   <body>
@@ -34,12 +37,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="client_storage.html" title="Client Storage"
+          <a href="client_storage.html" title="Class ClientStorage"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="raintime.html" title="Raintime"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Rain v0.4.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Rain 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -48,18 +51,20 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="view-context">
-<span id="id1"></span><h1>View Context<a class="headerlink" href="#view-context" title="Permalink to this headline">¶</a></h1>
-<p>The ViewContext is an object containing information about the current view and methods that allow manipulation of it&#8217;s properties.</p>
+  <div class="section" id="class-viewcontext">
+<h1>Class ViewContext<a class="headerlink" href="#class-viewcontext" title="Permalink to this headline">¶</a></h1>
+<p>The view context attached to this controller</p>
+<div class="section" id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="ViewContext">
-<em class="property">class </em><tt class="descname">ViewContext</tt><big>(</big><em>id</em><big>)</big><a class="headerlink" href="#ViewContext" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descname">ViewContext</tt><big>(</big><em>component</em><big>)</big><a class="headerlink" href="#ViewContext" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
-<li><strong>id</strong> (<em>string</em>) &#8211; the instanceId of the component</li>
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>component</strong> &#8211; </li>
 </ul>
 </td>
 </tr>
@@ -67,12 +72,135 @@
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="ViewContext.storage">
-<tt class="descclassname">ViewContext.</tt><tt class="descname">storage</tt><a class="headerlink" href="#ViewContext.storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>an instance of the ClienStorage class sandboxed for the curent ViewContext</p>
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getroot">
+<h3>getRoot<a class="headerlink" href="#getroot" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ViewContext#getRoot">
+<tt class="descname">ViewContext#getRoot</tt><big>(</big><em>dom</em><big>)</big><a class="headerlink" href="#ViewContext#getRoot" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>dom</strong> (<em>Boolean</em>) &#8211; True to return the DOM element</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns HtmlElement:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first last">The component&#8217;s container element</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
+<p>Returns the DOM container element for the component associated with this
+view context.</p>
+</div>
+<div class="section" id="getwebsocket">
+<h3>getWebSocket<a class="headerlink" href="#getwebsocket" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ViewContext#getWebSocket">
+<tt class="descname">ViewContext#getWebSocket</tt><big>(</big><em>url</em><big>)</big><a class="headerlink" href="#ViewContext#getWebSocket" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>url</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Method used to obtain a web socket for which a handler was defined into this
+component.</p>
+</div>
+<div class="section" id="publish">
+<h3>publish<a class="headerlink" href="#publish" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ViewContext#publish">
+<tt class="descname">ViewContext#publish</tt><big>(</big><em>eventName</em>, <em>data</em><big>)</big><a class="headerlink" href="#ViewContext#publish" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> &#8211; </li>
+<li><strong>data</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This is the method that will publish an event
+and will execute all registered callbacks.</p>
+</div>
+<div class="section" id="subscribe">
+<h3>subscribe<a class="headerlink" href="#subscribe" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ViewContext#subscribe">
+<tt class="descname">ViewContext#subscribe</tt><big>(</big><em>eventName</em>, <em>callback</em><big>)</big><a class="headerlink" href="#ViewContext#subscribe" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> &#8211; Event name we want to subscribe to. Can be any string value.</li>
+<li><strong>callback</strong> &#8211; <dl class="docutils">
+<dt>This is the callback method that will get executed. It must have</dt>
+<dd><blockquote class="first">
+<div>a single parameter called data.</div></blockquote>
+<p class="last">Ex: function(data)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This is the method that allows registration of a callback method to a
+desired event.</p>
+</div>
+<div class="section" id="unsubscribe">
+<h3>unsubscribe<a class="headerlink" href="#unsubscribe" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="ViewContext#unsubscribe">
+<tt class="descname">ViewContext#unsubscribe</tt><big>(</big><em>eventName</em>, <em>callback</em><big>)</big><a class="headerlink" href="#ViewContext#unsubscribe" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eventName</strong> &#8211; Event name we want to subscribe to. Can be any string value.</li>
+<li><strong>callback</strong> &#8211; <dl class="docutils">
+<dt>This is the callback method that will get executed. It must have</dt>
+<dd><blockquote class="first">
+<div>a single parameter called data.</div></blockquote>
+<p class="last">Ex: function(data)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Unsubscribe from an event</p>
+</div>
+</div>
 </div>
 
 
@@ -81,12 +209,28 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Class ViewContext</a><ul>
+<li><a class="reference internal" href="#constructor">Constructor</a></li>
+<li><a class="reference internal" href="#methods">Methods</a><ul>
+<li><a class="reference internal" href="#getroot">getRoot</a></li>
+<li><a class="reference internal" href="#getwebsocket">getWebSocket</a></li>
+<li><a class="reference internal" href="#publish">publish</a></li>
+<li><a class="reference internal" href="#subscribe">subscribe</a></li>
+<li><a class="reference internal" href="#unsubscribe">unsubscribe</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="raintime.html"
                         title="previous chapter">Raintime</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="client_storage.html"
-                        title="next chapter">Client Storage</a></p>
+                        title="next chapter">Class ClientStorage</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/view_context.txt"
@@ -95,7 +239,7 @@
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -116,17 +260,17 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="client_storage.html" title="Client Storage"
+          <a href="client_storage.html" title="Class ClientStorage"
              >next</a> |</li>
         <li class="right" >
           <a href="raintime.html" title="Raintime"
              >previous</a> |</li>
-        <li><a href="index.html">Rain v0.4.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Rain 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, Rain Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>
 </html>

@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Messaging API &mdash; Rain 0.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Rain 0.4.1 documentation" href="index.html" />
+    <link rel="prev" title="Class ClientStorage" href="client_storage.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="client_storage.html" title="Class ClientStorage"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Rain 0.4.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="messaging-api">
+<h1>Messaging API<a class="headerlink" href="#messaging-api" title="Permalink to this headline">¶</a></h1>
+<p>Client messaging layer is part of client runtime. In RAIN you have two types of messaging on
+the client side:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Intents messaging</li>
+<li>Publish / subscriber</li>
+</ul>
+</div></blockquote>
+<div class="section" id="intents">
+<h2>Intents<a class="headerlink" href="#intents" title="Permalink to this headline">¶</a></h2>
+<p>Intents concept is inspired from android operating system. Basically they allow developer to
+express an action that should be executed without being &#8220;aware&#8221; of the provider. The only
+this developer must know is what data can be passed to that action.</p>
+<p>For instance imagine an action called LOG_EVENT. To be able to execute this action you must
+know that an event is described by a message, a timestamp and an optional description.</p>
+<p>Using intents is really easy to create a product in which each fragment of functionality can
+be easily changed without affecting existing code. Moreover, there might be situations when
+multiple action providers exists. The platform will allow user to select what provider to use.</p>
+<div class="section" id="intents-lifecycle">
+<h3>Intents lifecycle<a class="headerlink" href="#intents-lifecycle" title="Permalink to this headline">¶</a></h3>
+<p>It is really important to know that when expressing an intent developer will be able
+to send a json object that holds specific information. For instance, when sending an email
+you already know where you want to send it. The expected behavior is to receive back the send
+mail application with all fields completed.</p>
+<img alt="_images/messaging_intent_request.png" src="_images/messaging_intent_request.png" />
+</div>
+<div class="section" id="intents-usage">
+<h3>Intents Usage<a class="headerlink" href="#intents-usage" title="Permalink to this headline">¶</a></h3>
+<p>Messaging layer is bind to client runtime. Each client side controller has access to client
+runtime in all its methods. Below you can find an usage example:</p>
+<div class="highlight-python"><pre>var messaging = this.clientRuntime.messaging;
+
+var request = {
+    "viewContext": self.viewContext,
+    "category": "local_test_intent",
+    "action": "local_action",
+    "intentContext: {"message": "This will not work."}
+};
+
+var intent = messaging.sendIntent(request);
+
+var fnSuccess = function(data) { alert(JSON.stringify(data)); };
+var fnError = function(ex) { alert(ex.message); };
+
+intent.then(fnSuccess, fnError);</pre>
+</div>
+<p>The above example is extracted from the samples provided by RAIN (intents_example). The
+method used to accessing intents mechanism is sendIntent method. This method accept a
+Dictionary as a parameter. Each intent request must contain the following information:</p>
+<blockquote>
+<div><ul class="simple">
+<li>viewContext - This is the requester viewContext object.</li>
+<li>category - This is the intent category as defined in meta.json file.</li>
+<li>action - This is the action of the intent.</li>
+<li>intentContext - This is a dictionary where data specific to the intent are passed.</li>
+</ul>
+</div></blockquote>
+<p>The sendIntent method returns a promise that can be used to react onsuccess and onerror. If
+you do not specify a callback for error case then the error is automatically thrown.</p>
+<p>Please search for more examples into components/intents_example folder.</p>
+</div>
+</div>
+<div class="section" id="publish-subscriber">
+<h2>Publish / Subscriber<a class="headerlink" href="#publish-subscriber" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Messaging API</a><ul>
+<li><a class="reference internal" href="#intents">Intents</a><ul>
+<li><a class="reference internal" href="#intents-lifecycle">Intents lifecycle</a></li>
+<li><a class="reference internal" href="#intents-usage">Intents Usage</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#publish-subscriber">Publish / Subscriber</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="client_storage.html"
+                        title="previous chapter">Class ClientStorage</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/client_messaging.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="client_storage.html" title="Class ClientStorage"
+             >previous</a> |</li>
+        <li><a href="index.html">Rain 0.4.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Rain Team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

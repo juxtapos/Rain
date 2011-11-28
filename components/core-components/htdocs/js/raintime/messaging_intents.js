@@ -73,6 +73,7 @@ define(["core-components/client_util",
      * Method used to send an intent request.
      *
      * @param {Dictionary} request: This is the request object for this intent.
+     * @return A promise that provide then method. You can use it for react to success and error situations.
      * @throws Error: if request object is incomplete then sendIntent raises an error.
      *
      * @example:

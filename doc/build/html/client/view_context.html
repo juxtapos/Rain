@@ -3,35 +3,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Class ViewContext &mdash; Rain v0.4.1 documentation</title>
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <title>Class ViewContext &mdash; Rain 0.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    '../',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Rain v0.4.1 documentation" href="index.html" /> 
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Rain 0.4.1 documentation" href="../index.html" />
+    <link rel="next" title="Class ClientStorage" href="client_storage.html" />
+    <link rel="prev" title="Raintime" href="raintime.html" /> 
   </head>
   <body>
     <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="index.html">Rain v0.4.1 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="client_storage.html" title="Class ClientStorage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="raintime.html" title="Raintime"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Rain 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -52,7 +63,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
 <li><strong>component</strong> &#8211; </li>
 </ul>
 </td>
@@ -73,12 +84,12 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
 <li><strong>dom</strong> (<em>Boolean</em>) &#8211; True to return the DOM element</li>
 </ul>
 </td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2">Returns HtmlElement:</th></tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Returns HtmlElement:</th></tr>
 <tr><td>&nbsp;</td><td class="field-body"><p class="first last">The component&#8217;s container element</p>
 </td>
 </tr>
@@ -98,7 +109,7 @@ view context.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
 <li><strong>url</strong> &#8211; </li>
 </ul>
 </td>
@@ -119,7 +130,7 @@ component.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
 <li><strong>eventName</strong> &#8211; </li>
 <li><strong>data</strong> &#8211; </li>
 </ul>
@@ -141,12 +152,12 @@ and will execute all registered callbacks.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
 <li><strong>eventName</strong> &#8211; Event name we want to subscribe to. Can be any string value.</li>
 <li><strong>callback</strong> &#8211; <dl class="docutils">
 <dt>This is the callback method that will get executed. It must have</dt>
 <dd><blockquote class="first">
-a single parameter called data.</blockquote>
+<div>a single parameter called data.</div></blockquote>
 <p class="last">Ex: function(data)</p>
 </dd>
 </dl>
@@ -170,12 +181,12 @@ desired event.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
 <li><strong>eventName</strong> &#8211; Event name we want to subscribe to. Can be any string value.</li>
 <li><strong>callback</strong> &#8211; <dl class="docutils">
 <dt>This is the callback method that will get executed. It must have</dt>
 <dd><blockquote class="first">
-a single parameter called data.</blockquote>
+<div>a single parameter called data.</div></blockquote>
 <p class="last">Ex: function(data)</p>
 </dd>
 </dl>
@@ -198,7 +209,7 @@ a single parameter called data.</blockquote>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Class ViewContext</a><ul>
 <li><a class="reference internal" href="#constructor">Constructor</a></li>
@@ -214,15 +225,21 @@ a single parameter called data.</blockquote>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="raintime.html"
+                        title="previous chapter">Raintime</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="client_storage.html"
+                        title="next chapter">Class ClientStorage</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/ViewContext.txt"
+    <li><a href="../_sources/client/view_context.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -240,14 +257,20 @@ a single parameter called data.</blockquote>
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="index.html">Rain v0.4.1 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="client_storage.html" title="Class ClientStorage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="raintime.html" title="Raintime"
+             >previous</a> |</li>
+        <li><a href="../index.html">Rain 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, Rain Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>
 </html>

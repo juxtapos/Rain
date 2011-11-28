@@ -54,7 +54,7 @@ define(function(SocketIO) {
             var request = {
                 "viewContext": self.viewContext,
                 "category": "local_test_intent",
-                "action": "local_action",
+                "action": "local_action"
             };
             
             var intent = messaging.sendIntent(request);
@@ -71,7 +71,7 @@ define(function(SocketIO) {
             var request = {
                 "viewContext": self.viewContext,
                 "category": "com.rain.test.general",
-                "action": "com.rain.test.general.SHOW_CHAT",
+                "action": "com.rain.test.general.SHOW_CHAT"
             };
             
             var intent = messaging.sendIntent(request);

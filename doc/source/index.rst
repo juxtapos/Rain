@@ -15,12 +15,16 @@ Client side modules
 .. toctree::
     :maxdepth: 2
 
-    raintime
-    ViewContext
-    ClientStorage
+    client/raintime
+    client/view_context
+    client/client_storage
+    client/client_messaging
 
 -------------------
 Server side modules
 -------------------
 
-Foo
+.. toctree::
+    :maxdepth: 2
+    
+    server/messaging_intents
