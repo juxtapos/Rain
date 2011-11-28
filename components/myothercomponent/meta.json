@@ -1,0 +1,12 @@
+{
+    "id":       "myothercomponent",
+    "version":  "1.0",
+    "url":      "/components/myothercomponent",
+    "views":    [
+        {
+            "viewId":       "main",
+            "view":         "/htdocs/main.html",
+            "controller":   "/htdocs/controller/main.js"
+        }
+    ]
+}
