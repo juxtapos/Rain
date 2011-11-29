@@ -44,7 +44,7 @@ define(["require", "core-components/client_util"],
         dependencies = component.dependencies.css;
         if (dependencies.length) {
             head.append('<link rel="stylesheet" type="text/css" href="/resources?files='
-                    + dependencies.join(";") + '">');
+                    + encodeURIComponent(dependencies.join(";")) + '">');
         }
 
         Registry.deregister(domId);

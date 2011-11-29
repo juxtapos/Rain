@@ -4,14 +4,14 @@
 	"url"         	:  "/components/toolbar",
 	"views"       	: [
 		{
-			"viewid" 		: "main",
-		 	"view" 			: "/htdocs/main.html",
-		 	"controller" 	: "/htdocs/controller/client.js"
+			"viewid" 		: "toolbar",
+		 	"view" 			: "/htdocs/toolbar.html",
+		 	"controller" 	: "/htdocs/controller/toolbar.js"
 		},
 		{
-			"viewid" 		: "main_full_screen",
-		 	"view" 			: "/htdocs/main_full_screen.html",
-		 	"controller" 	: "/htdocs/controller/client_full.js"
+		    "viewId"        : "toolbarbutton",
+		    "view"          : "/htdocs/toolbarbutton.html",
+		    "controller"    : "/htdocs/controller/toolbarbutton.js"
 		}
 	]
 }
