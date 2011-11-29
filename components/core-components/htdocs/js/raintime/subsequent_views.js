@@ -30,13 +30,9 @@ define(["require", "core-components/client_util"],
     SubsequentViewHandler.prototype._onLocalRequestDone = function (component) {
         var Registry = require("core-components/raintime/raintime").ComponentRegistry,
             domId = this.viewContext.moduleId,
-            rootTag = this.root.get(0).tagName.toLowerCase(),
             componentParts,
-            componentAttributes,
-            componentContent,
-            componentRoot;
-
-        Registry.deregister(domId);
+            componentRoot,
+            head = $("head");
 
         componentParts = component.content.match(/<body>\s*(<div[^>]*>[\s\S]*<\/div>)\s*<\/body>/);
         if (componentParts && componentParts.length === 2) {
@@ -44,6 +40,12 @@ define(["require", "core-components/client_util"],
             this.root.replaceWith(componentRoot);
         }
 
+        
+        component.dependencies.css.forEach(function (url) {
+            head.append('<link rel="stylesheet" href="' + url + '">');
+        });
+
+        Registry.deregister(domId);
         Registry.register({
             domId: domId,
             clientcontroller: component.clientcontroller
