@@ -1,12 +1,16 @@
-button {
+.button {
 	background-color:#6f6f6f;
 	border:1px solid blue;
 	border-radius: 4px;
 	background:-moz-linear-gradient(top, #ececf0, #303090);
 	background:-webkit-linear-gradient(top, #9c9cf0, #303090);
+    float: left;
+    margin-right: 5px;
+    padding: 2px;
 }
 
-button:hover {
+.button:hover {
 	background:-moz-linear-gradient(top, #fcfcf0, #303090);
 	background:-webkit-linear-gradient(top, #fcfcf0, #303090);
+    cursor: default;
 }

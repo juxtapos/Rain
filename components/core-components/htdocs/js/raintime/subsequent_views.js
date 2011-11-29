@@ -32,6 +32,7 @@ define(["require", "core-components/client_util"],
             domId = this.viewContext.moduleId,
             componentParts,
             componentRoot,
+            dependencies,
             head = $("head");
 
         componentParts = component.content.match(/<body>\s*(<div[^>]*>[\s\S]*<\/div>)\s*<\/body>/);
@@ -40,10 +41,11 @@ define(["require", "core-components/client_util"],
             this.root.replaceWith(componentRoot);
         }
 
-        
-        component.dependencies.css.forEach(function (url) {
-            head.append('<link rel="stylesheet" href="' + url + '">');
-        });
+        dependencies = component.dependencies.css;
+        if (dependencies.length) {
+            head.append('<link rel="stylesheet" type="text/css" href="/resources?files='
+                    + dependencies.join(";") + '">');
+        }
 
         Registry.deregister(domId);
         Registry.register({
