@@ -53,7 +53,7 @@ define(['core-components/client_util'], function(ClientUtil) {
         }
 		
 		for(i = 0; i < parent.callbacks.length; i++) {
-            ClientUtil.callAsync(parent.callbacks[i], data);
+            ClientUtil.defer(parent.callbacks[i], data);
 		}
 	}
 	
