@@ -1,6 +1,6 @@
 var net = require('net');
 var path = require('path');
-var sys = require('sys');
+var util = require('util');
 var Worker = require('webworker/webworker').Worker;
 
 var NUM_WORKERS = 5;
@@ -22,7 +22,7 @@ hv += parseInt(v);
 
 var wid = hv % NUM_WORKERS;
 
-sys.debug('Request from ' + s.remoteAddress + ' going to worker ' + wid);
+util.debug('Request from ' + s.remoteAddress + ' going to worker ' + wid);
 
 workers[wid].postMessage(++numReqs, s.fd);
 }).listen(80);
