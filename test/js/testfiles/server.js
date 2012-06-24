@@ -35,7 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
     var mod_connect         = require('connect')
-    , mod_sys               = require('sys')
+    , mod_util = require('util')
     , mod_path              = require('path')
     , mod_resourceservice   = null
     , mod_resourcemanager   = null

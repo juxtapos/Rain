@@ -1,6 +1,6 @@
 var http = require('http');
 var net = require('net');
-var sys = require('sys');
+var util = require('util');
 
 process.setuid('nobody');
 
