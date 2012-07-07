@@ -2,18 +2,18 @@ var mod_path = require('path')
   , fs = require('fs');
 
 exports.checkValidProject = function(path){
-  return mod_path.existsSync(mod_path.join(path, '.rain'));
+  return mod_fs.existsSync(mod_path.join(path, '.rain'));
 };
 
 exports.checkPidDirectory = function(){
   //create process directories
-  if(mod_path.existsSync(this.getPidDir()))
+  if(mod_fs.existsSync(this.getPidDir()))
       return true;
   return false;
 };
 
 exports.componentExists = function(component_path){
-  return mod_path.existsSync(component_path);
+  return mod_fs.existsSync(component_path);
 };
 
 exports.createPidDirectory = function(){
@@ -37,7 +37,7 @@ exports.getPidDir = function(){
 };
 
 exports.serverIsUp = function(project_path){
-  if(mod_path.existsSync(mod_path.join(project_path, '.server'))){
+  if(mod_fs.existsSync(mod_path.join(project_path, '.server'))){
     return true;
   }
   
