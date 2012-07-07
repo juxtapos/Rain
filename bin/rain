@@ -94,7 +94,7 @@ if(!program.mothership && !program.debug && program.rawArgs.length <= 2)
  */
 function createProject(path, project_name){
   var project_path = mod_path.join(mod_path.resolve(path), project_name);
-  if(!mod_path.existsSync(project_path) && !utils.checkValidProject(project_path)){
+  if(!mod_fs.existsSync(project_path) && !utils.checkValidProject(project_path)){
     log("Directory "+project_path.blue+" does not exist!");
     program.confirm('Create Directory?  -  yes/no: ', function(yes){
       if(yes && setupProject(project_path)){
